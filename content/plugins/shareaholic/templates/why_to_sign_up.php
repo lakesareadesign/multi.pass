@@ -1,4 +1,4 @@
-<div class="col-md-4">
+<div class="col-sm-4">
   <!--<div class="signuppromo">
     <p class="promoh1">
       <?php echo sprintf(__('Link to Shareaholic.com to unlock:', 'shareaholic')); ?>

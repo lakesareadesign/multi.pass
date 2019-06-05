@@ -69,7 +69,7 @@ if ( ! class_exists( 'Hustle_Icontact_Api' ) ) :
 
         const API_VERSION = '2.1';
 
-
+        
         /**
          * Plugin constructor
          *
@@ -113,7 +113,7 @@ if ( ! class_exists( 'Hustle_Icontact_Api' ) ) :
          * Get the account id
          *
          * @param $_account_id - the account id. If not set, it will be pulled from the api
-         *
+         * 
          * @throws Exception
          */
         private function _get_account_id( $_account_id = null ){
@@ -142,7 +142,7 @@ if ( ! class_exists( 'Hustle_Icontact_Api' ) ) :
                                     throw new Exception( __( 'Your have no accounts. Please check your credentials', Opt_In::TEXT_DOMAIN ) );
                                 }
                             }
-
+                            
                         } else {
                             throw new Exception( __( 'Your have no accounts. Please check your credentials', Opt_In::TEXT_DOMAIN ) );
                         }
@@ -157,7 +157,7 @@ if ( ! class_exists( 'Hustle_Icontact_Api' ) ) :
          * Get the folder id
          *
          * @param $_folder_id - the folder id. If not set, it will be pulled from the api
-         *
+         * 
          * @throws Exception
          */
         private function _get_client_folder_id( $_folder_id = null ) {
@@ -189,7 +189,7 @@ if ( ! class_exists( 'Hustle_Icontact_Api' ) ) :
          * Perform API Call
          *
          * @param String $path - relative path
-         * @param String $method - Request method
+         * @param String $method - Request method 
          * @param Array $input - the data input
          *
          */
@@ -208,7 +208,7 @@ if ( ! class_exists( 'Hustle_Icontact_Api' ) ) :
                     'Api-AppId'    => $this->app_id,
                     'Api-Username' => $this->api_username,
                     'Api-Password' => $this->api_password,
-
+                    
                 ),
             );
             if ( !empty( $input ) ) {
@@ -222,7 +222,7 @@ if ( ! class_exists( 'Hustle_Icontact_Api' ) ) :
                         break;
                 }
             }
-
+                
 
             $response   = wp_remote_request( $request_url, $args );
             $data       = wp_remote_retrieve_body( $response );
@@ -242,7 +242,7 @@ if ( ! class_exists( 'Hustle_Icontact_Api' ) ) :
         public function get_lists() {
             return $this->_do_request( "/a/{$this->account_id}/c/{$this->folder_id}/lists", 'GET', null );
 		}
-
+		
         /**
          * Get existing messages
          *
@@ -267,7 +267,7 @@ if ( ! class_exists( 'Hustle_Icontact_Api' ) ) :
          */
         public function add_subscriber( $list_id, $contact_details , $status = 'normal', $confirmation_message_id = '' ) {
             $valid_statuses = array( 'normal', 'pending', 'unsubscribed' );
-
+            
             // Validate status
             if (! empty( $status ) && !in_array( $status, $valid_statuses, true ) ) {
                 $status = 'normal';
@@ -284,15 +284,15 @@ if ( ! class_exists( 'Hustle_Icontact_Api' ) ) :
             } else {
                 if ( is_array( $contact ) && is_array( $contact['contacts'] ) ) {
 					$contact_id = $contact['contacts'][0]['contactId'];
-
+					
 					$subscription_array = array(
-						'contactId' => $contact_id,
-						'listId'    => $list_id,
+						'contactId' => $contact_id, 
+						'listId'    => $list_id, 
 						'status'    => $status
 					);
 
 					if( 'pending' === $status && empty( $confirmation_message_id ) ) {
-						$error_message = __( 'Something went wrong, please select your confirmation message to enable double-optin.', Opt_In::TEXT_DOMAIN );
+						$error_message = __( 'Something went wrong, please select your confirmation message to enable double-optin.', Opt_In::TEXT_DOMAIN ); 
 						$this->error = new WP_Error( 'missing_confirmation_message_id', $error_message );
 						throw new Exception( $error_message );
 					} elseif ( 'pending' === $status ) {
@@ -300,7 +300,7 @@ if ( ! class_exists( 'Hustle_Icontact_Api' ) ) :
 					}
 
                     $subscriptions = $this->_do_request( "/a/{$this->account_id}/c/{$this->folder_id}/subscriptions", 'POST', array( $subscription_array ) );
-
+                    
                     if ( is_wp_error( $subscriptions ) ) {
                         return $subscriptions;
                     } else {
@@ -342,7 +342,7 @@ if ( ! class_exists( 'Hustle_Icontact_Api' ) ) :
          *          @options email {String} - the email
          *          @options prefix {String} - the name prefix
          *          @options firstName {String} - the First name
-         *          @options lastName {String} - the Last Name
+         *          @options lastName {String} - the Last Name    
          *          @options status {String} - the name status ('normal', 'bounced', 'donotcontact', 'pending', 'invitable', 'deleted')
          *
          * @return WP_Error | Object

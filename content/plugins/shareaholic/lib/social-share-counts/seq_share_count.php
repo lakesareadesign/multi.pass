@@ -56,13 +56,30 @@ class ShareaholicSeqShareCount extends ShareaholicShareCount {
         'headers' => isset($config[$service]['headers']) ? $config[$service]['headers'] : array(),
         'body' => isset($config[$service]['body']) ? $config[$service]['body'] : NULL,
       );
-
-      $result = ShareaholicHttp::send(str_replace('%s', $this->url, $config[$service]['url']), $options);
+      
+      // set the url to make the curl request
+      $facebook_access_token = isset($this->options['facebook_access_token']) ? $this->options['facebook_access_token'] : false;
+      
+      if ($service == 'facebook' && $facebook_access_token) {
+        $url = $config[$service]['url_auth'];
+        $url = str_replace('%s', $this->url, $url);
+        $url = str_replace('%auth%', $facebook_access_token, $url);
+        $result = ShareaholicHttp::send($url, $options);
+      } else {
+        $result = ShareaholicHttp::send(str_replace('%s', $this->url, $config[$service]['url']), $options);
+      }
+      
       if(!$result) {
         $response['status'] = 500;
       }
       $callback = $config[$service]['callback'];
-      $counts = $this->$callback($result);
+            
+      if ($service == 'facebook' && isset($this->options['facebook_access_token'])){
+        $counts = $this->$callback($result, isset($this->options['facebook_access_token']));
+      } else {
+        $counts = $this->$callback($result);
+      }
+      
       if(is_numeric($counts)) {
         $response['data'][$service] = $counts;
       }

@@ -171,6 +171,11 @@ if ( ! class_exists( 'um\core\Files' ) ) {
 				}
 			}
 
+			//validate traversal file
+			if ( validate_file( $file_path ) === 1 ) {
+				return;
+			}
+
 			$file_info = get_user_meta( $user_id, $field_key . "_metadata", true );
 
 			$pathinfo = pathinfo( $file_path );
@@ -209,6 +214,11 @@ if ( ! class_exists( 'um\core\Files' ) ) {
 					//multisite fix for old customers
 					$file_path = str_replace( DIRECTORY_SEPARATOR . 'sites' . DIRECTORY_SEPARATOR . get_current_blog_id() . DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, $file_path );
 				}
+			}
+
+			//validate traversal file
+			if ( validate_file( $file_path ) === 1 ) {
+				return;
 			}
 
 			$file_info = get_user_meta( $user_id, $field_key . "_metadata", true );
@@ -427,7 +437,7 @@ if ( ! class_exists( 'um\core\Files' ) ) {
 
 						$ret['error'] = $uploaded['error'];
 
-					}else{
+					} else {
 
 						$uploaded_file = $uploaded['handle_upload'];
 						$ret['url'] = $uploaded_file['file_info']['name'];
@@ -435,7 +445,6 @@ if ( ! class_exists( 'um\core\Files' ) ) {
 						$ret['icon_bg'] = UM()->files()->get_fonticon_bg_by_ext( $uploaded_file['file_info']['ext'] );
 						$ret['filename'] = $uploaded_file['file_info']['basename'];
 						$ret['original_name'] = $uploaded_file['file_info']['original_name'];
-
 
 					}
 

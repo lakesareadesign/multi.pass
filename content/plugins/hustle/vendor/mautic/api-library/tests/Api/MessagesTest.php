@@ -12,7 +12,7 @@ namespace Mautic\Tests\Api;
 class MessagesTest extends MauticApiTestCase
 {
     protected $skipPayloadAssertion = array('channels');
-
+    
     protected $singularPlural = array(
         'email' => 'emails',
         'sms' => 'smses',

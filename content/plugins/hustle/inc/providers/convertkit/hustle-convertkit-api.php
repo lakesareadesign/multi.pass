@@ -5,11 +5,11 @@
  * @class Hustle_ConvertKit_Api
  **/
 class Hustle_ConvertKit_Api {
-
+	
 	private $_api_key;
 	private $_api_secret;
 	private $_endpoint = 'https://api.convertkit.com/v3/';
-
+	
 	/**
 	 * Constructs class with required data
 	 *
@@ -20,7 +20,7 @@ class Hustle_ConvertKit_Api {
 		$this->_api_key = $api_key;
 		$this->_api_secret = $api_secret;
 	}
-
+	
 	/**
 	 * Sends request to the endpoint url with the provided $action
 	 *
@@ -31,7 +31,7 @@ class Hustle_ConvertKit_Api {
 	 */
 	private function _request( $verb = "GET", $action, $args = array() ){
 		$url = trailingslashit( $this->_endpoint )  . $action;
-
+		
 		$_args = array(
 			"method" => $verb,
 			"headers" =>  array(
@@ -47,7 +47,7 @@ class Hustle_ConvertKit_Api {
 		}
 
 		$res = wp_remote_request( $url, $_args );
-
+		
 		if ( !is_wp_error( $res ) && is_array( $res ) ) {
 
 			if( $res['response']['code'] <= 204 )
@@ -94,10 +94,10 @@ class Hustle_ConvertKit_Api {
 		) );
 		if ( is_wp_error( $forms ) ) {
 			return $forms;
-		}
+		}		
 		return $forms->forms;
 	}
-
+	
 	/**
 	 * Retrieves ConvertKit form's custom fields as array of objects
 	 *
@@ -108,7 +108,7 @@ class Hustle_ConvertKit_Api {
 			'api_key' => $this->_api_key
 		) )->custom_fields;
 	}
-
+	
 	/**
 	 * Add new custom fields to subscription
 	 *

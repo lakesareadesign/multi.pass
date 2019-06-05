@@ -30,18 +30,18 @@ class Hustle_Activecampaign_Form_Settings extends Hustle_Provider_Form_Settings_
 			),
 		);
 	}
-
+		
 	/**
 	 * Check if step is completed
 	 *
-	 * @since 3.0.5
+	 * @since 3.0.5 
 	 * @return bool
 	 */
 	public function first_step_is_completed( $submitted_data ) {
 		// Do validation here
 		return true;
 	}
-
+	
 	/**
 	 * Returns all settings and conditions for 1st step of Provider settings
 	 *
@@ -57,7 +57,7 @@ class Hustle_Activecampaign_Form_Settings extends Hustle_Provider_Form_Settings_
 		if( ! $this->provider->is_activable() ) {
 			wp_send_json_error( 'ActiveCampaign requires a higher version of PHP or Hustle, or the extension is not configured correctly.' );
 		}
-
+		
 		$options = $this->first_step_options( $submitted_data );
 
 		$html = $this->get_html_for_options( $options );
@@ -71,16 +71,16 @@ class Hustle_Activecampaign_Form_Settings extends Hustle_Provider_Form_Settings_
 			$has_errors = true;
 		}
 		//$step_html .= $this->get_current_list_name_markup();
-
+		
 		$buttons = array(
 			'cancel' => array(
 				'markup' => $this->get_cancel_button_markup(),
-			),
+			), 
 			'save' => array(
 				'markup' => $this->get_next_button_markup( __( 'Continue', Opt_In::TEXT_DOMAIN ) ),
-			),
+			), 
 		);
-
+		
 		$response = array(
 			'html'       => $step_html,
 			'buttons'    => $buttons,
@@ -92,7 +92,7 @@ class Hustle_Activecampaign_Form_Settings extends Hustle_Provider_Form_Settings_
 		}
 		return $response;
 	}
-
+	
 	/**
 	 * Returns array with options to be converted into HTML by Opt_In->render()
 	 *
@@ -102,7 +102,7 @@ class Hustle_Activecampaign_Form_Settings extends Hustle_Provider_Form_Settings_
 	 * @return array
 	 */
 	private function first_step_options( $submitted_data ) {
-
+		
 		if ( isset( $submitted_data['module_id'] ) ) {
 			$module_id = $submitted_data['module_id'];
 			$module = Hustle_Module_Model::instance()->get( $module_id );
@@ -114,7 +114,7 @@ class Hustle_Activecampaign_Form_Settings extends Hustle_Provider_Form_Settings_
 			$saved_ac_url = '';
 			$saved_sign_up_to = '';
 		}
-
+		
 		$api_key = ! isset( $submitted_data['api_key'] ) ? $saved_api_key : $submitted_data['api_key'];
 		$ac_url = ! isset( $submitted_data['url'] ) ? $saved_ac_url : $submitted_data['url'];
 		$sign_up_to = ! isset( $submitted_data['sign_up_to'] ) ? $saved_sign_up_to : $submitted_data['sign_up_to'];
@@ -221,7 +221,7 @@ class Hustle_Activecampaign_Form_Settings extends Hustle_Provider_Form_Settings_
 		);
 	}
 
-
+	
 	/**
 	 * Second step callback
 	 *
@@ -246,16 +246,16 @@ class Hustle_Activecampaign_Form_Settings extends Hustle_Provider_Form_Settings_
 			$step_html .= $html;
 			$has_errors = true;
 		}
-
+		
 		$buttons = array(
 			'previous' => array(
 				'markup' => $this->get_previous_button_markup(),
-			),
+			), 
 			'save' => array(
 				'markup' => $this->get_next_button_markup(),
-			),
+			), 
 		);
-
+		
 		$response = array(
 			'html'       => $step_html,
 			'buttons'    => $buttons,
@@ -277,19 +277,19 @@ class Hustle_Activecampaign_Form_Settings extends Hustle_Provider_Form_Settings_
 	 * @return array
 	 */
 	private function second_step_options( $submitted_data ) {
-
+		
 		$sign_up_to = $submitted_data['sign_up_to'];
 		$url = $submitted_data['url'];
 		$api_key = $submitted_data['api_key'];
-
+		
 		// Retrieve lists if "sign_up_to" is not set to "forms".
 		if ( 'form' !== $sign_up_to ) {
 			$_lists = Hustle_Activecampaign::api( $url, $api_key )->get_lists();
-
+	
 			if( is_wp_error( $_lists ) || empty( $_lists ) ) {
 				if( is_wp_error( $_lists ) )
 				Hustle_Api_Utils::maybe_log( implode( "; ", $_lists->get_error_messages() ) );
-
+	
 				return array(
 					"label" => array(
 						"class"   => "wpmudev-label--notice",
@@ -298,25 +298,25 @@ class Hustle_Activecampaign_Form_Settings extends Hustle_Provider_Form_Settings_
 					),
 				);
 			}
-
+	
 			if( !is_array( $_lists )  )
 				$_lists = array( $_lists );
-
+	
 			$lists = array();
 			foreach(  ( array) $_lists as $list ){
 				$list = (object) (array) $list;
-
+	
 				$lists[ $list->id ] = array(
 					'value' => $list->id,
 					'label' => $list->name,
 				);
-
+	
 			}
-
+	
 			$first = count( $lists ) > 0 ? reset( $lists ) : "";
 			if( !empty( $first ) )
 				$first = $first['value'];
-
+	
 			return  array(
 				"label" => array(
 					"id"    => "list_id_label",
@@ -334,17 +334,17 @@ class Hustle_Activecampaign_Form_Settings extends Hustle_Provider_Form_Settings_
 					'selected'      => $first,
 					'class' 		=> 'wpmudev-select',
 				)
-			);
+			);	
 
-		} else {
+		} else { 
 			// Retrieve forms otherwise
-
+			
 			$_forms = Hustle_Activecampaign::api( $url, $api_key )->get_forms();
 
 			if( is_wp_error( $_forms ) || empty( $_forms ) ) {
 				if( is_wp_error( $_forms ) )
 				Hustle_Api_Utils::maybe_log( implode( "; ", $_forms->get_error_messages() ) );
-
+	
 				return array(
 					"label" => array(
 						"class"   => "wpmudev-label--notice",
@@ -365,7 +365,7 @@ class Hustle_Activecampaign_Form_Settings extends Hustle_Provider_Form_Settings_
 			$first = count( $forms ) > 0 ? reset( $forms ) : "";
 			if( !empty( $first ) )
 				$first = $first['value'];
-
+	
 			return  array(
 				"label" => array(
 					"id"    => "form_id_label",
@@ -383,7 +383,7 @@ class Hustle_Activecampaign_Form_Settings extends Hustle_Provider_Form_Settings_
 					'selected'      => $first,
 					"class"			=> "wpmudev-select",
 				)
-			);
+			);	
 
 		}
 	}

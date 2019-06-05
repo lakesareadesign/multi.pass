@@ -13,6 +13,7 @@
  *	returns		$output back to the shortcode
  *
  *	@since 		v2.0
+ *	@updated	v2.0.4
  *
 */
 
@@ -20,10 +21,11 @@
 // Exit if accessed directly
 if( !defined('ABSPATH') ) exit;
 
+// Empty String
+$output = '';
 
 if( 'true' == $atts['image'] ) {
-	
-	return get_the_post_thumbnail( 
+	$output .= get_the_post_thumbnail( 
 		get_the_id(),
 		$atts['image_size'], 
 		array( 
@@ -31,5 +33,6 @@ if( 'true' == $atts['image'] ) {
 			'alt' => the_title_attribute( 'echo=0' )
 		)
 	);
-
 }
+
+return $output;

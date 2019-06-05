@@ -269,6 +269,49 @@
 				
 				});
 			});
+
+		$('#hustle_migration_huge_data').on( 'click', function() {
+			$( '#hustle_migration_huge_data_percent' ).removeClass('hidden');
+			migratePartData();
+		});
+
+
+		function migratePartData() {
+			var $progress = $( '#hustle_migration_huge_data_percent' ),
+				data = {
+					action: 'hustle_migrate_huge_data',
+				};
+
+			$.ajax({
+				type: 'POST',
+				url: ajaxurl,
+				dataType: 'json',
+				data: data,
+				success: function( res ) {
+					if ( res.success ) {
+						var percent = res.data.percent;
+						if ( 0 === res.data.finish ) {
+							$progress.find('>span:first-child').text( percent );
+							$progress.find('.progress-wrap').data( 'progress-percent', percent );
+							moveProgressBar();
+							migratePartData();
+						} else {
+							$progress.closest('div.notice').fadeOut(500, function(){ $(this).remove();});
+						}
+					}
+				}
+			});
+		}
+
+		function moveProgressBar() {
+		  var getPercent = ($('.progress-wrap').data('progress-percent') / 100);
+		  var getProgressWrapWidth = $('.progress-wrap').width();
+		  var progressTotal = getPercent * getProgressWrapWidth;
+
+		  $('.progress-bar').css({
+			  left: progressTotal
+		  });
+	  }
 	});
 
 	

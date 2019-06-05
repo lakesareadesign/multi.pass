@@ -12,7 +12,7 @@ class Hustle_SendinBlue extends Hustle_Provider_Abstract  {
 
 	const LIST_PAGES = "hustle-sendinblue-list-pages";
 	const CURRENT_LISTS = "hustle-sendinblue-current-list";
-
+	
 	/**
 	 * Provider Instance
 	 *
@@ -61,12 +61,12 @@ class Hustle_SendinBlue extends Hustle_Provider_Abstract  {
 
 	/**
 	 * Provider constructor.
-	 */
+	 */	
 	public function __construct() {
 		$this->_icon = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 		$this->_icon_x2 = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 	}
-
+	
 	/**
 	 * Get Instance
 	 *
@@ -183,7 +183,7 @@ class Hustle_SendinBlue extends Hustle_Provider_Abstract  {
 				$data['error'] = $res->get_error_message();
 				$module->log_error( $data );
 			}
-
+			
 		}
 
 		return $err;
@@ -201,19 +201,19 @@ class Hustle_SendinBlue extends Hustle_Provider_Abstract  {
 		$module     = Hustle_Module_Model::instance()->get( $module_id );
 		$api_key    = self::_get_api_key( $module );
 
-
+		
 		try {
 			$api = self::api( $api_key );
 			foreach ( $fields as $field ) {
 				$type = ( 'email' === $field['type'] || 'name' === $field['type'] || 'address' === $field['type'] || 'phone' === $field['type'] ) ? 'text' : $field['type'];
 				$api->create_attribute( array(
-					"type" => "normal",
+					"type" => "normal", 
 					"data" => array(
 					strtoupper( $field['name'] ) => strtoupper( $type )
 					)
 				) );
 			}
-
+			
 			// double check if already on our system
 			/*$current_module_fields = $module->get_design()->__get( 'module_fields' );
 			foreach( $current_module_fields as $m_field ) {
@@ -221,7 +221,7 @@ class Hustle_SendinBlue extends Hustle_Provider_Abstract  {
 					return array( 'error' => true, 'code' => 'custom', 'message' => __( 'Field already exists.', Opt_In::TEXT_DOMAIN ) );
 				}
 			}*/
-
+			
 		} catch ( Exception $e ) {
 			return array(
 				'error' => true,

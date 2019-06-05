@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 class Hustle_Mail{
 
@@ -75,7 +75,7 @@ class Hustle_Mail{
 	 * Set recipient
 	 *
 	 * @since xxx
-	 * @param string $recipient The email recipient
+	 * @param string $recipient The email recipient 
 	 */
 	public function set_recipient( $recipient ) {
 		if ( filter_var( $recipient, FILTER_VALIDATE_EMAIL ) ) {
@@ -177,7 +177,7 @@ class Hustle_Mail{
 			Opt_In_Utils::maybe_log( __METHOD__, 'The provided referer is not valid.' );
 			return false;
 		}
-
+		
 		$module = Hustle_Module_Model::instance();
 		$nonce = $module->create_unsubscribe_nonce( $email, $modules_id );
 		if ( ! $nonce ) {
@@ -189,7 +189,7 @@ class Hustle_Mail{
 		$concatenate = empty( $parsed_url ) ? '?' : '&' ;
 		$email = apply_filters( 'hustle_unsubscribe_email_recipient', $email, $modules_id, $referer );
 		$unsubscribe_url = apply_filters( 'hustle_unsubscribe_email_url',
-			$referer . $concatenate . 'token=' . $nonce . '&email=' . rawurlencode( $email ),
+			$referer . $concatenate . 'token=' . $nonce . '&email=' . rawurlencode( $email ), 
 			$email, $modules_id, $referer
 		);
 

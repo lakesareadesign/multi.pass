@@ -56,11 +56,11 @@ class Address extends Component
     public $state_code;
 
 	/**
-	 * The state for this address (non-US/Canada)
+	 * The state for this address (non-US/Canada) 
 	 *
 	 */
 	public $state;
-
+	
     /**
      * The country code for this address
      * @var string

@@ -27,11 +27,11 @@ class MetaSlider_Image {
 	 * Method to import an image (or more than one). If nothing passed in it will load in a random one from 
 	 * the theme directory. A theme can also be defined.
 	 * 
-	 * @param array  $image    - Images to upload, if any
+	 * @param array  $images   - Images to upload, if any
 	 * @param string $theme_id - The folder name of a theme
 	 * @return WP_Error|array - The array of ids that were uploaded
 	 */
-	public function import($image, $theme_id = null) {
+	public function import($images, $theme_id = null) {
 		/*
 		If we are provided images, they should be formatted already
 		It should look like this, possibly without the meta data
@@ -43,7 +43,7 @@ class MetaSlider_Image {
 			'alt' => ''
 		);
 		*/
-		$images = empty($image) ? $this->get_theme_images($theme_id) : $image;
+		if (empty($images)) $images = $this->get_theme_images($theme_id);
 
 		// Get an array or sucessful image ids
 		return $this->upload_multiple($images);

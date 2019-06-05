@@ -26,7 +26,7 @@ class Hustle_SendGrid extends Hustle_Provider_Abstract {
 	 * @var string
 	 */
 	protected $_version				   = '1.0';
-
+	
 	/**
 	 * @since 3.0.5
 	 * @var string
@@ -60,7 +60,7 @@ class Hustle_SendGrid extends Hustle_Provider_Abstract {
 			include_once 'hustle-sendgrid-api.php';
 		}
 	}
-
+	
 	/**
 	 * Get Instance
 	 *

@@ -60,7 +60,7 @@ if ( ! class_exists( 'Hustle_Db' ) ) :
 		 * @return string The sql script for table creation.
 		 */
 		private function _create_table_sql( $name, array $columns ) {
-
+		
 			global $wpdb;
 			$charset = '';
 			if ( ! empty( $wpdb->charset ) ) {
@@ -71,7 +71,7 @@ if ( ! class_exists( 'Hustle_Db' ) ) :
 				$collate .= ' COLLATE ' . $wpdb->collate;
 			}
 			$name = $wpdb->base_prefix . $name;
-
+	
 			return sprintf(
 				'CREATE TABLE %s (%s%s%s)%s%s',
 				$name,

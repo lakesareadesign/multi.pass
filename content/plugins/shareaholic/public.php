@@ -493,6 +493,10 @@ class ShareaholicPublic {
       if ($debug_mode && isset($_GET['timeout'])) {
         $options['timeout'] = intval($_GET['timeout']);
       }
+      
+      if (ShareaholicUtilities::facebook_auth_check() == "SUCCESS") {
+        $options['facebook_access_token'] = ShareaholicUtilities::fetch_fb_access_token();
+      }
 
       if(is_array($services) && count($services) > 0 && !empty($url)) {
         if ($debug_mode && isset($_GET['client'])) {
@@ -523,7 +527,7 @@ class ShareaholicPublic {
 
     header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
-    header('Cache-Control: max-age=180'); // 3 minutes
+    header('Cache-Control: max-age=600'); // 10 minutes
     echo json_encode($result);
     exit;
   }
@@ -636,11 +640,14 @@ class ShareaholicPublic {
 	    ),
   	'advanced_settings' => array (
   	  'server_side_share_count_api' => $server_side_share_count_status,
+      'facebook_access_token' => ShareaholicUtilities::fetch_fb_access_token() === false ? 'no' : 'yes',
+      'facebook_auth_check' => ShareaholicUtilities::facebook_auth_check(),
       'enable_user_nicename' => ShareaholicUtilities::get_option('enable_user_nicename'),
+      'disable_og_tags' => ShareaholicUtilities::get_option('disable_og_tags'),
       'disable_admin_bar_menu' => ShareaholicUtilities::get_option('disable_admin_bar_menu'),
   	  )
     );
-      
+    
     header('Content-Type: application/json');
     echo json_encode($info);
     exit;

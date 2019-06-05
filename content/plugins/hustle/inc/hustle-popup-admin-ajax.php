@@ -560,7 +560,11 @@ class Hustle_Popup_Admin_Ajax {
 				if ( isset( $row->l_name ) && 'last_name' === $key )
 					$key = 'l_name';
 
-				$subscriber_data[ $key ] = isset( $row->$key ) ? $row->$key : '';
+				if ( isset( $row->$key ) ) {
+					$subscriber_data[ $key ] = Opt_In_Utils::escape_csv_data( $row->$key );
+				} else {
+					$subscriber_data[ $key ] = '';
+				}
 			}
 			$csv .= implode( ', ', $subscriber_data ) . "\n";
 		}

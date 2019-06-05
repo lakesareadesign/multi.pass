@@ -21,7 +21,7 @@ class CTCTWebhookUtil
 
     /**
      * Constructor that creates a validation Object for WebHooks.
-     *
+     * 
      * @param string $clientSecret - The client secret associated with the api key
      * @return  CTCTWebhookUtil
      */
@@ -33,8 +33,8 @@ class CTCTWebhookUtil
 
     /**
      * CTCTWebhookUtil::getClientSecret()
-     *
-     * @return string - the secret API key
+     * 
+     * @return string - the secret API key  
      */
     public function getClientSecret()
     {
@@ -45,7 +45,7 @@ class CTCTWebhookUtil
     /**
      * CTCTWebhookUtil::setClientSecret()
      * Set the clientSecret
-     *
+     * 
      * @param string $clientSecret - The client secret associated with the api key
      * @return void
      */
@@ -57,7 +57,7 @@ class CTCTWebhookUtil
     /**
      * Get Billing Change Notification.<br/>
      *
-     * Validates and parses the bodyMessage into
+     * Validates and parses the bodyMessage into 
      *
      * @param xCtctHmacSHA256 The value in the x-ctct-hmac-sha256 header.
      * @param bodyMessage The body message from the POST received from ConstantContact in Webhook callback.
@@ -73,7 +73,7 @@ class CTCTWebhookUtil
     {
         if ($this->isValidWebhook($xCtctHmacSHA256, $bodyMessage))
         {
-            return json_decode($bodyMessage);
+            return json_decode($bodyMessage);            
         } else
         {
             throw new CtctException("Invalid WebHook");
@@ -86,16 +86,16 @@ class CTCTWebhookUtil
      * @param xCtctHmacSHA256 The value in the x-ctct-hmac-sha256 header.
      * @param bodyMessage The body message from the POST received from ConstantContact in Webhook callback.
      * @return true if in case of success; false if the Webhook is invalid.
-     *
+     * 
      */
     public function isValidWebhook($xCtctHmacSHA256, $bodyMessage)
-    {
+    {    
         if ($this->getClientSecret() == null)
         {
             throw new CtctException("NO_CLIENT_SECRET");
         }
         $encodedString = hash_hmac("sha256", $bodyMessage, $this->clientSecret);
-
+        
         return ($encodedString == $xCtctHmacSHA256)?true:false;
     }
 }

@@ -4,11 +4,11 @@
  *	Widget List Class
  *
  * 	@author		Kerry Kline
- * 	@copyright	Copyright (c) 2013-2015, Kerry Kline
+ * 	@copyright	Copyright (c) Kerry Kline
  * 	@link		http://www.bnecreative.com
  *
  *	@since 		v1.1
- *	@updated	v2.0.3
+ *	@updated	v2.0.4
  *
 */
 
@@ -56,7 +56,6 @@ class bne_testimonials_list_widget extends WP_Widget {
 			$image = 'true';
 			$image_style = 'square';
 			$class = '';
-
 		}
 		?>
 
@@ -170,15 +169,7 @@ class bne_testimonials_list_widget extends WP_Widget {
 					</select>
 				</p>
 
-
-
-
 			</div><!-- Individual Options (end) -->
-
-
-
-
-
 
 			<!-- Advanced Options -->
 			<div style="border: 1px solid #cccccc; margin: 0 0 5px 0; padding: 8px;">
@@ -232,13 +223,19 @@ class bne_testimonials_list_widget extends WP_Widget {
 
 
 		// Before Widget
-		echo $before_widget;
+		echo $args['before_widget'];
+		
+		// Title
+		if( $title ) {
+			echo $args['before_title'] . $title . $args['after_title'];
+		}
 
+		// Display
 		echo '<!-- Legacy testimonial widget used and migrated to 2x shortcode -->';
 		echo do_shortcode('[bne_testimonials layout="list" limit="'.$number_of_post.'" orderby="'.$order.'" order="'.$order_direction.'" name="'.$name.'" image="'.$image.'" image_style="'.$image_style.'" category="'.$category.'" class="bne-testimonial-list-widget '.$class.'"]');
 
-
-		echo $after_widget;
+		// After Widget
+		echo $args['after_widget'];
 	}
 
 

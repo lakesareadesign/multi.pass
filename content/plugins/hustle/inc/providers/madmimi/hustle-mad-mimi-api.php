@@ -50,7 +50,7 @@ class Hustle_Mad_Mimi_Api {
 		}
 
 		$res = wp_remote_request( $url, $_args );
-
+		
 		if ( !is_wp_error( $res ) && is_array( $res ) ) {
 
 			$res_code = wp_remote_retrieve_response_code( $res );
@@ -124,9 +124,9 @@ class Hustle_Mad_Mimi_Api {
 
 	/**
 	 * Get lists per email
-	 *
+	 * 
 	 * @param string $email
-	 *
+	 * 
 	 * @return array|WP_Error
 	 */
 	public function search_email_lists( $email ) {

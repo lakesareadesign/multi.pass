@@ -2,7 +2,7 @@
 $content = empty( $content ) ? '' : $content;
 $image = empty( $image ) ? '' : $image;
 $component = empty( $component ) ? '' : $component;
-$button_text = empty( $button_text ) ? '' : $button_text;	     	 	 	  		 		
+$button_text = empty( $button_text ) ? '' : $button_text;
 ?>
 <form method='post'>
 	<div class="sui-box">

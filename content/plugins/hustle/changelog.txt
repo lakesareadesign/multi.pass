@@ -4,6 +4,16 @@ Author: Danae Millan (Incsub), Daniel Shepard (Incsub), Paul Kevin (Incsub), Lei
 Change Log:
 ----------------------------------------------------------------------
 
+3.0.9 - 2019-05-28
+----------------------------------------------------------------------
+- Add alternative method for migrating big data from Hustle 2.x to 3.x.
+- Fix PHP error when adding tags and categories display conditions.
+- Fix module not showing up if specific animations were set.
+
+3.0.8.1 - 2019-05-08
+----------------------------------------------------------------------
+-Improve escaping values on emails list CSV export.
+
 3.0.8 - 2019-05-06
 ----------------------------------------------------------------------
 - Fix Constant Contact check so the email is searched in the current list only.
@@ -417,6 +427,3 @@ Fix: Pop Up and Slide In closing-opening animations
 1.0 - 2016-08-16
 ----------------------------------------------------------------------
 - First public release
-
-
-133620-1557359299-au

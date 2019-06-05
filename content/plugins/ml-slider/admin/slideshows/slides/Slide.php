@@ -116,7 +116,6 @@ class MetaSlider_Slide {
 		
 		// Set some defaults for the image slide
 		update_post_meta($this->slide_id, 'ml-slider_type', $this->type);
-		update_post_meta($this->slide_id, 'ml-slider_inherit_image_caption', true);
 		update_post_meta($this->slide_id, 'ml-slider_inherit_image_title', true);
 		update_post_meta($this->slide_id, 'ml-slider_inherit_image_alt', true);
 		
@@ -141,15 +140,16 @@ class MetaSlider_Slide {
 
 		// TODO: Uses the previously existing class to create the slide (refactor this)
 		$slide = new MetaImageSlide();
-		$id = $slide->add_slide(
+		$slide_data = $slide->add_slide(
 			$this->slideshow_id, $this->slide_data
 		);
 
-		if (is_wp_error($id)) {
-			$this->error = $id;
+		if (is_wp_error($slide_data)) {
+			$this->error = $slide_data;
 			return $this;
 		}
-		$this->slide_id = $id;
+
+		$this->slide_id = $slide_data['slide_id'];
 
 		// If there were errors creating the slide, we can still attempt to crop
 		$slide->resize_slide($this->slide_id, $this->slideshow_id);

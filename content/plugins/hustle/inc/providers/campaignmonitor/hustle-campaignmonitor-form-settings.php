@@ -24,18 +24,18 @@ class Hustle_Campaignmonitor_Form_Settings extends Hustle_Provider_Form_Settings
 			),
 		);
 	}
-
+		
 	/**
 	 * Check if step is completed
 	 *
-	 * @since 3.0.5
+	 * @since 3.0.5 
 	 * @return bool
 	 */
 	public function first_step_is_completed( $submitted_data ) {
 		// Do validation here
 		return true;
 	}
-
+	
 	/**
 	 * Returns all settings and conditions for 1st step of Provider settings
 	 *
@@ -51,7 +51,7 @@ class Hustle_Campaignmonitor_Form_Settings extends Hustle_Provider_Form_Settings
 		if( ! $this->provider->is_activable() ) {
 			wp_send_json_error( 'Campaign Monitor requires a higher version of PHP or Hustle, or the extension is not configured correctly.' );
 		}
-
+		
 		$options = $this->first_step_options( $submitted_data );
 
 		$html = '';
@@ -68,16 +68,16 @@ class Hustle_Campaignmonitor_Form_Settings extends Hustle_Provider_Form_Settings
 			$has_errors = true;
 		}
 		$step_html .= $this->get_current_list_name_markup();
-
+		
 		$buttons = array(
 			'cancel' => array(
 				'markup' => $this->get_cancel_button_markup(),
-			),
+			), 
 			'save' => array(
 				'markup' => $this->get_next_button_markup(),
-			),
+			), 
 		);
-
+		
 		$response = array(
 			'html'       => $step_html,
 			'buttons'    => $buttons,
@@ -89,7 +89,7 @@ class Hustle_Campaignmonitor_Form_Settings extends Hustle_Provider_Form_Settings
 		}
 		return $response;
 	}
-
+	
 	/**
 	 * Returns array with options to be converted into HTML by Opt_In->render()
 	 *
@@ -99,7 +99,7 @@ class Hustle_Campaignmonitor_Form_Settings extends Hustle_Provider_Form_Settings
 	 * @return array
 	 */
 	private function first_step_options( $submitted_data ) {
-
+		
 		if ( isset( $submitted_data['api_key'] ) ) {
 			$api_key =  $submitted_data['api_key'];
 		} elseif ( isset( $submitted_data['module_id'] ) ) {
@@ -171,7 +171,7 @@ class Hustle_Campaignmonitor_Form_Settings extends Hustle_Provider_Form_Settings
 	 */
 	public function ajax_refresh_lists() {
 		Hustle_Api_Utils::validate_ajax_call( 'hustle_campaignmonitor_refresh_lists' );
-
+		
 		$submitted_data = Hustle_Api_Utils::validate_and_sanitize_fields( $_REQUEST );
 		$response = array(
 			'html' => $this->refresh_lists_html( $submitted_data ),
@@ -189,9 +189,9 @@ class Hustle_Campaignmonitor_Form_Settings extends Hustle_Provider_Form_Settings
 	 * @return string
 	 */
 	private function refresh_lists_html( $submitted_data ){
-
+	
 		$api_key = $submitted_data['api_key'];
-
+		
 		// Check if API key is valid
 		try {
 			$clients = Hustle_Campaignmonitor::api( $api_key )->get_clients();
@@ -201,7 +201,7 @@ class Hustle_Campaignmonitor_Form_Settings extends Hustle_Provider_Form_Settings
 		}
 		if ( $clients->was_successful() ) {
 			$options = $this->refresh_lists_options( $clients, $api_key );
-
+	
 			if ( !is_wp_error( $options ) ) {
 				$html = '';
 				if ( !empty( $options ) ) {
@@ -212,7 +212,7 @@ class Hustle_Campaignmonitor_Form_Settings extends Hustle_Provider_Form_Settings
 				return $html;
 			}
 		}
-
+		
 		return '<label class="wpmudev-label--notice"><span>' . __( 'There was an error retrieving the options. Please make sure your API key is okay.' , Opt_In::TEXT_DOMAIN ) . '</span></label>';
 	}
 

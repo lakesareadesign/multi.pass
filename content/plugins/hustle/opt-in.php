@@ -3,7 +3,7 @@
 Plugin Name: Hustle Pro
 Plugin URI: https://premium.wpmudev.org/project/hustle/
 Description: Start collecting email addresses and quickly grow your mailing list with big bold pop-ups, slide-ins, widgets, or in post opt-in forms.
-Version: 3.0.8
+Version: 3.0.9
 Author: WPMU DEV
 Author URI: https://premium.wpmudev.org
 WDP ID: 1107020
@@ -42,7 +42,7 @@ if ( ! function_exists( 'hustle_activated_deactivated' ) ) {
 		}
 		// for Free
 		if ( get_site_option( 'hustle_free_activated' ) && is_super_admin() ) {
-			?>
+			?> 
 			<div class="notice notice-error is-dismissible">
 				<p><?php esc_html_e( 'You already have Hustle Pro activated. If you really wish to go back to the free version of Hustle, please deactivate the Pro version first.', 'hustle' ); ?></p>
 			</div>
@@ -95,17 +95,17 @@ if( !class_exists( "Opt_In" ) ):
 
 class Opt_In extends Opt_In_Static{
 
-	const VERSION = "3.0.8";
+	const VERSION = "3.0.9";
 
 	const TEXT_DOMAIN = "hustle";
 
 	const VIEWS_FOLDER = "views";
 	const EXPORT_MODULE_ACTION = 'module_export';
 
-
+	
 	private $hustle_provider_loader;
-
-
+	
+	
 	public static $plugin_base_file;
 	public static $plugin_url;
 	public static $plugin_path;
@@ -201,7 +201,7 @@ class Opt_In extends Opt_In_Static{
 		}
 		return self::$_registered_providers;
 	}
-
+	
 	/**
 	 * Loads text domain
 	 *

@@ -4,10 +4,10 @@ Tags:  buttons, related posts, google analytics, share buttons, social sharing, 
 Requires at least: 3.3
 Tested up to: 5.2
 Requires PHP: 5.2
-Stable tag: 8.12.6
+Stable tag: 8.13.1
 
 
-Boost Audience Engagement with Award Winning Site-Speed Optimized Social Tools: Share Buttons, Related Posts, Monetization & Google Analytics.
+Boost Audience Engagement with Award Winning Speed Optimized Social Tools: Share Buttons, Related Posts, Monetization & Google Analytics.
 
 
 == Description ==
@@ -16,9 +16,13 @@ Shareaholic is the **world's leading suite of Audience Engagement tools**. Inclu
 
 This plugin makes it easy for any website — big or small — to engage and grow their traffic, market their content, gain insight, and monetize their audience. And it all lives in one simple dashboard.
 
-This single plugin combines the functionality of many -- social, content, and monetization plugins including: JetPack, Contextual Related Posts (CRP), Social Warfare, Tasty Pins, Yet Another Related Posts Plugin (YARPP), Zemanta, SexyBookmarks, Shariff, AddThis, AddToAny, and many others.
+This single plugin combines the functionality of many -- social, content, and monetization plugins including: JetPack, Contextual Related Posts (CRP), Social Warfare, Tasty Pins, Social Pug, Yet Another Related Posts Plugin (YARPP), Zemanta, SexyBookmarks, Shariff, AddThis, AddToAny, and many others.
 
-We do all this in a lightweight & lightening fast package by using advanced code optimization techniques such a selective and lazy loading. The plugin loads just the functionality that you have selected and when necessary. Also, because all the tools are vertically integrated, you'll have a set of tools that are designed to work perfectly together with no conflicts, headaches or slow downs. In fact, we’re recognized by WP Engine as being a [“Essential Speed Friendly Social Media & SEO Toolkit”](https://wpengine.com/solution-center/shareaholic-the-essential-social-media-toolkit/).
+We do all this in a lightweight & lightening fast package by using [advanced code optimization techniques](https://support.shareaholic.com/hc/en-us/articles/204339849-Shareaholic-and-Site-Page-Speed) such a selective and lazy loading. The plugin loads just the functionality that you have selected and when necessary.
+
+Also, because all the tools are integrated, you'll have a set of tools on your website that are designed to work perfectly together with no conflicts, headaches or slow downs.
+
+In fact, Shareaholic is recognized by **WP Engine** as an [“Essential Speed Friendly Social Media & SEO Toolkit”](https://wpengine.com/solution-center/shareaholic-the-essential-social-media-toolkit/). **Kinsta** upon  testing determined that the plugin [doesn't add much load time overall to a WordPress site](https://kinsta.com/blog/shareaholic-review/). A mere 14 *milliseconds*. That is less than 1/20th of a blink of an eye!
 
 = Social Media Share Buttons =
 
@@ -39,7 +43,7 @@ Make it easy for your visitors to share social content with their friends with S
 * [Pro] Never worry about losing your share counts when you change URLs, adjust your site taxonomy, or switch to HTTPS. Our proprietary technology ensures that no matter how your URLs change, your share counts stay the same.
 * Learn more about [Share Count Recovery](https://support.shareaholic.com/hc/en-us/articles/115002083586-)
 
-= Privacy Feature =
+= Privacy Features =
 
 The German computer magazine c’t has developed “Shariff” (ʃɛɹɪf) that follows the General Data Protection Regulation (GDPR – Regulation (EU) 2016/679). This plugin adapts the Shariff concept.
  
@@ -135,29 +139,26 @@ Note: The analytics portion of Shareaholic may use trusted 3rd party services li
 
 The plugin wouldn't be half of what it is today if it weren't for people like you who take the time to help it grow! Whether it be by submitting bug reports, translations, or maybe even a little development help. 
 
-Listed here are credits and special thanks to some of you who have helped us out a great deal:
+A special thanks to some of you who have helped us out a great deal:
 
  [Complete credits on Shareaholic.com](https://www.shareaholic.com/tools/wordpress/credits)
 
 == Shareaholic in Your Language ==
 
-Shareaholic is used all over the world. Our goal is to support Shareaholic in the native language of all our users and people who want to use our products. Shareaholic for WordPress is currently localized in the following languages:
+Shareaholic is used all over the world. Our goal is to support Shareaholic in the native language of all our users and people who want to use our products.
+
+All text across all apps such as share buttons, cookie consent, content recommendations, etc is customizable to any language. The Shareaholic Plugin Admin UI itself is currently localized in the following languages:
 
 * English (en)
-* Simplified Chinese (zh_CN) by [Larry Zhang](http://zhxl.me)
-* Greek (el_EL) by [Takis Bouyouris](http://www.nevma.gr)
-* Greek (el_GR) by [Takis Bouyouris](http://www.nevma.gr)
-* German (de_DE) by Oliver Heinrich
-* French (fr_FR) by Rozenn Dagorn
-* Dutch (nl_NL) by Patrick Catthoor
-* Português (pt_PT)
-* Afrikaans (af_AF)
-* Italian (it_IT)
-* Turkish (tr_TR) by [Plantekno Bitki](http://plantekno.com)
-* Spanish - Mexico (es_MX) by [Luis Jared Pardo](http://www.clickseguro.net)
-* Spanish - Spain (es_ES) by [David Marco Busto](http://alfabetadigital.com)
-* Romanian (ro_RO)
-* Malay – Bahasa Melayu (ms_MY) by [Lela Iskandar Suhaimi](http://www.jomjalan.com.my/)
+* Spanish (es)
+* French (fr)
+* Italian (it)
+* Russian (ru)
+* German (de)
+* Japanese (ja)
+* Dutch (nl)
+* Polish (pl)
+* Portuguese (pt)
 * Contribute a translation! -- we would appreciate your help in translating Shareaholic into even more languages! It doesn’t take much to get started. Instructions: https://translate.wordpress.org/projects/wp-plugins/shareaholic
 
 == Social Platform Integrations == 
@@ -267,6 +268,12 @@ The default Shareaholic thumbnail width is 640px with dynamic height and no crop
 Each time you change Shareaholic's thumbnail dimensions like this, you will probably want to have WordPress regenerate appropriate sized thumbnails for all of your images. We highly recommend the [Regenerate Thumbnails](https://wordpress.org/plugins/regenerate-thumbnails/) plugin for this purpose.
 
 == Changelog ==
+= 8.13.1 (2019-06-05) =
+* Bugfix: fixed issue where plugin could not be activated on some webhosts due to an unnecessary code comment
+
+= 8.13.0 (2019-05-24) =
+* Support for authenticated Facebook Graph API calls from the Server Side Share Counts API. Fixes issue with significantly reduced Share Counts from Facebook in some cases. Please turn on the Server Side Share Count API from the Advanced Settings tab. You will need to save your [Facebook App ID and Secret keys](https://support.shareaholic.com/hc/en-us/articles/360028605231).
+
 = 8.12.6 (2019-05-06) =
 * Updated Admin Submenu order
 * Updated CDN path
@@ -896,7 +903,7 @@ Each time you change Shareaholic's thumbnail dimensions like this, you will prob
 * Show Related Posts data status
 
 == Upgrade Notice ==
-= 8.12.6 =
+= 8.13.1 =
 We update this plugin regularly so we can make it better for you. Update to the latest version for all of the available features and improvements. Thanks for using Shareaholic!
 
 = 8.12.1 =

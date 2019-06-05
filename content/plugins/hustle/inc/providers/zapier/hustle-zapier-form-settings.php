@@ -25,18 +25,18 @@ class Hustle_Zapier_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 			),
 		);
 	}
-
+		
 	/**
 	 * Check if step is completed
 	 *
-	 * @since 3.0.5
+	 * @since 3.0.5 
 	 * @return bool
 	 */
 	public function first_step_is_completed( $submitted_data ) {
 		// Do validation here
 		return true;
 	}
-
+	
 	/**
 	 * Returns all settings and conditions for 1st step of Provider settings
 	 *
@@ -52,7 +52,7 @@ class Hustle_Zapier_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 		if( ! $this->provider->is_activable() ) {
 			wp_send_json_error( 'Zapier requires a higher version of PHP or Hustle, or the extension is not configured correctly.' );
 		}
-
+		
 		$options = $this->first_step_options( $submitted_data );
 
 		$html = '';
@@ -69,16 +69,16 @@ class Hustle_Zapier_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 			$has_errors = true;
 		}
 		//$step_html .= $this->get_current_settings( $submitted_data['module_id'] );
-
+		
 		$buttons = array(
 			'cancel' => array(
 				'markup' => $this->get_cancel_button_markup(),
-			),
+			), 
 			'save' => array(
 				'markup' => $this->get_next_button_markup(),
-			),
+			), 
 		);
-
+		
 		$response = array(
 			'html'       => $step_html,
 			'buttons'    => $buttons,
@@ -90,7 +90,7 @@ class Hustle_Zapier_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 		}
 		return $response;
 	}
-
+	
 	/**
 	 * Returns array with options to be converted into HTML by Opt_In->render()
 	 *
@@ -100,7 +100,7 @@ class Hustle_Zapier_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 	 * @return array
 	 */
 	private function first_step_options( $submitted_data ) {
-
+		
 		if ( isset( $submitted_data['api_key'] ) ) {
 			$webhook_url =  $submitted_data['api_key'];
 		} elseif ( isset( $submitted_data['module_id'] ) ) {

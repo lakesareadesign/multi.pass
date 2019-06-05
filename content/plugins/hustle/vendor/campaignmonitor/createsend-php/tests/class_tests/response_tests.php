@@ -892,7 +892,7 @@ class CS_REST_TestResponseDeserialisation extends UnitTestCase {
     	);
     }
 
-
+    
     function do_test_response_deserialisation() {
     	if(!is_null($this->deserialiser)) {
     		$response_dir = 'responses/';
@@ -921,14 +921,14 @@ class CS_REST_TestResponseDeserialisation extends UnitTestCase {
             $this->do_test_response_deserialisation();
         endif;
     }
-
+    
     function assert_identical_ignoring_type($object, $expected, $message) {
         if(is_array($expected)) {
             if(isset($expected[0])) {
                 $this->assertIsA($object, 'array', $message.' Item is not an array');
                 $this->assertIdentical(count($expected), count($object), $message.' Invalid array length');
                 for($i = 0; $i < count($expected); $i++) {
-                    $this->assert_identical_ignoring_type($object[$i], $expected[$i],
+                    $this->assert_identical_ignoring_type($object[$i], $expected[$i], 
                         $message.' Checking #'.$i);
                 }
             } else {

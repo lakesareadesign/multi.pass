@@ -35,7 +35,7 @@ class ShareaholicCurlMultiShareCount extends ShareaholicShareCount {
     $config = self::get_services_config();
     $response = array();
     $response['status'] = 200;
-
+    
     // array of curl handles
     $curl_handles = array();
 
@@ -96,7 +96,14 @@ class ShareaholicCurlMultiShareCount extends ShareaholicShareCount {
           ),
         );
         $callback = $config[$service]['callback'];
-        $counts = $this->$callback($result);
+        
+        // Facebook auth?
+        if ($service == 'facebook' && isset($this->options['facebook_access_token'])){
+          $counts = $this->$callback($result, isset($this->options['facebook_access_token']));
+        } else {
+          $counts = $this->$callback($result);
+        }
+        
         if(is_numeric($counts)) {
           $response['data'][$service] = $counts;
         }
@@ -111,8 +118,18 @@ class ShareaholicCurlMultiShareCount extends ShareaholicShareCount {
 
   private function curl_setopts($curl_handle, $config, $service) {
     // set the url to make the curl request
-    curl_setopt($curl_handle, CURLOPT_URL, str_replace('%s', $this->url, $config[$service]['url']));
-    $timeout = isset($this->options['timeout']) ? $this->options['timeout'] : 6;
+    $facebook_access_token = isset($this->options['facebook_access_token']) ? $this->options['facebook_access_token'] : false;
+    
+    if ($service == 'facebook' && $facebook_access_token) {
+      $url = $config[$service]['url_auth'];
+      $url = str_replace('%s', $this->url, $url);
+      $url = str_replace('%auth%', $facebook_access_token, $url);
+      curl_setopt($curl_handle, CURLOPT_URL, $url);
+    } else {
+      curl_setopt($curl_handle, CURLOPT_URL, str_replace('%s', $this->url, $config[$service]['url']));
+    }
+    
+    $timeout = isset($this->options['timeout']) ? $this->options['timeout'] : 5;
 
     // other necessary settings:
     // CURLOPT_HEADER means include header in output, which we do not want

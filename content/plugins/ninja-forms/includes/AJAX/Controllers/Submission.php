@@ -42,7 +42,22 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
     	if( isset( $_REQUEST[ 'nonce_ts' ] ) && 0 < strlen( $_REQUEST[ 'nonce_ts' ] ) ) {
     		$nonce_name = $nonce_name . "_" . $_REQUEST[ 'nonce_ts' ];
 	    }
-        check_ajax_referer( $nonce_name, 'security' );
+        $check_ajax_referer = check_ajax_referer( $nonce_name, 'security', $die = false );
+        if(!$check_ajax_referer){
+            /**
+             * "Just in Time Nonce".
+             * If the nonce fails, then send back a new nonce for the form to resubmit.
+             * This supports the edge-case of 11:59:59 form submissions, while avoiding the form load nonce request.
+             */
+
+            $current_time_stamp = time();
+            $new_nonce_name = 'ninja_forms_display_nonce_' . $current_time_stamp;
+            $this->_errors['nonce'] = array(
+                'new_nonce' => wp_create_nonce( $new_nonce_name ),
+                'nonce_ts' => $current_time_stamp
+            );
+            $this->_respond();
+        }
 
         register_shutdown_function( array( $this, 'shutdown' ) );
 

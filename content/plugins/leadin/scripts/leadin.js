@@ -1,8 +1,8 @@
 (function($) {
   'use strict';
   // HubSpot Env
-  var leadinConfig = window.leadin_config || {};
-  var i18n = window.leadin_i18n || {};
+  var leadinConfig = window.leadinConfig || {};
+  var i18n = window.leadinI18n || {};
   var hubspotBaseUrl = leadinConfig.hubspotBaseUrl;
   var portalId = leadinConfig.portalId;
 
@@ -15,14 +15,22 @@
     }
 
     Raven.config(
-      'https://e9b8f382cdd130c0d415cd977d2be56f@exceptions.hubspot.com/1'
+      'https://e9b8f382cdd130c0d415cd977d2be56f@exceptions.hubspot.com/1',
+      {
+        instrument: {
+          tryCatch: false,
+        },
+      }
     ).install();
+
+    Raven.setTagsContext({
+      leadin: leadinConfig.leadinPluginVersion,
+      php: leadinConfig.phpVersion,
+      wordpress: leadinConfig.wpVersion,
+    });
 
     Raven.setUserContext({
       hub: leadinConfig.portalId,
-      wp: leadinConfig.wpVersion,
-      php: leadinConfig.phpVersion,
-      v: leadinConfig.leadinPluginVersion,
       plugins: Object.keys(leadinConfig.plugins)
         .map(function(name, index) {
           return name + '#' + leadinConfig.plugins[name].Version;
@@ -51,7 +59,7 @@
    * DOM
    */
   var domElements = {
-    iframe: document.getElementById('leadin-iframe'),
+    iframe: $('#leadin-iframe'),
     allMenuButtons: $(
       '.toplevel_page_leadin > a, .toplevel_page_leadin > ul > li > a'
     ),
@@ -112,8 +120,24 @@
   var Interframe = (function() {
     var eventBus = new EventBus();
 
+    function postMessage(message) {
+      domElements.iframe[0].contentWindow.postMessage(
+        JSON.stringify(message),
+        hubspotBaseUrl
+      );
+    }
+
     function handleMessage(message) {
-      eventBus.trigger('message', message);
+      function reply(payload) {
+        const newMessage = Object.assign({}, message);
+        newMessage.response = payload;
+        postMessage(newMessage);
+      }
+
+      let key;
+      for (key in message) {
+        eventBus.trigger(key, [message[key], reply]);
+      }
     }
 
     function handleMessageEvent(event) {
@@ -127,95 +151,175 @@
       }
     }
 
-    function postMessage(message) {
-      domElements.iframe.contentWindow.postMessage(
-        JSON.stringify(message),
-        hubspotBaseUrl
-      );
-    }
-
     return {
       init: function() {
         window.addEventListener('message', handleMessageEvent);
       },
-      onMessage: function(callback) {
-        eventBus.on('message', callback);
+      onMessage: function(key, callback) {
+        eventBus.on(key, function() {
+          callback.apply(null, Array.prototype.slice.call(arguments, 1));
+        });
       },
       postMessage: postMessage,
-      reply: function(message, payload) {
-        var newMessage = Object.assign({}, message);
-        newMessage.response = payload;
-        postMessage(newMessage);
+    };
+  })();
+
+  /**
+   * WordPress plugin API
+   */
+  var WordPressPluginApi = (function() {
+    function makeRequest(action, method, payload, success, error) {
+      const url = leadinConfig.ajaxUrl + '?action=' + action;
+      const ajaxPayload = {
+        url: url,
+        method: method,
+        contentType: 'application/json',
+        success:
+          typeof success === 'function'
+            ? Raven.wrap(function(data) {
+                success(JSON.parse(data));
+              })
+            : undefined,
+        error: Raven.wrap(function(jqXHR) {
+          var message;
+
+          try {
+            message = JSON.parse(jqXHR.responseText).error;
+          } catch (e) {
+            message = jqXHR.responseText;
+          }
+
+          Raven.captureMessage(
+            'AJAX request failed with code ' + jqXHR.status + ': ' + message
+          );
+
+          if (typeof error === 'function') {
+            error();
+          }
+        }),
+      };
+
+      if (payload) {
+        ajaxPayload.data = JSON.stringify(payload);
+      }
+
+      $.ajax(ajaxPayload);
+    }
+
+    function post(action, payload, success, error) {
+      return makeRequest(action, 'POST', payload, success, error);
+    }
+
+    function get(action, success, error) {
+      return makeRequest(action, 'GET', null, success, error);
+    }
+
+    function enterFullScreen() {
+      domElements.iframe.addClass('leadin-iframe-fullscreen');
+    }
+
+    function exitFullScreen() {
+      domElements.iframe.removeClass('leadin-iframe-fullscreen');
+    }
+    return {
+      connect: function(portalId, success, error) {
+        post(
+          'leadin_registration_ajax',
+          { portalId: portalId },
+          success,
+          error
+        );
       },
+      disconnect: post.bind(null, 'leadin_disconnect_ajax', {}),
+      getPortal: get.bind(null, 'leadin_get_portal'),
+      getDomain: get.bind(null, 'leadin_get_domain'),
+      markAsOutdated: get.bind(null, 'leadin_mark_outdated'),
+      enterFullScreen: enterFullScreen,
+      exitFullScreen: exitFullScreen,
     };
   })();
 
   /**
    * HubspotPluginUI API
    *
-   * All outgoing messages are defined here
+   * All incoming and outgoing messages are defined here
    */
   var HubspotPluginAPI = (function() {
-    function setConfig() {
-      Interframe.postMessage({ leadin_config: leadinConfig });
-    }
-
     function changeRoute(route) {
       Interframe.postMessage({ leadin_change_route: route });
     }
 
+    function createHandler(key) {
+      return Interframe.onMessage.bind(Interframe, key);
+    }
+
     var api = {
-      setConfig: setConfig,
       changeRoute: changeRoute,
+      onInterframeReady: createHandler('leadin_interframe_ready'),
+      onConnect: createHandler('leadin_connect_portal'),
+      onDisconnect: createHandler('leadin_disconnect_portal'),
+      onPageReload: createHandler('leadin_page_reload'),
+      onInitNavigation: createHandler('leadin_init_navigation'),
+      onClearQueryParam: createHandler('leadin_clear_query_param'),
+      onGetDomain: createHandler('leadin_get_wp_domain'),
+      onMarkAsOutdated: createHandler('leadin_mark_outdated'),
+      onUpgrade: createHandler('leadin_upgrade'),
+      onEnterFullScreen: createHandler('leadin_enter_fullscreen'),
+      onExitFullScreen: createHandler('leadin_exit_fullscreen'),
     };
 
     return api;
   })();
 
   /**
-   * Bridge API
+   * Messages handlers
    *
    * All incoming messages are handled here
    */
-  var MessagesHandlers = (function() {
-    var eventBus = new EventBus();
+  var initMessageHandlers = function() {
+    HubspotPluginAPI.onInterframeReady(function(message, reply) {
+      reply('Interframe Ready');
+    });
 
-    eventBus.on('leadin_parent_ajax', function(event, payload, reply) {
-      var ajaxPayload = Object.assign(
-        {
-          complete: Raven.wrap(function(jqXHR, textStatus) {
-            var response = Object.assign({ textStatus: textStatus }, jqXHR);
-            reply(response);
-          }),
-          error: Raven.wrap(function(jqXHR) {
-            var message;
-
-            try {
-              message = JSON.parse(jqXHR.responseText).error;
-            } catch (e) {
-              message = jqXHR.responseText;
-            }
-
-            Raven.captureMessage(
-              'AJAX request failed with code ' + jqXHR.status + ': ' + message
-            );
-            // TODO: sentry
-          }),
+    HubspotPluginAPI.onConnect(function(portalId, reply) {
+      WordPressPluginApi.connect(
+        portalId,
+        function() {
+          PortalPoll.clear();
+          reply({ success: true });
         },
-        payload
+        reply.bind(null, { success: false })
       );
-      $.ajax(ajaxPayload);
     });
 
-    eventBus.on('leadin_page_reload', function() {
-      window.location.reload();
+    HubspotPluginAPI.onDisconnect(function(message, reply) {
+      WordPressPluginApi.disconnect(
+        reply.bind(null, { success: true }),
+        reply.bind(null, { success: false })
+      );
     });
 
-    eventBus.on('leadin_get_config', function() {
-      HubspotPluginAPI.setConfig();
+    HubspotPluginAPI.onMarkAsOutdated(function(message, reply) {
+      WordPressPluginApi.markAsOutdated(function() {
+        reply();
+      });
     });
 
-    eventBus.on('leadin_clear_query_param', function() {
+    HubspotPluginAPI.onUpgrade(function(message, reply) {
+      reply();
+      location.href = leadinConfig.adminUrl + 'plugins.php';
+    });
+
+    HubspotPluginAPI.onPageReload(function() {
+      window.location.reload(true);
+    });
+
+    HubspotPluginAPI.onInitNavigation(function(message, reply) {
+      initNavigation();
+      reply('SPA Navigation Started');
+    });
+
+    HubspotPluginAPI.onClearQueryParam(function() {
       var currentWindowLocation = window.location.toString();
       if (currentWindowLocation.indexOf('?') > 0) {
         currentWindowLocation = currentWindowLocation.substring(
@@ -227,17 +331,47 @@
       window.history.pushState({}, '', newWindowLocation);
     });
 
-    return {
-      start() {
-        Interframe.onMessage(function(event, message) {
-          function reply(payload) {
-            Interframe.reply(message, payload);
-          }
+    HubspotPluginAPI.onGetDomain(function(message, reply) {
+      WordPressPluginApi.getDomain(function(data) {
+        if (data.domain) {
+          reply(data.domain);
+        }
+      });
+    });
 
-          for (var command in message) {
-            eventBus.trigger(command, [message[command], reply]);
-          }
-        });
+    HubspotPluginAPI.onEnterFullScreen(function(message, reply) {
+      WordPressPluginApi.enterFullScreen();
+      reply();
+    });
+
+    HubspotPluginAPI.onExitFullScreen(function(message, reply) {
+      WordPressPluginApi.exitFullScreen();
+      reply();
+    });
+  };
+
+  /**
+   * Reload as soon as a portal was assigned. This prevents multiple registration happening
+   */
+  const PortalPoll = (function() {
+    let timeout;
+    let stop = false;
+
+    return {
+      init: function() {
+        timeout = setTimeout(function() {
+          WordPressPluginApi.getPortal(function(data) {
+            if (data.portalId) {
+              location.reload(true);
+            } else if (!stop) {
+              PortalPoll.init();
+            }
+          }, PortalPoll.init);
+        }, 5000);
+      },
+      clear: function() {
+        clearTimeout(timeout);
+        stop = true;
       },
     };
   })();
@@ -246,12 +380,14 @@
    * Main
    */
   function main() {
-    MessagesHandlers.start();
+    initMessageHandlers();
     Interframe.init();
 
     // Enable App Navigation only when viewing the plugin
     if (window.location.search.indexOf('page=leadin') !== -1) {
-      initNavigation();
+      if (!leadinConfig.portalId) {
+        PortalPoll.init();
+      }
     }
 
     initChatflows();

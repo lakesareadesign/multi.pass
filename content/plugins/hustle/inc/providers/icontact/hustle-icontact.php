@@ -56,12 +56,12 @@ class Hustle_Icontact extends Hustle_Provider_Abstract {
 
 	/**
 	 * Provider constructor.
-	 */
+	 */	
 	public function __construct() {
 		$this->_icon = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 		$this->_icon_x2 = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 	}
-
+	
 	/**
 	 * Get Instance
 	 *
@@ -87,7 +87,7 @@ class Hustle_Icontact extends Hustle_Provider_Abstract {
 	public static function api( $app_id, $api_password, $api_username ) {
 		if ( ! class_exists( 'Hustle_Icontact_Api' ) )
 			require_once 'hustle-icontact-api.php';
-
+		
 		if( empty( self::$api ) ){
 			try {
 				self::$api = new Hustle_Icontact_Api( $app_id, $api_password, $api_username );
@@ -196,7 +196,7 @@ class Hustle_Icontact extends Hustle_Provider_Abstract {
 	public static function _get_confirmation_message_id( Hustle_Module_Model $module ) {
 		return self::get_provider_details( $module, 'confirmation_message_id', self::SLUG );
 	}
-
+	
 	public static function _get_auto_optin( Hustle_Module_Model $module ) {
 		$auto_optin = 'subscribed';
 		$saved_auto_optin = self::get_provider_details( $module, 'auto_optin', self::SLUG );
@@ -236,7 +236,7 @@ class Hustle_Icontact extends Hustle_Provider_Abstract {
 				$error[] = $field['name'];
 			}
 		}
-		return array(
+		return array( 
 			'success' => true,
 			'field' => $fields,
 			'added' => $added,

@@ -6,7 +6,7 @@ $auth = array(
     'access_token' => 'your access token',
     'refresh_token' => 'your refresh token');
 $wrap = new CS_REST_Clients(
-    'ClientID to get Campaigns for',
+    'ClientID to get Campaigns for', 
     $auth);
 
 $result = $wrap->get_campaigns();

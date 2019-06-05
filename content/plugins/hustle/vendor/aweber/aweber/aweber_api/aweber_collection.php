@@ -86,7 +86,7 @@ class AWeberCollection extends AWeberResponse implements ArrayAccess, Iterator, 
     /**
      * _type
      *
-     * Interpret what type of resources are held in this collection by
+     * Interpret what type of resources are held in this collection by 
      * analyzing the URL
      *
      * @access protected
@@ -137,7 +137,7 @@ class AWeberCollection extends AWeberResponse implements ArrayAccess, Iterator, 
      *                             * filtering on attributes that require additional permissions to
      *                               display requires an app authorized with those additional permissions.
      * @access public
-     * @return AWeberCollection
+     * @return AWeberCollection 
      */
     public function find($search_data) {
         # invoke find operation

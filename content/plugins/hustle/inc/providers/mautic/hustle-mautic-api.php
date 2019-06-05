@@ -60,9 +60,9 @@ if ( ! class_exists( 'Hustle_Mautic_Api' ) ) :
 			if ( ! $this->api ) {
 				return false;
 			}
-
+			
 			$segment_api = $this->api->newApi( 'segments', $this->auth, $this->base_url );
-
+			
 			try {
 				$segments = $segment_api->getList();
 

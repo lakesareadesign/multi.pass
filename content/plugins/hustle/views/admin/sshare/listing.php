@@ -81,7 +81,7 @@
 <div class="wpmudev-element--content">
 
 	<div class="wpmudev-dots-dropdown">
-
+	
 		<button class="wpmudev-dots-button"><span></span></button>
 
 		<ul class="wpmudev-dots-nav wpmudev-hide">
@@ -302,7 +302,7 @@
         </section>
 
         <?php $this->render("admin/commons/listing/delete-confirmation"); ?>
-
+		
 		<?php $this->render("admin/commons/listing/modal-import"); ?>
 
 		<?php if ( $is_free && count( $sshares ) >= 3 ) $this->render("admin/commons/listing/modal-upgrade"); ?>

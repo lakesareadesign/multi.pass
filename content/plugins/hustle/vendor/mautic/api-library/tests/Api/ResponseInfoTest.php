@@ -16,7 +16,7 @@ class ResponseInfoTest extends MauticApiTestCase
         $response = $this->api->getList('', 0, 1);
         $this->assertErrors($response);
     }
-
+    
     public function testGetVersion() {
         $version = $this->api->getMauticVersion();
         $this->assertRegExp("/^(\d+\.)?(\d+\.)?(.+|\d+)$/", $version);

@@ -195,12 +195,12 @@ class Opt_In_Infusionsoft_Api {
 
 	/**
 	 * Updates an existing contact.
-	 *
+	 * 
 	 * @since 3.0.7
 	 *
 	 * @param array $contact Array of contact details to be updated.
 	 * @return integer|WP_Error Contact ID if everything went well, WP_Error otherwise.
-	 *
+	 * 
 	 */
 	public function update_contact( $contact ) {
 
@@ -467,12 +467,12 @@ class Opt_In_Infusionsoft_XML_Res extends  SimpleXMLElement{
 
 		for( $i = 0; $i < $count; $i++ ){
 			$list = $this->get_value()->data->value[$i];
-			$label = (string) $list->struct->member[0]->value;
+			$label = (string) $list->struct->member[0]->value; 
 			if ( !empty( $label ) ) {
 				$lists[ $i ]["label"] = $label;
 				$lists[ $i ]["value"] = (int) reset( $list->struct->member[1]->value );
 			}
-
+			
 		}
 
 		return $lists;

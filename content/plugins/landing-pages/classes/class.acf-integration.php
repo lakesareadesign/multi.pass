@@ -233,6 +233,7 @@ class Landing_Pages_ACF {
 
 
 		if ( isset( $variations[ $vid ][ 'acf' ] ) ) {
+
 			$new_value = self::search_field_array( $variations[ $vid ][ 'acf' ] , $field );
 
 			/* sometimes value is an array count when new_value believes it should be an array in this case get new count */
@@ -248,7 +249,6 @@ class Landing_Pages_ACF {
 			/* acf lite isn't processing return values correctly - ignore repeater subfields */
 			if ( !is_admin() &&  defined('ACF_FREE')  ) {
 				$value = self::acf_free_value_formatting( $value , $field );
-
 			}
 
 			if ( !is_admin() && is_string($value) && !defined('INBOUND_DEBUG_GF_AJAX')  ) {
@@ -331,6 +331,7 @@ class Landing_Pages_ACF {
 
 		$needle = $field['key'];
 
+
 		foreach ($array as $key => $value ){
 
 
@@ -345,7 +346,7 @@ class Landing_Pages_ACF {
 				/* Check if this array contains a repeater field layouts. If it does then return layouts, else this array is a non-repeater value set so return it */
 				if ( $key === $needle ) {
 
-					$repeater_array = self::get_repeater_layouts( $value );
+					$repeater_array = self::get_repeater_layouts( $value , $field );
 					if ($repeater_array) {
 						return $repeater_array;
 					} else	{
@@ -375,9 +376,22 @@ class Landing_Pages_ACF {
 	 *
 	 *	@retuns ARRAY $fields this array will either be empty of contain repeater field layout definitions.
 	 */
-	public static function get_repeater_layouts( $array ) {
-
+	public static function get_repeater_layouts( $array , $field ) {
 		$fields = array();
+
+		if ($field['type'] == 'flexible_content') {
+			foreach($array as $key=>$value) {
+				if (is_array($value)) {
+					$fields[] = $value;
+				}
+			}
+
+			$fields = ($fields) ? $fields : $array;
+
+			return $fields;
+		}
+
+
 
 		foreach ($array as $key => $value) {
 			if ( isset( $value['acf_fc_layout'] ) ) {

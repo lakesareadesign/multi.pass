@@ -63,7 +63,7 @@ class Hustle_Email_Services {
 			(int) get_current_blog_id()
 		), ARRAY_A); */
 
-
+		
 		$arr  = $this->_wpdb->get_results( $this->_wpdb->prepare("
 		SELECT
 			modules.`module_id` AS `id`,
@@ -75,7 +75,7 @@ class Hustle_Email_Services {
 		",
 			(int) get_current_blog_id()
 		), ARRAY_A);
-
+		
 		foreach( (array) $arr as $item ){
 			$id = $item['id'];
 			unset( $item['id'] );

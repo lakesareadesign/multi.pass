@@ -25,18 +25,18 @@ class Hustle_Aweber_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 			),
 		);
 	}
-
+		
 	/**
 	 * Check if step is completed
 	 *
-	 * @since 3.0.5
+	 * @since 3.0.5 
 	 * @return bool
 	 */
 	public function first_step_is_completed( $submitted_data ) {
 		// Do validation here
 		return true;
 	}
-
+	
 	/**
 	 * Returns all settings and conditions for 1st step of Provider settings
 	 *
@@ -52,7 +52,7 @@ class Hustle_Aweber_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 		if( ! $this->provider->is_activable() ) {
 			wp_send_json_error( 'Aweber requires a higher version of PHP or Hustle, or the extension is not configured correctly.' );
 		}
-
+		
 		$options = $this->first_step_options( $submitted_data );
 
 		$html = '';
@@ -69,16 +69,16 @@ class Hustle_Aweber_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 			$has_errors = true;
 		}
 		$step_html .= $this->get_current_list_name_markup();
-
+		
 		$buttons = array(
 			'cancel' => array(
 				'markup' => $this->get_cancel_button_markup(),
-			),
+			), 
 			'save' => array(
 				'markup' => $this->get_next_button_markup(),
-			),
+			), 
 		);
-
+		
 		$response = array(
 			'html'       => $step_html,
 			'buttons'    => $buttons,
@@ -90,7 +90,7 @@ class Hustle_Aweber_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 		}
 		return $response;
 	}
-
+	
 	/**
 	 * Returns array with options to be converted into HTML by Opt_In->render()
 	 *
@@ -161,7 +161,7 @@ class Hustle_Aweber_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 	 */
 	public function ajax_refresh_lists() {
 		Hustle_Api_Utils::validate_ajax_call( 'hustle_aweber_refresh_lists' );
-
+		
 		$submitted_data = Hustle_Api_Utils::validate_and_sanitize_fields( $_POST ); // WPCS: CSRF ok.
 		$response = array(
 			'html' => $this->refresh_lists_html( $submitted_data ),
@@ -188,19 +188,19 @@ class Hustle_Aweber_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 		}
 
 		$_lists = (array) $account->lists->data;
-
+		
 		if( ! is_wp_error( $_lists ) && ! empty( $_lists ) ) {
 
 			$options = $this->refresh_lists_options( $_lists );
 			$html = $this->get_html_for_options( $options );
 			return $html;
-
+			
 		} else {
 			if( is_wp_error( $_lists ) )
 				Hustle_Api_Utils::maybe_log( implode( "; ", $_lists->get_error_messages() ) );
 
 			return '<label class="wpmudev-label--notice"><span>' . __( 'No lists were found for this account.' , Opt_In::TEXT_DOMAIN ) . '</span></label>';
-
+	
 		}
 	}
 
@@ -246,9 +246,9 @@ class Hustle_Aweber_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 			)
 		);
 
-
+		
 		if ( isset( $data['prev_collection_link'] ) ) {
-			$options['navigation_prev'] = array(
+			$options['navigation_prev'] = array( 
 				"id"    => "aweber-lists-nav-prev",
 				"type"  => "ajax_button",
 				"value" => __("Prev", Opt_In::TEXT_DOMAIN),
@@ -262,9 +262,9 @@ class Hustle_Aweber_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 			);
 		}
 
-		if ( isset( $data['next_collection_link'] ) ) {
+		if ( isset( $data['next_collection_link'] ) ) {	
 
-			$options['navigation_next'] = array(
+			$options['navigation_next'] = array( 
 				"id"    => "aweber-lists-nav-next",
 				"type"  => "ajax_button",
 				"value" => __("Next", Opt_In::TEXT_DOMAIN),
@@ -284,12 +284,12 @@ class Hustle_Aweber_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 	/**
 	 * Loads the lists of the next or previous step of Aweber's lists pagination.
 	 * Useful when having more than 100 lists.
-	 *
+	 * 
 	 * @since 3.0.6
 	 *
 	 */
 	public function load_lists_navigation_page() {
-
+		
 		Hustle_Api_Utils::validate_ajax_call( 'hustle_aweber_lists_navigation' );
 
 		$submitted_data = Hustle_Api_Utils::validate_and_sanitize_fields( $_POST ); // WPCS: CSRF ok.
@@ -308,11 +308,11 @@ class Hustle_Aweber_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 			} catch ( AWeberAPIException $e ) {
 				Hustle_Api_Utils::maybe_log( $e->getMessage() );
 				$html = '<label class="wpmudev-label--notice"><span>' . __( 'No lists were found for this account.' , Opt_In::TEXT_DOMAIN ) . '</span></label>';
-
+			
 			}
 		} else {
 			$html = '<label class="wpmudev-label--notice"><span>' . __( 'There was an error connecting to Aweber. Please make sure your authorization code is okay.' , Opt_In::TEXT_DOMAIN ) . '</span></label>';
-
+		
 		}
 
 		$response = array(
@@ -324,7 +324,7 @@ class Hustle_Aweber_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 
 	/**
 	 * Registers AJAX endpoints for provider's custom actions
-	 *
+	 * 
 	 * @since 3.0.5
 	 *
 	 */

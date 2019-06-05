@@ -7,3 +7,4 @@ $wrap = new CS_REST_Transactional_ClassicEmail($auth);
 echo "Get the list of classic groups...\n";
 $result = $wrap->groups();
 var_dump($result->response);
+

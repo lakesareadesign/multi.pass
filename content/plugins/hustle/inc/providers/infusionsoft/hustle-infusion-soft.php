@@ -66,12 +66,12 @@ class Hustle_Infusion_Soft extends Hustle_Provider_Abstract {
 
 	/**
 	 * Provider constructor.
-	 */
+	 */	
 	public function __construct() {
 		$this->_icon = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 		$this->_icon_x2 = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 	}
-
+	
 	/**
 	 * Get Instance
 	 *
@@ -114,7 +114,7 @@ class Hustle_Infusion_Soft extends Hustle_Provider_Abstract {
 		$account_name   = self::_get_account_name( $module );
 		$list_id        = self::_get_email_list( $module );
 		$allow_subscribed = self::get_allow_subscribed_users( $module );
-
+	
 		$api = self::api( $api_key, $account_name );
 
 		$original_contact = $contact;

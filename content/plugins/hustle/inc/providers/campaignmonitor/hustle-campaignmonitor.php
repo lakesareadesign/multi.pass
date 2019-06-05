@@ -58,7 +58,7 @@ class Hustle_Campaignmonitor extends Hustle_Provider_Abstract {
 	 * @var string
 	 */
 	protected $_title                  = 'Campaign Monitor';
-
+	
 	/**
 	 * @since 3.0.5
 	 * @var bool
@@ -74,12 +74,12 @@ class Hustle_Campaignmonitor extends Hustle_Provider_Abstract {
 
 	/**
 	 * Provider constructor.
-	 */
+	 */	
 	public function __construct() {
 		$this->_icon = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 		$this->_icon_x2 = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 	}
-
+	
 	/**
 	 * Get Instance
 	 *
@@ -194,7 +194,7 @@ class Hustle_Campaignmonitor extends Hustle_Provider_Abstract {
 		$api_cf         = new CS_REST_Lists( $list_id, array( 'api_key' => $api_key ) );
 		$custom_fields  = $api_cf->get_custom_fields();
 		$failed_custom_fields = 0;
-
+		
 		foreach ( $fields as $field ) {
 			$exist      = false;
 			$key        = $field['name'];
@@ -215,7 +215,7 @@ class Hustle_Campaignmonitor extends Hustle_Provider_Abstract {
 					'DataType'  => CS_REST_CUSTOM_FIELD_TYPE_TEXT, // We only support text for now,
 					'Options'   => '',
 					'VisibleInPreferenceCenter' => true,
-				);
+				);				
 				if ( $api_cf->create_custom_field( $cm_field ) ) {
 					$module->add_meta( $meta_key, $field['name'] );
 				} else {
@@ -226,13 +226,13 @@ class Hustle_Campaignmonitor extends Hustle_Provider_Abstract {
 		}
 
 		if ( $exist && !$failed_custom_fields ) {
-			return array(
+			return array( 
 				'success' => true,
 				'field' => $fields,
 			);
 		} else {
 			Hustle_Api_Utils::maybe_log('There was an error creating new custom fields.');
-			return array(
+			return array( 
 				'error' => true,
 				'code' => 'cannot_create_custom_field',
 			);

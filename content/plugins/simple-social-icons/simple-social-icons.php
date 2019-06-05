@@ -5,7 +5,7 @@
  * Description: A simple CSS and SVG driven social icons widget.
  * Author: StudioPress
  * Author URI: https://www.studiopress.com/
- * Version: 3.0.0
+ * Version: 3.0.1
  * Text Domain: simple-social-icons
  * Domain Path: /languages
  *
@@ -28,7 +28,7 @@ class Simple_Social_Icons_Widget extends WP_Widget {
 	 *
 	 * @var string
 	 */
-	protected $version = '3.0.0';
+	protected $version = '3.0.1';
 
 	/**
 	 * Default widget values.
@@ -484,7 +484,9 @@ class Simple_Social_Icons_Widget extends WP_Widget {
 
 		wp_enqueue_style( 'simple-social-icons-font', esc_url( $cssfile ), array(), $this->version, 'all' );
 
-		wp_enqueue_script('svg-x-use', plugin_dir_url(__FILE__) . 'svgxuse.js', array(), '1.1.21' );
+		if ( ! function_exists( 'is_amp_endpoint' ) || ( function_exists( 'is_amp_endpoint' ) && ! is_amp_endpoint() ) ) {
+			wp_enqueue_script('svg-x-use', plugin_dir_url(__FILE__) . 'svgxuse.js', array(), '1.1.21' );
+		}
 	}
 
 	/**

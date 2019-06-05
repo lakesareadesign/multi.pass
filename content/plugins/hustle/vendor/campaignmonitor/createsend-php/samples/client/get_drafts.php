@@ -6,7 +6,7 @@ $auth = array(
     'access_token' => 'your access token',
     'refresh_token' => 'your refresh token');
 $wrap = new CS_REST_Clients(
-    'ClientID to get drafts for',
+    'ClientID to get drafts for', 
     $auth);
 
 $result = $wrap->get_drafts();

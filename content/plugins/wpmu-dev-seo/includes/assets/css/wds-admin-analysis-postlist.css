@@ -27,7 +27,7 @@
 	background: #FECF2F;
 }
 
-.wds-analysis.wds-status-success::after {	     	 	 	  		 		
+.wds-analysis.wds-status-success::after {
 	background: #1ABC9C;
 }
 
@@ -65,6 +65,3 @@
 .manage-column.column-readability {
 	width: 80px;
 }
-
-
-/* 133620-1557359321-au */

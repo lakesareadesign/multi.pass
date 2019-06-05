@@ -5,6 +5,14 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+3.2.1
+----------------------------------------------------------------------
+- Improvement: Use the hosting API for managed backups with WPMU DEV hosting instead of the built-in engine
+- Improvement: New reminder that backups for sites on the same server should not be scheduled for the same time
+- Improvement: Pause backups while a Shipper migration is underway
+- Improvement: Remove assert() and eval() from the codebase
+- Bug: Stop the Welcome modal from displaying after the first use
+
 3.2.0.3
 ----------------------------------------------------------------------
 - Fix: Exporting doesn't respect the NULL in table schema
@@ -18,7 +26,6 @@ Change Log:
 - Improvement: Remove activation tooltips
 - Fix: Managed backup restore is failing if previously there was a regular snapshot restore
 - Fix: Issue with Managed backup Frequency options
-
 
 3.2.0.2
 ----------------------------------------------------------------------
@@ -584,6 +591,3 @@ http://premium.wpmudev.org/forums/topic/need-to-turn-off-zlib-compression-for-it
 1.0.0 - 2012-02-09
 ----------------------------------------------------------------------
 - Initial stable release
-
-
-133620-1554395186-au

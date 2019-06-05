@@ -1,23 +1,21 @@
 <?php
-/**
- * The main file!
- *
- * @package shareaholic
- * @version 8.12.6
- */
-
 /*
 Plugin Name: Fast Share Buttons, Analytics, Related Posts and More - Shareaholic
 Plugin URI: https://www.shareaholic.com/website-tools/
 Description: The award winning all-in-one Social Media and Related Posts solution for WordPress. Get found on social and grow your following. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for settings.
-Version: 8.12.6
+Version: 8.13.1
 Author: Shareaholic
 Author URI: https://www.shareaholic.com
 Text Domain: shareaholic
 Domain Path: /languages
-Credits & Thanks: https://www.shareaholic.com/tools/wordpress/credits
 */
 
+/**
+ * The main file!
+ *
+ * @package shareaholic
+ * @version 8.13.1
+ */
 
 /**
  * Make sure we don't expose any info if called directly
@@ -61,7 +59,7 @@ if (!class_exists('Shareaholic')) {
     const API_URL = 'https://web.shareaholic.com'; // uses static IPs for firewall whitelisting
     const CM_API_URL = 'https://cm-web.shareaholic.com'; // uses static IPs for firewall whitelisting
 
-    const VERSION = '8.12.6';
+    const VERSION = '8.13.1';
 
     /**
      * Starts off as false so that ::get_instance() returns

@@ -556,3 +556,4 @@ class Smartcrawl_Sitemap_Settings extends Smartcrawl_Settings_Admin {
 		return array( '_view' => $view );
 	}
 }
+

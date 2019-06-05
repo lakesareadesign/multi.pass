@@ -58,7 +58,7 @@ if ( ! class_exists( 'Hustle_MailerLite_Api' ) ) :
             );
 
             $args['body'] = $input;
-
+            
             $response   = wp_remote_request( $called_url, $args );
             $data       = wp_remote_retrieve_body( $response );
 
@@ -67,7 +67,7 @@ if ( ! class_exists( 'Hustle_MailerLite_Api' ) ) :
             }
 
             return json_decode( $data, true );
-        }
+        } 
 
         /**
          * GET Request
@@ -128,7 +128,7 @@ if ( ! class_exists( 'Hustle_MailerLite_Api' ) ) :
 
         /**
          * Add custom field
-         *
+         * 
          * @param Array $field_data (title, type)
          */
         public function add_custom_field( $field_data ) {

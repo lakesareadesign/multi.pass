@@ -58,7 +58,7 @@ class Hustle_GHBlock_slidein_Trigger extends Hustle_GHBlock_Abstract {
 			array( 'wp-blocks', 'wp-i18n', 'wp-element' ),
 			filemtime( Hustle_Gutenberg::get_plugin_dir() . '/js/slidein-trigger-block.min.js' )
 		);
-
+		
 		// Localize scripts
 		wp_localize_script(
 			'hustle-block-slidein-trigger',
@@ -84,10 +84,10 @@ class Hustle_GHBlock_slidein_Trigger extends Hustle_GHBlock_Abstract {
 		if ( is_array( $modules ) ) {
 
 			foreach ( $modules as $module ) {
-
+			
 				$settings = $module->get_display_settings()->to_array();
 				if ( 'click' === $settings['triggers']['trigger'] ) {
-
+					
 					$module_list[] = array(
 						'value' => $module->get_shortcode_id(),
 						'label' => $module->module_name,
@@ -96,7 +96,7 @@ class Hustle_GHBlock_slidein_Trigger extends Hustle_GHBlock_Abstract {
 			}
 
 		}
-
+			
 		$first_item = array(
 			'value' => '',
 			'label' => ( ! empty( $module_list ) ) ? esc_html__( 'Choose module name', Opt_In::TEXT_DOMAIN ) : esc_html__( 'No modules were found', Opt_In::TEXT_DOMAIN ),
@@ -122,7 +122,7 @@ class Hustle_GHBlock_slidein_Trigger extends Hustle_GHBlock_Abstract {
 			'block_name' => esc_html__( 'Slidein Trigger', Opt_In::TEXT_DOMAIN ),
 			'block_description' => esc_html__( 'Embed the trigger button for a slidein module.', Opt_In::TEXT_DOMAIN ),
 			'block_more_description' => esc_html__( 'Note: the Trigger property of the Slidein should be set to Click to embed the trigger button for the module.', Opt_In::TEXT_DOMAIN ),
-		);
+		); 
 	}
 
 }

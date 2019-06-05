@@ -530,3 +530,4 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 		return isset( $_POST['_wds_nonce'] ) && wp_verify_nonce( $_POST['_wds_nonce'], 'wds-settings-nonce' ) ? $_POST : array();
 	}
 }
+

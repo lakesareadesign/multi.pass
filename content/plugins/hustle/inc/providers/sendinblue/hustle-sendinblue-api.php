@@ -46,18 +46,18 @@ if ( ! class_exists( 'Hustle_SendinBlue_Api' ) ) :
 				),
 			);
 			$args['body'] = $input;
-
+			
 			$response   = wp_remote_request( $called_url, $args );
 			if ( !is_wp_error( $response ) ) {
 				$data    = wp_remote_retrieve_body( $response );
-
+				
 				if ( is_wp_error( $data ) ) {
 					return $data;
 				}
 
 				return json_decode( $data, true );
 			}
-
+			
 			return $response;
 		}
 
@@ -954,3 +954,4 @@ if ( ! class_exists( 'Hustle_SendinBlue_Api' ) ) :
 		}
 	}
 endif;
+

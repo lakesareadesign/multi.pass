@@ -8,7 +8,7 @@ if ( ! class_exists( 'Hustle_Mautic' ) ) :
  * @version 1.0.0
  **/
 class Hustle_Mautic extends Hustle_Provider_Abstract {
-
+	
 	const SLUG = "mautic";
 
 	/**
@@ -71,7 +71,7 @@ class Hustle_Mautic extends Hustle_Provider_Abstract {
 			include_once 'hustle-mautic-api.php';
 		}
 	}
-
+	
 	/**
 	 * Get Instance
 	 *

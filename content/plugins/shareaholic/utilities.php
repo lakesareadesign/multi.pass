@@ -82,10 +82,11 @@ class ShareaholicUtilities {
    */
   private static function defaults() {
     return array(
-      'disable_admin_bar_menu' => 'on',
-      'disable_debug_info' => 'off',
-      'enable_user_nicename' => 'off',
-      'disable_internal_share_counts_api' => 'on',
+      'disable_admin_bar_menu' => 'on', // advanced
+      'disable_debug_info' => 'off',  // advanced
+      'enable_user_nicename' => 'off',  // advanced
+      'disable_internal_share_counts_api' => 'on', // advanced
+      'disable_og_tags' => 'off', // advanced
       'api_key' => '',
       'verification_key' => '',
       'recommendations_display_on_excerpts' => 'on',
@@ -499,7 +500,8 @@ class ShareaholicUtilities {
 
     update_option('shareaholic_settings', $settings);
   }
-
+  
+  
   /**
    *
    * Loads the locations names and their respective ids for an api key
@@ -1286,6 +1288,18 @@ class ShareaholicUtilities {
      }
      return $featured_img;
    }
+   
+  
+ 	/**
+ 	 * Return Facebook Access Token
+ 	 */
+ 	public static function fetch_fb_access_token() {
+ 		if (ShareaholicUtilities::get_option('facebook_app_id') && ShareaholicUtilities::get_option('facebook_app_secret')) {
+ 			return ShareaholicUtilities::get_option('facebook_app_id') . '|' . ShareaholicUtilities::get_option('facebook_app_secret');
+ 		}
+ 		return false;
+ 	}
+  
   
    /**
     * This function grabs the URL of the first image in a given post
@@ -1464,6 +1478,34 @@ class ShareaholicUtilities {
       return "FAIL";
     }
    }
+   
+   /**
+    * Facebook Auth Token check
+    *
+    */
+   public static function facebook_auth_check() {
+     if (ShareaholicUtilities::fetch_fb_access_token() === false) {
+       ShareaholicUtilities::update_options(array('facebook_auth_check' => "FAIL"));
+       return "FAIL";
+     }
+     
+     $health_check_url = "https://graph.facebook.com/?fields=engagement&id=https://www.google.com/&access_token=" . ShareaholicUtilities::fetch_fb_access_token();
+     
+     $response = ShareaholicCurl::get($health_check_url);
+     
+     if(is_array($response) && array_key_exists('body', $response)) {
+       $response_code = wp_remote_retrieve_response_code($response);
+       if ($response_code == "200"){
+         ShareaholicUtilities::update_options(array('facebook_auth_check' => "SUCCESS"));
+         return "SUCCESS";
+       } else {
+         ShareaholicUtilities::update_options(array('facebook_auth_check' => "FAIL"));
+         return "FAIL";
+       }
+     } else {
+       return "FAIL";
+     }
+    }
 
   /**
    * Share Counts API Connectivity check
@@ -1511,11 +1553,11 @@ class ShareaholicUtilities {
       return 'FAIL';
     }
 
-    // Did it return at least 5 services?
-    $has_majority_services = count(array_keys($response['body']['data'])) >= 5 ? true : false;
+    // Did it return at least 4 services?
+    $has_majority_services = count(array_keys($response['body']['data'])) >= 4 ? true : false;
     $has_important_services = true;
     // Does it have counts for linkedin, pinterest?
-    foreach (array('linkedin', 'pinterest') as $service) {
+    foreach (array('facebook', 'pinterest') as $service) {
       if (!isset($response['body']['data'][$service]) || !is_numeric($response['body']['data'][$service])) {
         $has_important_services = false;
       }

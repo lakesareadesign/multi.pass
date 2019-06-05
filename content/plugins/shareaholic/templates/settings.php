@@ -12,7 +12,7 @@ window.ShareaholicConfig = {
 </script>
 
 <div class='wrap'>
-<h2><?php echo sprintf(__('App Manager', 'shareaholic')); ?></h2>
+<h2><?php echo sprintf(__('App Manager - Legacy', 'shareaholic')); ?></h2>
 
 <div class='reveal-modal' id='editing_modal'>
   <div id='iframe_container' class='bg-loading-img' allowtransparency='true'></div>
@@ -21,7 +21,7 @@ window.ShareaholicConfig = {
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-sm-8">
       <form name="settings" method="post" action="<?php echo $action; ?>">
       <?php wp_nonce_field($action, 'nonce_field') ?>
       <input type="hidden" name="already_submitted" value="Y">
@@ -35,7 +35,7 @@ window.ShareaholicConfig = {
       </div>
   
       <div class="app">
-        <p><a href="<?php echo esc_url(admin_url("admin.php?shareaholic_redirect_url=shareaholic.com/signup/")); ?>" target="_blank" class="btn btn-warning btn-block" role="button" style="font-size: 14px;"><?php echo sprintf(__('Shareaholic Dashboard', 'shareaholic')); ?></a>
+        <p><a href="<?php echo esc_url(admin_url("admin.php?shareaholic_redirect_url=shareaholic.com/signup/")); ?>" target="_blank" class="btn btn-warning btn-block" role="button" style="font-size: 14px;"><?php echo sprintf(__('Open Shareaholic Cloud Dashboard', 'shareaholic')); ?></a>
         </p>
         <p>
           <?php echo sprintf(__('Configure Apps such as Floating Share buttons, Social Share Count Recovery, Follow buttons, Share Buttons for Images, Monetization Dashboard, EU Cookie Consent bar, and more from the dashboard.', 'shareaholic')); ?>
@@ -55,7 +55,7 @@ window.ShareaholicConfig = {
             <?php if (isset($settings['location_name_ids']['share_buttons']["{$page_type}_{$position}_content"])) { ?>
               <?php $location_id = $settings['location_name_ids']['share_buttons']["{$page_type}_{$position}_content"] ?>
             <?php } else { $location_id = ''; } ?>
-              <div>
+              <div class="location">
                 <input type="checkbox" id="share_buttons_<?php echo "{$page_type}_{$position}_content" ?>" name="share_buttons[<?php echo "{$page_type}_{$position}_content" ?>]" class="check"
                 <?php if (isset($share_buttons["{$page_type}_{$position}_content"])) { ?>
                   <?php echo ($share_buttons["{$page_type}_{$position}_content"] == 'on' ? 'checked' : '') ?>
@@ -64,7 +64,7 @@ window.ShareaholicConfig = {
                 <button data-app='share_buttons'
                         data-location_id='<?php echo intval($location_id); ?>'
                         data-href='share_buttons/locations/{{id}}/edit'
-                        class="location_item_cta btn btn-xs btn-success">
+                        class="location_item_cta btn btn-sm btn-success float-right">
                 <?php _e('Customize', 'shareaholic'); ?></button>
               </div>
           <?php } ?>
@@ -103,7 +103,7 @@ window.ShareaholicConfig = {
             <?php } else { $location_id = ''; } ?>
             <fieldset id='recommendations'>
               <legend><?php echo ucfirst($page_type) ?></legend>
-                <div>
+                <div class="location">
                   <input type="checkbox" id="recommendations_<?php echo "{$page_type}_below_content" ?>" name="recommendations[<?php echo "{$page_type}_below_content" ?>]" class="check"
                   <?php if (isset($recommendations["{$page_type}_below_content"])) { ?>
                     <?php echo ($recommendations["{$page_type}_below_content"] == 'on' ? 'checked' : '') ?>
@@ -112,7 +112,7 @@ window.ShareaholicConfig = {
                   <button data-app='recommendations'
                           data-location_id='<?php echo intval($location_id); ?>'
                           data-href="recommendations/locations/{{id}}/edit"
-                          class="location_item_cta btn btn-xs btn-success">
+                          class="location_item_cta btn btn-sm btn-success">
                   <?php _e('Customize', 'shareaholic'); ?></button>
                 </div>
               <?php } ?>

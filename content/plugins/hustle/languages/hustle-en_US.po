@@ -1,8 +1,8 @@
-# Copyright (C) 2019 Hustle 3.0.8
-# This file is distributed under the same license as the Hustle 3.0.8 package.
+# Copyright (C) 2019 Hustle 3.0.9
+# This file is distributed under the same license as the Hustle 3.0.9 package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Hustle 3.0.8\n"
+"Project-Id-Version: Hustle 3.0.9\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -197,11 +197,11 @@ msgstr ""
 msgid "Embed ID is empty or this ID already exists"
 msgstr ""
 
-#: inc/hustle-embedded-admin-ajax.php:159, inc/hustle-embedded-admin-ajax.php:178, inc/hustle-embedded-admin-ajax.php:221, inc/hustle-embedded-admin-ajax.php:251, inc/hustle-embedded-admin-ajax.php:277, inc/hustle-embedded-admin-ajax.php:299, inc/hustle-embedded-admin-ajax.php:330, inc/hustle-embedded-admin-ajax.php:549, inc/hustle-popup-admin-ajax.php:253, inc/hustle-popup-admin-ajax.php:283, inc/hustle-popup-admin-ajax.php:303, inc/hustle-popup-admin-ajax.php:361, inc/hustle-popup-admin-ajax.php:384, inc/hustle-popup-admin-ajax.php:460, inc/hustle-popup-admin-ajax.php:500, inc/hustle-popup-admin-ajax.php:535, inc/hustle-popup-admin.php:130, inc/hustle-slidein-admin-ajax.php:145, inc/hustle-slidein-admin-ajax.php:174, inc/hustle-slidein-admin-ajax.php:202, inc/hustle-slidein-admin-ajax.php:230, inc/hustle-slidein-admin-ajax.php:252, inc/hustle-slidein-admin-ajax.php:283, inc/hustle-slidein-admin-ajax.php:491, inc/hustle-sshare-admin-ajax.php:60, inc/hustle-sshare-admin-ajax.php:79, inc/hustle-sshare-admin-ajax.php:122, inc/hustle-sshare-admin-ajax.php:144, inc/hustle-sshare-admin-ajax.php:165, inc/hustle-sshare-admin-ajax.php:186
+#: inc/hustle-embedded-admin-ajax.php:159, inc/hustle-embedded-admin-ajax.php:178, inc/hustle-embedded-admin-ajax.php:221, inc/hustle-embedded-admin-ajax.php:251, inc/hustle-embedded-admin-ajax.php:277, inc/hustle-embedded-admin-ajax.php:299, inc/hustle-embedded-admin-ajax.php:330, inc/hustle-embedded-admin-ajax.php:553, inc/hustle-popup-admin-ajax.php:253, inc/hustle-popup-admin-ajax.php:283, inc/hustle-popup-admin-ajax.php:303, inc/hustle-popup-admin-ajax.php:361, inc/hustle-popup-admin-ajax.php:384, inc/hustle-popup-admin-ajax.php:460, inc/hustle-popup-admin-ajax.php:500, inc/hustle-popup-admin-ajax.php:535, inc/hustle-popup-admin.php:130, inc/hustle-slidein-admin-ajax.php:145, inc/hustle-slidein-admin-ajax.php:174, inc/hustle-slidein-admin-ajax.php:202, inc/hustle-slidein-admin-ajax.php:230, inc/hustle-slidein-admin-ajax.php:252, inc/hustle-slidein-admin-ajax.php:283, inc/hustle-slidein-admin-ajax.php:495, inc/hustle-sshare-admin-ajax.php:60, inc/hustle-sshare-admin-ajax.php:79, inc/hustle-sshare-admin-ajax.php:122, inc/hustle-sshare-admin-ajax.php:144, inc/hustle-sshare-admin-ajax.php:165, inc/hustle-sshare-admin-ajax.php:186
 msgid "Invalid Request"
 msgstr ""
 
-#: inc/hustle-embedded-admin-ajax.php:164, inc/hustle-embedded-admin-ajax.php:204, inc/hustle-embedded-admin-ajax.php:233, inc/hustle-embedded-admin-ajax.php:262, inc/hustle-embedded-admin-ajax.php:282, inc/hustle-embedded-admin-ajax.php:596, inc/hustle-popup-admin-ajax.php:270, inc/hustle-popup-admin-ajax.php:293, inc/hustle-popup-admin-ajax.php:342, inc/hustle-popup-admin-ajax.php:368, inc/hustle-popup-admin-ajax.php:436, inc/hustle-popup-admin-ajax.php:466, inc/hustle-slidein-admin-ajax.php:162, inc/hustle-slidein-admin-ajax.php:184, inc/hustle-slidein-admin-ajax.php:209, inc/hustle-slidein-admin-ajax.php:235, inc/hustle-slidein-admin-ajax.php:539, inc/hustle-sshare-admin-ajax.php:65, inc/hustle-sshare-admin-ajax.php:104, inc/hustle-sshare-admin-ajax.php:132, inc/hustle-sshare-admin-ajax.php:154, inc/hustle-sshare-admin-ajax.php:170, inc/hustle-sshare-admin-ajax.php:233
+#: inc/hustle-embedded-admin-ajax.php:164, inc/hustle-embedded-admin-ajax.php:204, inc/hustle-embedded-admin-ajax.php:233, inc/hustle-embedded-admin-ajax.php:262, inc/hustle-embedded-admin-ajax.php:282, inc/hustle-embedded-admin-ajax.php:600, inc/hustle-popup-admin-ajax.php:270, inc/hustle-popup-admin-ajax.php:293, inc/hustle-popup-admin-ajax.php:342, inc/hustle-popup-admin-ajax.php:368, inc/hustle-popup-admin-ajax.php:436, inc/hustle-popup-admin-ajax.php:466, inc/hustle-slidein-admin-ajax.php:162, inc/hustle-slidein-admin-ajax.php:184, inc/hustle-slidein-admin-ajax.php:209, inc/hustle-slidein-admin-ajax.php:235, inc/hustle-slidein-admin-ajax.php:543, inc/hustle-sshare-admin-ajax.php:65, inc/hustle-sshare-admin-ajax.php:104, inc/hustle-sshare-admin-ajax.php:132, inc/hustle-sshare-admin-ajax.php:154, inc/hustle-sshare-admin-ajax.php:170, inc/hustle-sshare-admin-ajax.php:233
 msgid "Successful"
 msgstr ""
 
@@ -209,7 +209,7 @@ msgstr ""
 msgid "Failed"
 msgstr ""
 
-#: inc/hustle-embedded-admin-ajax.php:184, inc/hustle-embedded-admin-ajax.php:227, inc/hustle-embedded-admin-ajax.php:257, inc/hustle-embedded-admin-ajax.php:553, inc/hustle-popup-admin-ajax.php:288, inc/hustle-popup-admin-ajax.php:307, inc/hustle-popup-admin-ajax.php:421, inc/hustle-popup-admin.php:136, inc/hustle-slidein-admin-ajax.php:179, inc/hustle-slidein-admin-ajax.php:495, inc/hustle-sshare-admin-ajax.php:84, inc/hustle-sshare-admin-ajax.php:127, inc/hustle-sshare-admin-ajax.php:149, inc/hustle-sshare-admin-ajax.php:190
+#: inc/hustle-embedded-admin-ajax.php:184, inc/hustle-embedded-admin-ajax.php:227, inc/hustle-embedded-admin-ajax.php:257, inc/hustle-embedded-admin-ajax.php:557, inc/hustle-popup-admin-ajax.php:288, inc/hustle-popup-admin-ajax.php:307, inc/hustle-popup-admin-ajax.php:421, inc/hustle-popup-admin.php:136, inc/hustle-slidein-admin-ajax.php:179, inc/hustle-slidein-admin-ajax.php:499, inc/hustle-sshare-admin-ajax.php:84, inc/hustle-sshare-admin-ajax.php:127, inc/hustle-sshare-admin-ajax.php:149, inc/hustle-sshare-admin-ajax.php:190
 msgid "Invalid environment: %s"
 msgstr ""
 
@@ -217,19 +217,19 @@ msgstr ""
 msgid "Failed to fetch subscriptions"
 msgstr ""
 
-#: inc/hustle-embedded-admin-ajax.php:414, inc/hustle-popup-admin-ajax.php:620, inc/hustle-slidein-admin-ajax.php:366
+#: inc/hustle-embedded-admin-ajax.php:418, inc/hustle-popup-admin-ajax.php:624, inc/hustle-slidein-admin-ajax.php:370
 msgid "Unable to add custom fields"
 msgstr ""
 
-#: inc/hustle-embedded-admin-ajax.php:488, inc/hustle-popup-admin-ajax.php:700, inc/hustle-slidein-admin-ajax.php:440, views/admin/commons/listing/error_list.php:43, views/admin/commons/listing/modal-error.php:77, views/admin/commons/listing/modal-error.php:105
+#: inc/hustle-embedded-admin-ajax.php:492, inc/hustle-popup-admin-ajax.php:704, inc/hustle-slidein-admin-ajax.php:444, views/admin/commons/listing/error_list.php:43, views/admin/commons/listing/modal-error.php:77, views/admin/commons/listing/modal-error.php:105
 msgid "Error"
 msgstr ""
 
-#: inc/hustle-embedded-admin-ajax.php:489, inc/hustle-popup-admin-ajax.php:701, inc/hustle-slidein-admin-ajax.php:441, views/admin/commons/listing/error_list.php:44, views/admin/commons/listing/modal-error.php:79, views/admin/commons/listing/modal-error.php:129
+#: inc/hustle-embedded-admin-ajax.php:493, inc/hustle-popup-admin-ajax.php:705, inc/hustle-slidein-admin-ajax.php:445, views/admin/commons/listing/error_list.php:44, views/admin/commons/listing/modal-error.php:79, views/admin/commons/listing/modal-error.php:129
 msgid "Date"
 msgstr ""
 
-#: inc/hustle-embedded-admin-ajax.php:576, inc/hustle-popup-admin-ajax.php:328, inc/hustle-slidein-admin-ajax.php:519, inc/hustle-sshare-admin-ajax.php:213
+#: inc/hustle-embedded-admin-ajax.php:580, inc/hustle-popup-admin-ajax.php:328, inc/hustle-slidein-admin-ajax.php:523, inc/hustle-sshare-admin-ajax.php:213
 msgid " (copy)"
 msgstr ""
 
@@ -239,6 +239,14 @@ msgstr ""
 
 #: inc/hustle-embedded-admin.php:33, inc/hustle-embedded-admin.php:33, views/admin/dashboard/modules/module-shortcode.php:138, views/admin/embedded/listing.php:26, views/admin/embedded/welcome.php:7, views/admin/embedded/wizard.php:15
 msgid "New Embed"
+msgstr ""
+
+#: inc/hustle-migration.php:87
+msgid "You need to migrate the data of your existing Hustle modules such as views and submissions manually"
+msgstr ""
+
+#: inc/hustle-migration.php:88
+msgid "Migrate Data"
 msgstr ""
 
 #: inc/hustle-model.php:657
@@ -1867,7 +1875,7 @@ msgid "Antarctica"
 msgstr ""
 
 #: opt-in-static.php:557
-msgid "Antigua & Barbuda"
+msgid "Antigua and Barbuda"
 msgstr ""
 
 #: opt-in-static.php:558
@@ -1935,7 +1943,7 @@ msgid "Bolivia"
 msgstr ""
 
 #: opt-in-static.php:574
-msgid "Bosnia/Hercegovina"
+msgid "Bosnia and Herzegovina"
 msgstr ""
 
 #: opt-in-static.php:575
@@ -1955,7 +1963,7 @@ msgid "British Indian Ocean Territory"
 msgstr ""
 
 #: opt-in-static.php:579
-msgid "Brunei Darussalam"
+msgid "Brunei"
 msgstr ""
 
 #: opt-in-static.php:580
@@ -2023,11 +2031,11 @@ msgid "Comoros"
 msgstr ""
 
 #: opt-in-static.php:596
-msgid "Congo"
+msgid "Congo, Democratic Republic of the"
 msgstr ""
 
 #: opt-in-static.php:597
-msgid "Congo, Democratic Republic"
+msgid "Congo, Republic of the"
 msgstr ""
 
 #: opt-in-static.php:598
@@ -2039,7 +2047,7 @@ msgid "Costa Rica"
 msgstr ""
 
 #: opt-in-static.php:600
-msgid "Cote d'Ivoire"
+msgid "Côte d'Ivoire"
 msgstr ""
 
 #: opt-in-static.php:601
@@ -2051,766 +2059,774 @@ msgid "Cuba"
 msgstr ""
 
 #: opt-in-static.php:603
-msgid "Cyprus"
+msgid "Curaçao"
 msgstr ""
 
 #: opt-in-static.php:604
-msgid "Czech Republic"
+msgid "Cyprus"
 msgstr ""
 
 #: opt-in-static.php:605
-msgid "Denmark"
+msgid "Czech Republic"
 msgstr ""
 
 #: opt-in-static.php:606
-msgid "Djibouti"
+msgid "Denmark"
 msgstr ""
 
 #: opt-in-static.php:607
-msgid "Dominica"
+msgid "Djibouti"
 msgstr ""
 
 #: opt-in-static.php:608
-msgid "Dominican Republic"
+msgid "Dominica"
 msgstr ""
 
 #: opt-in-static.php:609
-msgid "East Timor"
+msgid "Dominican Republic"
 msgstr ""
 
 #: opt-in-static.php:610
-msgid "Ecuador"
+msgid "East Timor"
 msgstr ""
 
 #: opt-in-static.php:611
-msgid "Egypt"
+msgid "Ecuador"
 msgstr ""
 
 #: opt-in-static.php:612
-msgid "El Salvador"
+msgid "Egypt"
 msgstr ""
 
 #: opt-in-static.php:613
-msgid "Equatorial Guinea"
+msgid "El Salvador"
 msgstr ""
 
 #: opt-in-static.php:614
-msgid "Eritrea"
+msgid "Equatorial Guinea"
 msgstr ""
 
 #: opt-in-static.php:615
-msgid "Estonia"
+msgid "Eritrea"
 msgstr ""
 
 #: opt-in-static.php:616
-msgid "Ethiopia"
+msgid "Estonia"
 msgstr ""
 
 #: opt-in-static.php:617
-msgid "Falkland Islands"
+msgid "Ethiopia"
 msgstr ""
 
 #: opt-in-static.php:618
-msgid "Faroe Islands"
+msgid "Falkland Islands"
 msgstr ""
 
 #: opt-in-static.php:619
-msgid "Fiji"
+msgid "Faroe Islands"
 msgstr ""
 
 #: opt-in-static.php:620
-msgid "Finland"
+msgid "Fiji"
 msgstr ""
 
 #: opt-in-static.php:621
-msgid "France"
+msgid "Finland"
 msgstr ""
 
 #: opt-in-static.php:622
-msgid "France, Metropolitan"
+msgid "France"
 msgstr ""
 
 #: opt-in-static.php:623
-msgid "French Guiana"
+msgid "France, Metropolitan"
 msgstr ""
 
 #: opt-in-static.php:624
-msgid "French Polynesia"
+msgid "French Guiana"
 msgstr ""
 
 #: opt-in-static.php:625
-msgid "French South Territories"
+msgid "French Polynesia"
 msgstr ""
 
 #: opt-in-static.php:626
-msgid "Gabon"
+msgid "French South Territories"
 msgstr ""
 
 #: opt-in-static.php:627
-msgid "Gambia"
+msgid "Gabon"
 msgstr ""
 
 #: opt-in-static.php:628
-msgid "Georgia"
+msgid "Gambia"
 msgstr ""
 
 #: opt-in-static.php:629
-msgid "Germany"
+msgid "Georgia"
 msgstr ""
 
 #: opt-in-static.php:630
-msgid "Ghana"
+msgid "Germany"
 msgstr ""
 
 #: opt-in-static.php:631
-msgid "Gibraltar"
+msgid "Ghana"
 msgstr ""
 
 #: opt-in-static.php:632
-msgid "Greece"
+msgid "Gibraltar"
 msgstr ""
 
 #: opt-in-static.php:633
-msgid "Greenland"
+msgid "Greece"
 msgstr ""
 
 #: opt-in-static.php:634
-msgid "Grenada"
+msgid "Greenland"
 msgstr ""
 
 #: opt-in-static.php:635
-msgid "Guadeloupe"
+msgid "Grenada"
 msgstr ""
 
 #: opt-in-static.php:636
-msgid "Guam"
+msgid "Guadeloupe"
 msgstr ""
 
 #: opt-in-static.php:637
-msgid "Guatemala"
+msgid "Guam"
 msgstr ""
 
 #: opt-in-static.php:638
-msgid "Guinea"
+msgid "Guatemala"
 msgstr ""
 
 #: opt-in-static.php:639
-msgid "Guinea-Bissau"
+msgid "Guinea"
 msgstr ""
 
 #: opt-in-static.php:640
-msgid "Guyana"
+msgid "Guinea-Bissau"
 msgstr ""
 
 #: opt-in-static.php:641
-msgid "Haiti"
+msgid "Guyana"
 msgstr ""
 
 #: opt-in-static.php:642
-msgid "Heard Island And Mcdonald Island"
+msgid "Haiti"
 msgstr ""
 
 #: opt-in-static.php:643
-msgid "Honduras"
+msgid "Heard Island And Mcdonald Island"
 msgstr ""
 
 #: opt-in-static.php:644
-msgid "Hong Kong"
+msgid "Honduras"
 msgstr ""
 
 #: opt-in-static.php:645
-msgid "Hungary"
+msgid "Hong Kong"
 msgstr ""
 
 #: opt-in-static.php:646
-msgid "Iceland"
+msgid "Hungary"
 msgstr ""
 
 #: opt-in-static.php:647
-msgid "India"
+msgid "Iceland"
 msgstr ""
 
 #: opt-in-static.php:648
-msgid "Indonesia"
+msgid "India"
 msgstr ""
 
 #: opt-in-static.php:649
-msgid "Iran"
+msgid "Indonesia"
 msgstr ""
 
 #: opt-in-static.php:650
-msgid "Iraq"
+msgid "Iran"
 msgstr ""
 
 #: opt-in-static.php:651
-msgid "Ireland"
+msgid "Iraq"
 msgstr ""
 
 #: opt-in-static.php:652
-msgid "Israel"
+msgid "Ireland"
 msgstr ""
 
 #: opt-in-static.php:653
-msgid "Italy"
+msgid "Israel"
 msgstr ""
 
 #: opt-in-static.php:654
-msgid "Jamaica"
+msgid "Italy"
 msgstr ""
 
 #: opt-in-static.php:655
-msgid "Japan"
+msgid "Jamaica"
 msgstr ""
 
 #: opt-in-static.php:656
-msgid "Johnston Island"
+msgid "Japan"
 msgstr ""
 
 #: opt-in-static.php:657
-msgid "Jordan"
+msgid "Johnston Island"
 msgstr ""
 
 #: opt-in-static.php:658
-msgid "Kazakhstan"
+msgid "Jordan"
 msgstr ""
 
 #: opt-in-static.php:659
-msgid "Kenya"
+msgid "Kazakhstan"
 msgstr ""
 
 #: opt-in-static.php:660
-msgid "Kiribati"
+msgid "Kenya"
 msgstr ""
 
 #: opt-in-static.php:661
-msgid "Korea, Democratic Peoples Republic"
+msgid "Kosovo"
 msgstr ""
 
 #: opt-in-static.php:662
-msgid "Korea, Republic of"
+msgid "Kiribati"
 msgstr ""
 
 #: opt-in-static.php:663
-msgid "Kuwait"
+msgid "Korea, Democratic People's Republic of"
 msgstr ""
 
 #: opt-in-static.php:664
-msgid "Kyrgyzstan"
+msgid "Korea, Republic of"
 msgstr ""
 
 #: opt-in-static.php:665
-msgid "Lao People's Democratic Republic"
+msgid "Kuwait"
 msgstr ""
 
 #: opt-in-static.php:666
-msgid "Latvia"
+msgid "Kyrgyzstan"
 msgstr ""
 
 #: opt-in-static.php:667
-msgid "Lebanon"
+msgid "Lao People's Democratic Republic"
 msgstr ""
 
 #: opt-in-static.php:668
-msgid "Lesotho"
+msgid "Latvia"
 msgstr ""
 
 #: opt-in-static.php:669
-msgid "Liberia"
+msgid "Lebanon"
 msgstr ""
 
 #: opt-in-static.php:670
-msgid "Libyan Arab Jamahiriya"
+msgid "Lesotho"
 msgstr ""
 
 #: opt-in-static.php:671
-msgid "Liechtenstein"
+msgid "Liberia"
 msgstr ""
 
 #: opt-in-static.php:672
-msgid "Lithuania"
+msgid "Libya"
 msgstr ""
 
 #: opt-in-static.php:673
-msgid "Luxembourg"
+msgid "Liechtenstein"
 msgstr ""
 
 #: opt-in-static.php:674
-msgid "Macau"
+msgid "Lithuania"
 msgstr ""
 
 #: opt-in-static.php:675
-msgid "Macedonia"
+msgid "Luxembourg"
 msgstr ""
 
 #: opt-in-static.php:676
-msgid "Madagascar"
+msgid "Macau"
 msgstr ""
 
 #: opt-in-static.php:677
-msgid "Malawi"
+msgid "Macedonia"
 msgstr ""
 
 #: opt-in-static.php:678
-msgid "Malaysia"
+msgid "Madagascar"
 msgstr ""
 
 #: opt-in-static.php:679
-msgid "Maldives"
+msgid "Malawi"
 msgstr ""
 
 #: opt-in-static.php:680
-msgid "Mali"
+msgid "Malaysia"
 msgstr ""
 
 #: opt-in-static.php:681
-msgid "Malta"
+msgid "Maldives"
 msgstr ""
 
 #: opt-in-static.php:682
-msgid "Marshall Islands"
+msgid "Mali"
 msgstr ""
 
 #: opt-in-static.php:683
-msgid "Martinique"
+msgid "Malta"
 msgstr ""
 
 #: opt-in-static.php:684
-msgid "Mauritania"
+msgid "Marshall Islands"
 msgstr ""
 
 #: opt-in-static.php:685
-msgid "Mauritius"
+msgid "Martinique"
 msgstr ""
 
 #: opt-in-static.php:686
-msgid "Mayotte"
+msgid "Mauritania"
 msgstr ""
 
 #: opt-in-static.php:687
-msgid "Mexico"
+msgid "Mauritius"
 msgstr ""
 
 #: opt-in-static.php:688
-msgid "Micronesia"
+msgid "Mayotte"
 msgstr ""
 
 #: opt-in-static.php:689
-msgid "Moldavia"
+msgid "Mexico"
 msgstr ""
 
 #: opt-in-static.php:690
-msgid "Monaco"
+msgid "Micronesia"
 msgstr ""
 
 #: opt-in-static.php:691
-msgid "Mongolia"
+msgid "Moldova"
 msgstr ""
 
 #: opt-in-static.php:692
-msgid "Montserrat"
+msgid "Monaco"
 msgstr ""
 
 #: opt-in-static.php:693
-msgid "Morocco"
+msgid "Mongolia"
 msgstr ""
 
 #: opt-in-static.php:694
-msgid "Mozambique"
+msgid "Montenegro"
 msgstr ""
 
 #: opt-in-static.php:695
-msgid "Union Of Myanmar"
+msgid "Montserrat"
 msgstr ""
 
 #: opt-in-static.php:696
-msgid "Namibia"
+msgid "Morocco"
 msgstr ""
 
 #: opt-in-static.php:697
-msgid "Nauru Island"
+msgid "Mozambique"
 msgstr ""
 
 #: opt-in-static.php:698
-msgid "Nepal"
+msgid "Myanmar"
 msgstr ""
 
 #: opt-in-static.php:699
-msgid "Netherlands"
+msgid "Namibia"
 msgstr ""
 
 #: opt-in-static.php:700
-msgid "Netherlands Antilles"
+msgid "Nauru"
 msgstr ""
 
 #: opt-in-static.php:701
-msgid "New Caledonia"
+msgid "Nepal"
 msgstr ""
 
 #: opt-in-static.php:702
-msgid "New Zealand"
+msgid "Netherlands"
 msgstr ""
 
 #: opt-in-static.php:703
-msgid "Nicaragua"
+msgid "Netherlands Antilles"
 msgstr ""
 
 #: opt-in-static.php:704
-msgid "Niger"
+msgid "New Caledonia"
 msgstr ""
 
 #: opt-in-static.php:705
-msgid "Nigeria"
+msgid "New Zealand"
 msgstr ""
 
 #: opt-in-static.php:706
-msgid "Niue"
+msgid "Nicaragua"
 msgstr ""
 
 #: opt-in-static.php:707
-msgid "Norfolk Island"
+msgid "Niger"
 msgstr ""
 
 #: opt-in-static.php:708
-msgid "Mariana Islands, Northern"
+msgid "Nigeria"
 msgstr ""
 
 #: opt-in-static.php:709
-msgid "Norway"
+msgid "Niue"
 msgstr ""
 
 #: opt-in-static.php:710
-msgid "Oman"
+msgid "Norfolk Island"
 msgstr ""
 
 #: opt-in-static.php:711
-msgid "Pakistan"
+msgid "Northern Mariana Islands"
 msgstr ""
 
 #: opt-in-static.php:712
-msgid "Palau Islands"
+msgid "Mariana Islands, Northern"
 msgstr ""
 
 #: opt-in-static.php:713
-msgid "Palestine"
+msgid "Norway"
 msgstr ""
 
 #: opt-in-static.php:714
-msgid "Panama"
+msgid "Oman"
 msgstr ""
 
 #: opt-in-static.php:715
-msgid "Papua New Guinea"
+msgid "Pakistan"
 msgstr ""
 
 #: opt-in-static.php:716
-msgid "Paraguay"
+msgid "Palau"
 msgstr ""
 
 #: opt-in-static.php:717
-msgid "Peru"
+msgid "Palestine, State of"
 msgstr ""
 
 #: opt-in-static.php:718
-msgid "Philippines"
+msgid "Panama"
 msgstr ""
 
 #: opt-in-static.php:719
-msgid "Pitcairn"
+msgid "Papua New Guinea"
 msgstr ""
 
 #: opt-in-static.php:720
-msgid "Poland"
+msgid "Paraguay"
 msgstr ""
 
 #: opt-in-static.php:721
-msgid "Portugal"
+msgid "Peru"
 msgstr ""
 
 #: opt-in-static.php:722
-msgid "Puerto Rico"
+msgid "Philippines"
 msgstr ""
 
 #: opt-in-static.php:723
-msgid "Qatar"
+msgid "Pitcairn Islands"
 msgstr ""
 
 #: opt-in-static.php:724
-msgid "Reunion Island"
+msgid "Poland"
 msgstr ""
 
 #: opt-in-static.php:725
-msgid "Romania"
+msgid "Portugal"
 msgstr ""
 
 #: opt-in-static.php:726
-msgid "Russian Federation"
+msgid "Puerto Rico"
 msgstr ""
 
 #: opt-in-static.php:727
-msgid "Rwanda"
+msgid "Qatar"
 msgstr ""
 
 #: opt-in-static.php:728
-msgid "Samoa"
+msgid "Réunion"
 msgstr ""
 
 #: opt-in-static.php:729
-msgid "St Helena"
+msgid "Romania"
 msgstr ""
 
 #: opt-in-static.php:730
-msgid "St Kitts & Nevis"
+msgid "Russia"
 msgstr ""
 
 #: opt-in-static.php:731
-msgid "St Lucia"
+msgid "Rwanda"
 msgstr ""
 
 #: opt-in-static.php:732
-msgid "St Pierre & Miquelon"
+msgid "Saint Helena"
 msgstr ""
 
 #: opt-in-static.php:733
-msgid "St Vincent"
+msgid "Saint Kitts and Nevis"
 msgstr ""
 
 #: opt-in-static.php:734
-msgid "San Marino"
+msgid "Saint Lucia"
 msgstr ""
 
 #: opt-in-static.php:735
-msgid "Sao Tome & Principe"
+msgid "Saint Pierre and Miquelon"
 msgstr ""
 
 #: opt-in-static.php:736
-msgid "Saudi Arabia"
+msgid "Saint Vincent and the Grenadines"
 msgstr ""
 
 #: opt-in-static.php:737
-msgid "Senegal"
+msgid "Samoa"
 msgstr ""
 
 #: opt-in-static.php:738
-msgid "Seychelles"
+msgid "San Marino"
 msgstr ""
 
 #: opt-in-static.php:739
-msgid "Sierra Leone"
+msgid "Sao Tome and Principe"
 msgstr ""
 
 #: opt-in-static.php:740
-msgid "Singapore"
+msgid "Saudi Arabia"
 msgstr ""
 
 #: opt-in-static.php:741
-msgid "Slovakia"
+msgid "Senegal"
 msgstr ""
 
 #: opt-in-static.php:742
-msgid "Slovenia"
+msgid "Serbia"
 msgstr ""
 
 #: opt-in-static.php:743
-msgid "Solomon Islands"
+msgid "Seychelles"
 msgstr ""
 
 #: opt-in-static.php:744
-msgid "Somalia"
+msgid "Sierra Leone"
 msgstr ""
 
 #: opt-in-static.php:745
-msgid "South Africa"
+msgid "Singapore"
 msgstr ""
 
 #: opt-in-static.php:746
-msgid "South Georgia and South Sandwich"
+msgid "Sint Maarten"
 msgstr ""
 
 #: opt-in-static.php:747
-msgid "Spain"
+msgid "Slovakia"
 msgstr ""
 
 #: opt-in-static.php:748
-msgid "Sri Lanka"
+msgid "Slovenia"
 msgstr ""
 
 #: opt-in-static.php:749
-msgid "Stateless Persons"
+msgid "Solomon Islands"
 msgstr ""
 
 #: opt-in-static.php:750
-msgid "Sudan"
+msgid "Somalia"
 msgstr ""
 
 #: opt-in-static.php:751
-msgid "Suriname"
+msgid "South Africa"
 msgstr ""
 
 #: opt-in-static.php:752
-msgid "Svalbard and Jan Mayen"
+msgid "South Georgia and the South Sandwich Islands"
 msgstr ""
 
 #: opt-in-static.php:753
-msgid "Swaziland"
+msgid "Spain"
 msgstr ""
 
 #: opt-in-static.php:754
-msgid "Sweden"
+msgid "Sri Lanka"
 msgstr ""
 
 #: opt-in-static.php:755
-msgid "Switzerland"
+msgid "Stateless Persons"
 msgstr ""
 
 #: opt-in-static.php:756
-msgid "Syrian Arab Republic"
+msgid "Sudan"
 msgstr ""
 
 #: opt-in-static.php:757
-msgid "Taiwan, Republic of China"
+msgid "Sudan, South"
 msgstr ""
 
 #: opt-in-static.php:758
-msgid "Tajikistan"
+msgid "Suriname"
 msgstr ""
 
 #: opt-in-static.php:759
-msgid "Tanzania"
+msgid "Svalbard and Jan Mayen"
 msgstr ""
 
 #: opt-in-static.php:760
-msgid "Thailand"
+msgid "Swaziland"
 msgstr ""
 
 #: opt-in-static.php:761
-msgid "Timor Leste"
+msgid "Sweden"
 msgstr ""
 
 #: opt-in-static.php:762
-msgid "Togo"
+msgid "Switzerland"
 msgstr ""
 
 #: opt-in-static.php:763
-msgid "Tokelau"
+msgid "Syria"
 msgstr ""
 
 #: opt-in-static.php:764
-msgid "Tonga"
+msgid "Taiwan, Republic of China"
 msgstr ""
 
 #: opt-in-static.php:765
-msgid "Trinidad & Tobago"
+msgid "Tajikistan"
 msgstr ""
 
 #: opt-in-static.php:766
-msgid "Tunisia"
+msgid "Tanzania"
 msgstr ""
 
 #: opt-in-static.php:767
-msgid "Turkey"
+msgid "Thailand"
 msgstr ""
 
 #: opt-in-static.php:768
-msgid "Turkmenistan"
+msgid "Togo"
 msgstr ""
 
 #: opt-in-static.php:769
-msgid "Turks And Caicos Islands"
+msgid "Tokelau"
 msgstr ""
 
 #: opt-in-static.php:770
-msgid "Tuvalu"
+msgid "Tonga"
 msgstr ""
 
 #: opt-in-static.php:771
-msgid "Uganda"
+msgid "Trinidad and Tobago"
 msgstr ""
 
 #: opt-in-static.php:772
-msgid "Ukraine"
+msgid "Tunisia"
 msgstr ""
 
 #: opt-in-static.php:773
-msgid "United Arab Emirates"
+msgid "Turkey"
 msgstr ""
 
 #: opt-in-static.php:774
-msgid "United Kingdom"
+msgid "Turkmenistan"
 msgstr ""
 
 #: opt-in-static.php:775
-msgid "US Minor Outlying Islands"
+msgid "Turks and Caicos Islands"
 msgstr ""
 
 #: opt-in-static.php:776
-msgid "USA"
+msgid "Tuvalu"
 msgstr ""
 
 #: opt-in-static.php:777
-msgid "Upper Volta"
+msgid "Uganda"
 msgstr ""
 
 #: opt-in-static.php:778
-msgid "Uruguay"
+msgid "Ukraine"
 msgstr ""
 
 #: opt-in-static.php:779
-msgid "Uzbekistan"
+msgid "United Arab Emirates"
 msgstr ""
 
 #: opt-in-static.php:780
-msgid "Vanuatu"
+msgid "United Kingdom"
 msgstr ""
 
 #: opt-in-static.php:781
-msgid "Vatican City State"
+msgid "United States of America (USA)"
 msgstr ""
 
 #: opt-in-static.php:782
-msgid "Venezuela"
+msgid "US Minor Outlying Islands"
 msgstr ""
 
 #: opt-in-static.php:783
-msgid "Vietnam"
+msgid "Uruguay"
 msgstr ""
 
 #: opt-in-static.php:784
-msgid "Virgin Islands (British)"
+msgid "Uzbekistan"
 msgstr ""
 
 #: opt-in-static.php:785
-msgid "Virgin Islands (US)"
+msgid "Vanuatu"
 msgstr ""
 
 #: opt-in-static.php:786
-msgid "Wallis And Futuna Islands"
+msgid "Vatican City"
 msgstr ""
 
 #: opt-in-static.php:787
-msgid "Western Sahara"
+msgid "Venezuela"
 msgstr ""
 
 #: opt-in-static.php:788
-msgid "Yemen Arab Rep."
+msgid "Vietnam"
 msgstr ""
 
 #: opt-in-static.php:789
-msgid "Yemen Democratic"
+msgid "Virgin Islands, British"
 msgstr ""
 
 #: opt-in-static.php:790
-msgid "Yugoslavia"
+msgid "Virgin Islands, U.S."
 msgstr ""
 
 #: opt-in-static.php:791
-msgid "Zaire"
+msgid "Wallis And Futuna"
 msgstr ""
 
 #: opt-in-static.php:792
-msgid "Zambia"
+msgid "Western Sahara"
 msgstr ""
 
 #: opt-in-static.php:793
+msgid "Yemen"
+msgstr ""
+
+#: opt-in-static.php:794
+msgid "Zambia"
+msgstr ""
+
+#: opt-in-static.php:795
 msgid "Zimbabwe"
 msgstr ""
 

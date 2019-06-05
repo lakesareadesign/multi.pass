@@ -25,18 +25,18 @@ class Hustle_ConvertKit_Form_Settings extends Hustle_Provider_Form_Settings_Abst
 			),
 		);
 	}
-
+		
 	/**
 	 * Check if step is completed
 	 *
-	 * @since 3.0.5
+	 * @since 3.0.5 
 	 * @return bool
 	 */
 	public function first_step_is_completed( $submitted_data ) {
 		// Do validation here
 		return true;
 	}
-
+	
 	/**
 	 * Returns all settings and conditions for 1st step of Provider settings
 	 *
@@ -52,7 +52,7 @@ class Hustle_ConvertKit_Form_Settings extends Hustle_Provider_Form_Settings_Abst
 		if( ! $this->provider->is_activable() ) {
 			wp_send_json_error( 'ConvertKit requires a higher version of PHP or Hustle, or the extension is not configured correctly.' );
 		}
-
+		
 		$options = $this->first_step_options( $submitted_data );
 
 		$html = '';
@@ -69,16 +69,16 @@ class Hustle_ConvertKit_Form_Settings extends Hustle_Provider_Form_Settings_Abst
 			$has_errors = true;
 		}
 		$step_html .= $this->get_current_list_name_markup();
-
+		
 		$buttons = array(
 			'cancel' => array(
 				'markup' => $this->get_cancel_button_markup(),
-			),
+			), 
 			'save' => array(
 				'markup' => $this->get_next_button_markup(),
-			),
+			), 
 		);
-
+		
 		$response = array(
 			'html'       => $step_html,
 			'buttons'    => $buttons,
@@ -90,7 +90,7 @@ class Hustle_ConvertKit_Form_Settings extends Hustle_Provider_Form_Settings_Abst
 		}
 		return $response;
 	}
-
+	
 	/**
 	 * Returns array with options to be converted into HTML by Opt_In->render()
 	 *
@@ -100,20 +100,20 @@ class Hustle_ConvertKit_Form_Settings extends Hustle_Provider_Form_Settings_Abst
 	 * @return array
 	 */
 	private function first_step_options( $submitted_data ) {
-
+		
 		$link 		 = '<a href="https://app.convertkit.com/account/edit" target="_blank">ConvertKit</a>';
 		$instruction = sprintf( __( 'Log in to your %s account to get your API Key.', Opt_In::TEXT_DOMAIN ), $link );
-
+		
 		if ( isset( $submitted_data['module_id'] ) ) {
 			$module_id = $submitted_data['module_id'];
 			$module = Hustle_Module_Model::instance()->get( $module_id );
 			$saved_api_key = Hustle_ConvertKit::_get_api_key( $module );
-			$saved_api_secret = Hustle_ConvertKit::_get_api_secret( $module );
+			$saved_api_secret = Hustle_ConvertKit::_get_api_secret( $module );	
 		} else {
 			$saved_api_key = '';
-			$saved_api_secret = '';
+			$saved_api_secret = '';	
 		}
-
+		
 		$api_key = ! isset( $submitted_data['api_key'] ) ? $saved_api_key : $submitted_data['api_key'];
 		$api_secret = ! isset( $submitted_data['api_secret'] ) ? $saved_api_secret : $submitted_data['api_secret'];
 
@@ -193,7 +193,7 @@ class Hustle_ConvertKit_Form_Settings extends Hustle_Provider_Form_Settings_Abst
 	 */
 	public function ajax_refresh_lists() {
 		Hustle_Api_Utils::validate_ajax_call( 'hustle_convertkit_refresh_lists' );
-
+		
 		$submitted_data = Hustle_Api_Utils::validate_and_sanitize_fields( $_REQUEST );
 		$response = array(
 			'html' => $this->refresh_lists_html( $submitted_data ),
@@ -213,10 +213,10 @@ class Hustle_ConvertKit_Form_Settings extends Hustle_Provider_Form_Settings_Abst
 	private function refresh_lists_html( $submitted_data ){
 		$api_key = $submitted_data['api_key'];
 		$forms = Hustle_ConvertKit::api( $api_key )->get_forms();
-
+		
 		if( ! is_wp_error( $forms ) ) {
 			$options = $this->refresh_lists_options( $forms );
-
+	
 			if ( !is_wp_error( $options ) ) {
 				$html = '';
 				if ( !empty( $options ) ) {
@@ -228,7 +228,7 @@ class Hustle_ConvertKit_Form_Settings extends Hustle_Provider_Form_Settings_Abst
 			} else {
 				Hustle_Api_Utils::maybe_log( implode( "; ", $options->get_error_messages() ) );
 				return '<label class="wpmudev-label--notice"><span>' . __( 'There was an error retrieving the options.' , Opt_In::TEXT_DOMAIN ) . '</span></label>';
-			}
+			}	
 		} else {
 			Hustle_Api_Utils::maybe_log( implode( "; ", $forms->get_error_messages() ) );
 			return '<label class="wpmudev-label--notice"><span>' . __( 'No active form is found for the API. Please set up a form in ConvertKit or check your API.' , Opt_In::TEXT_DOMAIN ) . '</span></label>';
@@ -247,9 +247,9 @@ class Hustle_ConvertKit_Form_Settings extends Hustle_Provider_Form_Settings_Abst
 			$lists[ $form->id ]['value'] = $form->id;
 			$lists[ $form->id ]['label'] = $form->name;
 		}
-
+		
 		$first = count( $lists ) > 0 ? reset( $lists ) : "";
-		if( !empty( $first ) )
+		if( !empty( $first ) ) 
 			$first = $first['value'];
 
 		return  array(

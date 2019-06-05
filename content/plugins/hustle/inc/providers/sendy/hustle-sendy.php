@@ -48,12 +48,12 @@ class Hustle_Sendy extends Hustle_Provider_Abstract {
 
 	/**
 	 * Provider constructor.
-	 */
+	 */	
 	public function __construct() {
 		$this->_icon = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 		$this->_icon_x2 = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 	}
-
+	
 	/**
 	 * Get Instance
 	 *
@@ -129,7 +129,7 @@ class Hustle_Sendy extends Hustle_Provider_Abstract {
 			"header" => 'Content-type: application/x-www-form-urlencoded',
 			"body" => $_data
 		));
-
+		
 		if ( is_wp_error( $res ) ) {
 			return $res;
 		}

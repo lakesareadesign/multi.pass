@@ -64,7 +64,7 @@ class Hustle_Popup_Admin {
 				);
 			}
 
-			$current_array['current']['listing_page'] = Hustle_Module_Admin::POPUP_LISTING_PAGE;
+			$current_array['current']['listing_page'] = Hustle_Module_Admin::POPUP_LISTING_PAGE;			
 		}
 
 		return $current_array;

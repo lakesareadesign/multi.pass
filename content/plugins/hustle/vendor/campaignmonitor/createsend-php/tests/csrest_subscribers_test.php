@@ -46,7 +46,7 @@ abstract class CS_REST_TestSubscribers extends CS_REST_TestBase {
         $raw_result = '';
         $email = 'test@test.com';
 		$serialised_subscriber = 'subscriber data';
-
+		
         $call_options = $this->get_call_options(
             $this->list_base_route.'.json?email='.urlencode($email), 'PUT');
 
@@ -57,19 +57,19 @@ abstract class CS_REST_TestSubscribers extends CS_REST_TestBase {
         );
 
         $transport_result = array (
-            'code' => 200,
+            'code' => 200, 
             'response' => $raw_result
         );
-
+        
         $expected_result = new CS_REST_Wrapper_Result($raw_result, 200);
         $call_options['data'] = $serialised_subscriber;
-
+        
         $this->setup_transport_and_serialisation($transport_result, $call_options,
-            $raw_result, $raw_result, $serialised_subscriber,
+            $raw_result, $raw_result, $serialised_subscriber, 
             $subscriber, 200);
 
         $result = $this->wrapper->update($email, $subscriber);
-
+         
         $this->assertIdentical($expected_result, $result);
     }
 
@@ -103,15 +103,15 @@ abstract class CS_REST_TestSubscribers extends CS_REST_TestBase {
         );
 
         $transport_result = array (
-            'code' => $response_code,
+            'code' => $response_code, 
             'response' => $raw_result
         );
-
+        
         $expected_result = new CS_REST_Wrapper_Result($raw_result, $response_code);
 
         $call_options['data'] = 'subscribers were serialised to this';
         $this->setup_transport_and_serialisation($transport_result, $call_options,
-            $raw_result, $raw_result, 'subscribers were serialised to this',
+            $raw_result, $raw_result, 'subscribers were serialised to this', 
             $data, $response_code);
 
         $result = $this->wrapper->import($subscribers, $resubscribe, $queueSubscriptionBasedAutoResponders);
@@ -129,10 +129,10 @@ abstract class CS_REST_TestSubscribers extends CS_REST_TestBase {
             $this->list_base_route.'.json?email='.urlencode($email), 'GET');
 
         $transport_result = array (
-            'code' => $response_code,
+            'code' => $response_code, 
             'response' => $raw_result
         );
-
+        
         $expected_result = new CS_REST_Wrapper_Result($deserialised, $response_code);
 
         $this->setup_transport_and_serialisation($transport_result, $call_options,
@@ -153,10 +153,10 @@ abstract class CS_REST_TestSubscribers extends CS_REST_TestBase {
             $this->list_base_route.'/history.json?email='.urlencode($email), 'GET');
 
         $transport_result = array (
-            'code' => $response_code,
+            'code' => $response_code, 
             'response' => $raw_result
         );
-
+        
         $expected_result = new CS_REST_Wrapper_Result($deserialised, $response_code);
 
         $this->setup_transport_and_serialisation($transport_result, $call_options,
@@ -173,14 +173,14 @@ abstract class CS_REST_TestSubscribers extends CS_REST_TestBase {
         $email = 'test@test.com';
 
         $call_options = $this->get_call_options($this->list_base_route.'/unsubscribe.json', 'POST');
-
+         
         $subscriber = array('EmailAddress' => $email);
 
         $transport_result = array (
-            'code' => $response_code,
+            'code' => $response_code, 
             'response' => $raw_result
         );
-
+        
         $expected_result = new CS_REST_Wrapper_Result($raw_result, $response_code);
 
         $call_options['data'] = 'subscriber was serialised to this';
@@ -201,10 +201,10 @@ abstract class CS_REST_TestSubscribers extends CS_REST_TestBase {
         $call_options = $this->get_call_options($this->list_base_route.'.json?email='.urlencode($email), 'DELETE');
 
         $transport_result = array (
-            'code' => $response_code,
+            'code' => $response_code, 
             'response' => $raw_result
         );
-
+        
         $expected_result = new CS_REST_Wrapper_Result($raw_result, $response_code);
 
         $this->setup_transport_and_serialisation($transport_result, $call_options,

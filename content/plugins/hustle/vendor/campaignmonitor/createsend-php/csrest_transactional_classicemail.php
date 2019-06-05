@@ -130,3 +130,4 @@ if (!class_exists('CS_REST_Transactional_ClassicEmail')) {
 
     }
 }
+

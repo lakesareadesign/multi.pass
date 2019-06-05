@@ -5,16 +5,16 @@
  * Handling Autoloader
  */
 class Hustle_Provider_Autoload{
-
+	
 	protected $pro_providers = array();
-
+	
 	public function __construct( $pro_providers = array() ) {
 		$this->pro_providers = $pro_providers;
 	}
 
 	public function load() {
 		$pro_providers_dir = Opt_In::$plugin_path . 'inc/providers/';
-
+		
 		// Load Available Pro Providers
 		$directory = new DirectoryIterator( $pro_providers_dir );
 		foreach ( $directory as $d ) {

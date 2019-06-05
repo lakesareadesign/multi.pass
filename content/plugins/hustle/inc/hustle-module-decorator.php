@@ -92,7 +92,7 @@ class Hustle_Module_Decorator extends Opt_In {
 
 		// Colors Palette: Basic
 		$styles .= ' ' . $prefix . $stylable_elements['img_container'] . '{ background-color: ' . $colors['image_container_bg'] . '; }'; // Image container background
-
+		
 		/**
 		 * Implement styles
 		 */
@@ -608,7 +608,7 @@ class Hustle_Module_Decorator extends Opt_In {
 	 * @return bool | string
 	 */
 	public function get_service_name_from_id( $slug ) {
-		$registered_providers = $this->get_providers();
+		$registered_providers = $this->get_providers(); 
 		foreach( $registered_providers as $provider ) {
 			if( $provider['slug'] === $slug ) {
 				return $provider['title'];

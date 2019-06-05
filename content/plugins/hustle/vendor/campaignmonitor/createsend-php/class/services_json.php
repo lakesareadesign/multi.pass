@@ -666,7 +666,7 @@ if (!class_exists('Services_JSON')) {
                                     // element in an associative array,
                                     // for now
                                     $parts = array();
-
+                                    
                                     if (preg_match('/^\s*(["\'].*[^\\\]["\'])\s*:\s*(\S.*),?$/Uis', $slice, $parts)) {
                                         // "name":value pair
                                         $key = $this->decode($parts[1]);
@@ -759,7 +759,7 @@ if (!class_exists('Services_JSON')) {
                     }
             }
         }
-
+        
         function isError($data, $code = null)
         {
             if (is_object($data) && (get_class($data) == 'services_json_error' ||
@@ -782,5 +782,5 @@ if (!class_exists('Services_JSON_Error')) {
         }
     }
 }
-
+ 
 ?>

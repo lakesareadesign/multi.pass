@@ -74,7 +74,7 @@ class Hustle_Api_Utils {
 	/**
 	 * Registers ajax endpoints for a provider.
 	 * It will get an instance of $class_name and make a call to its method named “register_ajax_endpoints”.
-	 * It’s a shortcut for registering non-static AJAX endpoints.
+	 * It’s a shortcut for registering non-static AJAX endpoints. 
 	 *
 	 * @since 3.0.5
 	 * @param string $class_name
@@ -92,10 +92,10 @@ class Hustle_Api_Utils {
 			$class_name::get_instance( $class_name )->get_provider_form_settings()->register_ajax_endpoints();
 		}*/
 	}
-
+	
 	/**
 	 * Used for sanitizing form submissions.
-	 * This method will do a simple sanitation of $post_data. It applies sanitize_text_field() to the keys and values of the first level array.
+	 * This method will do a simple sanitation of $post_data. It applies sanitize_text_field() to the keys and values of the first level array. 
 	 * The keys from second level arrays are converted to numbers, and their values are sanitized with sanitize_text_field() as well.
 	 * This method doesn’t do an exhaustive sanitation, so you should handled special cases if your integration requires something different.
 	 * The names passed on $required_fields are searched into $post_data array keys. If the key is not set, an array with the key “errors” is returned.

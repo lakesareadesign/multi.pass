@@ -103,7 +103,7 @@ if ( ! class_exists( 'Hustle_SendGrid_Api' ) ) :
 			}
 
 			$recipient_response = json_decode( $response['body'], true );
-
+			
 			if ( isset( $recipient_response['error_count'] ) && 0 !== $recipient_response['error_count'] ) {
 				Hustle_Api_Utils::maybe_log( __METHOD__, 'Error adding the recipient.', $recipient_response['errors'][0]['message'] );
 				return false;
@@ -148,7 +148,7 @@ if ( ! class_exists( 'Hustle_SendGrid_Api' ) ) :
 
 			return false;
 		}
-
+		
 		/**
 		 * Adds a recipient in the SendGrid MC contact db and adds it to the list
 		 *
@@ -165,8 +165,8 @@ if ( ! class_exists( 'Hustle_SendGrid_Api' ) ) :
 			$recipient_id = $this->add_recipient( $data );
 			if ( ! $recipient_id ) {
 				$missing_fields = $this->get_non_existent_fields( $data );
-				$error_message = empty( $missing_fields ) ?
-					__( 'The recipient could not be created. Check if your settings are correct.', Opt_In::TEXT_DOMAIN ) :
+				$error_message = empty( $missing_fields ) ? 
+					__( 'The recipient could not be created. Check if your settings are correct.', Opt_In::TEXT_DOMAIN ) : 
 					sprintf( __( 'The recipient could not be created. Please make sure these fields exist in your Sendgrid account: %s.', Opt_In::TEXT_DOMAIN ), implode( ', ', $missing_fields ) );
 				return new WP_Error( 'subscribe_error', $error_message );
 			}
@@ -184,7 +184,7 @@ if ( ! class_exists( 'Hustle_SendGrid_Api' ) ) :
 		 *
 		 * @param string $email
 		 * @return boolean true if the given email already in use otherwise false.
-		 *
+		 * 
 		 **/
 		public function email_exists( $email, $list_id ) {
 			$args = $this->get_headers();
@@ -192,9 +192,9 @@ if ( ! class_exists( 'Hustle_SendGrid_Api' ) ) :
 			if ( ! $args ) {
 				return false;
 			}
-
-			$url = $this->sendgrid_url . '/recipients/search?email=' . $email . '&list_id=' . $list_id;
-
+ 
+			$url = $this->sendgrid_url . '/recipients/search?email=' . $email . '&list_id=' . $list_id; 
+			
 			$response = wp_remote_get( $url, $args );
 
 			if ( ! is_array( $response ) || ! isset( $response['body'] ) ) {
@@ -207,7 +207,7 @@ if ( ! class_exists( 'Hustle_SendGrid_Api' ) ) :
 				Hustle_Api_Utils::maybe_log( __METHOD__, 'Error retrieving recipient.', $response_array['errors'][0]['message'] );
 				return false;
 			}
-
+	
 			return ( ! isset( $response_array['recipient_count'] ) || 0 !== $response_array['recipient_count'] );
 
 		}
@@ -246,7 +246,7 @@ if ( ! class_exists( 'Hustle_SendGrid_Api' ) ) :
 			}
 
 			$existing_fields_names = wp_list_pluck( $merged_array, 'name' );
-
+			
 			$non_existent_fields = array();
 			foreach ( $data as $name => $value ) {
 				if ( ! in_array( $name, $existing_fields_names, true ) ) {

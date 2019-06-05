@@ -385,3 +385,4 @@ class Smartcrawl_Controller_IO extends Smartcrawl_WorkUnit {
 		}
 	}
 }
+

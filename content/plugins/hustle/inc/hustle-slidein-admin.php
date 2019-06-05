@@ -60,7 +60,7 @@ class Hustle_Slidein_Admin {
 					'shortcode_id' => $module->get_shortcode_id(),
 					'section' => Hustle_Module_Admin::get_current_section(),
 					'providers' => $this->_hustle->get_providers(),
-
+	
 				);
 			}
 

@@ -66,7 +66,7 @@ if ( $is_edit && $module ) {
                                 <td>
                                     <span class="wpmudev-table_name"><?php esc_attr_e( "Local Hustle List", Opt_In::TEXT_DOMAIN ); ?></span>
                                     <span class="wpmudev-table_desc"><?php esc_attr_e( "Will save email addresses to an exportable CSV list", Opt_In::TEXT_DOMAIN ); ?></span>
-
+                                 
 									<div id="wph-wizard-content-local_list_name" class="wpmudev-box-gray {{ ( _.isFalse(save_local_list) ) ? 'wpmudev-hidden' : 'wpmudev-show' }}">
 
 										<div class="wpmudev-fields-group">
@@ -110,8 +110,8 @@ if ( $is_edit && $module ) {
 
                     $service_name = ( isset( $providers[$service_key] ) && isset( $providers[$service_key]['title'] ) )
                         ? $providers[$service_key]['title']
-						: '' ;
-					$active_service = $service_key;
+						: '' ; 
+					$active_service = $service_key;	
 
 					?>
 
@@ -136,16 +136,16 @@ if ( $is_edit && $module ) {
                                     </td>
 
                                     <td class="wph-email-providers-icon">
-
+									
                                     <?php if ( isset( $providers[$service_key]['icon'] ) && in_array( pathinfo( $providers[$service_key]['icon'], PATHINFO_EXTENSION ), $allowed_extensions['image_ext'], true ) && isset( $providers[$service_key]['icon_x2'] ) ) : ?>
 
                                         <img src="<?php echo esc_url( $providers[$service_key]['icon'] ); ?>"
 										srcset="<?php echo esc_url( $providers[$service_key]['icon'] ); ?> 1x, <?php echo esc_url( $providers[$service_key]['icon_x2'] ); ?> 2x"
-										alt="<?php echo esc_attr( $providers[$service_key]['title'] ); ?>"
+										alt="<?php echo esc_attr( $providers[$service_key]['title'] ); ?>" 
 										class="wpmudev-icon">
 
                                     <?php elseif ( isset( $providers[$service_key]['icon'] ) && in_array( pathinfo( $providers[$service_key]['icon'], PATHINFO_EXTENSION ), $allowed_extensions['render_ext'], true ) ) : ?>
-
+                                    
                                         <?php $this->render( $providers[$service_key]['icon'] ); ?>
 
                                     <?php endif; ?>
@@ -193,7 +193,7 @@ if ( $is_edit && $module ) {
 							</td>
 
 							<td class="wph-email-providers-icon"><?php $this->render( $providers['mailchimp']['icon'] ); ?></td>
-
+							
 							<td><a data-id="mailchimp" href="#" class="wph-email-service-edit-link" data-nonce="<?php echo esc_attr( wp_create_nonce('get_provider_form_settings') ); ?>">
 								<span class="wpmudev-table_name"><?php esc_attr_e( "MailChimp", Opt_In::TEXT_DOMAIN ); ?></span>
 								<span class="wpmudev-table_desc"><# if ( _.isEmpty ( email_services.mailchimp.api_key ) ) { #><?php esc_attr_e( "Connect to start growing your lists.", Opt_In::TEXT_DOMAIN ); ?><# } else { #>{{email_services.mailchimp.api_key}}<# } #></span>

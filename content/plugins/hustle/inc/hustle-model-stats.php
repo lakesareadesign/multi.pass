@@ -16,6 +16,8 @@ class Hustle_Model_Stats extends Hustle_Data {
 	 */
 	private $_module;
 
+	private $hide_tracking = false;
+
 	/**
 	 * Type of module we are getting stats for
 	 *
@@ -35,6 +37,9 @@ class Hustle_Model_Stats extends Hustle_Data {
 		$this->_module = $module;
 		$this->_module_type = $module_type;
 
+		
+		$is_hide = ( defined( 'HUSTLE_HIDE_TRACKING_DATA' ) && HUSTLE_HIDE_TRACKING_DATA );
+		$this->hide_tracking = apply_filters( 'hustle_hide_tracking_data', $is_hide );
 	}
 
 	/**
@@ -53,6 +58,9 @@ class Hustle_Model_Stats extends Hustle_Data {
 	 * @return int
 	 */
 	public function get_views_count(){
+		if ( $this->hide_tracking ) {
+			return '--';
+		}
 		return (int) $this->_wpdb->get_var( $this->_wpdb->prepare( "SELECT COUNT(meta_id) FROM " . $this->get_meta_table() . " WHERE `module_id`=%d AND `meta_key`=%s ", $this->_module->id,  $this->_get_key( self::KEY_VIEW ) ) );
 	}
 
@@ -62,6 +70,9 @@ class Hustle_Model_Stats extends Hustle_Data {
 	 * @return int
 	 */
 	public function get_conversions_count(){
+		if ( $this->hide_tracking ) {
+			return '--';
+		}
 		return (int) $this->_wpdb->get_var( $this->_wpdb->prepare( "SELECT COUNT(meta_id) FROM " . $this->get_meta_table() . " WHERE `module_id`=%d AND `meta_key`=%s ", $this->_module->id,  $this->_get_key( self::KEY_CONVERSION )  ) );
 	}
 
@@ -71,6 +82,9 @@ class Hustle_Model_Stats extends Hustle_Data {
 	 * @return float|int
 	 */
 	public function get_conversion_rate(){
+		if ( $this->hide_tracking ) {
+			return '--';
+		}
 		return (int) $this->views_count > 0 ?  round( ( $this->conversions_count / $this->views_count )  * 100, 2 ) : 0;
 	}
 
@@ -80,6 +94,9 @@ class Hustle_Model_Stats extends Hustle_Data {
 	 * @return array
 	 */
 	public function get_conversion_data(){
+		if ( $this->hide_tracking ) {
+			return '--';
+		}
 		return (object) $this->_wpdb->get_results( $this->_wpdb->prepare( "SELECT * FROM " . $this->get_meta_table() . " WHERE `module_id`=%d AND `meta_key`=%s ", $this->_module->id,  $this->_get_key( self::KEY_CONVERSION )  ) );
 	}
 }

@@ -8,7 +8,7 @@ require_once '../class/log.php';
 @Mock::generate('CS_REST_Log');
 @Mock::generate('CS_REST_SocketWrapper');
 @Mock::generatePartial(
-    'CS_REST_SocketTransport',
+    'CS_REST_SocketTransport', 
     'PartialSocketTransport',
     array('_build_request', '_get_status_code')
 );
@@ -131,10 +131,10 @@ Server: Microsoft-IIS/7.0';
 'User-Agent: '.$call_options['userAgent']."\n".
 "Connection: Close\n".
 'Content-Type: '.$call_options['contentType']."\n\n\n";
-
+    	     
     	    $this->assertIdentical($this->transport->_build_request($call_options, $host, $path, false), $expected);
     }
-
+    
     function test_build_request_no_data_with_gzip() {
         $call_options = array(
             'method' => 'CONJURE',
@@ -142,10 +142,10 @@ Server: Microsoft-IIS/7.0';
             'userAgent' => 'Nozilla/ Firechuck',
             'contentType' => 'application/visa'
         );
-
+             
         $host = 'api.test.createsend.com';
         $path = '/path/to/resource';
-
+             
         $expected =
         $call_options['method'].' '.$path." HTTP/1.1\n".
 'Host: '.$host."\n".

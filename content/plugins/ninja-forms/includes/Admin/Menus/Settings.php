@@ -237,6 +237,12 @@ final class NF_Admin_Menus_Settings extends NF_Abstracts_Submenu
             }
         }
 
+        if(isset($settings['opinionated_styles'])){
+            if('' == $settings['opinionated_styles']){
+                Ninja_Forms()->dispatcher()->send( 'opinionated_styles_disabled', 'disabled' );
+            }
+        }
+
         foreach( $settings as $id => $value ){
             $value = sanitize_text_field( $value );
             $value = apply_filters( 'ninja_forms_update_setting_' . $id, $value );

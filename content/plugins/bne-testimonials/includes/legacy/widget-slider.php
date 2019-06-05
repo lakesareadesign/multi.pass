@@ -4,11 +4,11 @@
  *	Widget Slider Class
  *
  * 	@author		Kerry Kline
- * 	@copyright	Copyright (c) 2013-2015, Kerry Kline
+ * 	@copyright	Copyright (c) Kerry Kline
  * 	@link		http://www.bnecreative.com
  *
  *	@since 		v1.1
- *	@updated	v2.0.3
+ *	@updated	v2.0.4
  *
  *
 */
@@ -301,8 +301,6 @@ class bne_testimonials_slider_widget extends WP_Widget {
 		$instance['speed'] = strip_tags($new_instance['speed']);
 		$instance['class'] = strip_tags($new_instance['class']);
 		
-		
-
 		return $instance;
 	}
 
@@ -332,7 +330,12 @@ class bne_testimonials_slider_widget extends WP_Widget {
 		$class = $instance['class'];
 
 		// Before Widget
-		echo $before_widget;
+		echo $args['before_widget'];
+		
+		// Title
+		if( $title ) {
+			echo $args['before_title'] . $title . $args['after_title'];
+		}
 
 		// Testimonial Loop Args
 		$query_args = array(
@@ -350,7 +353,7 @@ class bne_testimonials_slider_widget extends WP_Widget {
 
 		echo do_shortcode('[bne_testimonials layout="slider" limit="'.$number_of_post.'" orderby="'.$order.'" order="'.$order_direction.'" name="'.$name.'" image="'.$image.'" image_style="'.$image_style.'" category="'.$category.'" class="bne-testimonial-slider-widget '.$class.'" nav="'.$nav.'" arrows="'.$arrows.'" pause="'.$pause.'" animation="'.$animation.'" animation_speed="'.$animation_speed.'" smooth="'.$smooth.'" speed="'.$speed.'"]');
 
-		echo $after_widget;
+		echo $args['after_widget'];
 	}
 
 }

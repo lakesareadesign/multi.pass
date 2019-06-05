@@ -1,20 +1,18 @@
 @charset "UTF-8";
 
 @font-face {
-  font-family: "hs-font";
-  src:url("hs-font.eot");
-  src:url("hs-font.eot?#iefix") format("embedded-opentype"),
-    url("hs-font.woff") format("woff"),
-    url("hs-font.ttf") format("truetype"),
-    url("hs-font.svg#hs-font") format("svg");
+  font-family: 'hs-font';
+  src: url('hs-font.eot');
+  src: url('hs-font.eot?#iefix') format('embedded-opentype'),
+    url('hs-font.woff') format('woff'), url('hs-font.ttf') format('truetype'),
+    url('hs-font.svg#hs-font') format('svg');
   font-weight: normal;
   font-style: normal;
-
 }
 
 #wp-admin-bar-leadin-admin-menu .ab-icon:before,
 .dashicons-sprocket:before {
-  font-family: "hs-font" !important;
+  font-family: 'hs-font' !important;
   content: attr(data-icon);
   font-style: normal !important;
   font-weight: normal !important;
@@ -28,5 +26,5 @@
 
 #wp-admin-bar-leadin-admin-menu .ab-icon:before,
 .dashicons-sprocket:before {
-  content: "\61";
+  content: '\61';
 }

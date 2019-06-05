@@ -7,7 +7,7 @@ $auth = array(
     'refresh_token' => 'your refresh token');
 $wrap = new CS_REST_Lists('List ID', $auth);
 
-$result = $wrap->update_field_options('[CustomFieldKey]',
+$result = $wrap->update_field_options('[CustomFieldKey]', 
     array('Option 1', 'Option 2'), true);
 
 echo "Result of PUT /api/v3.1/lists/{ID}/customfields/{fieldkey}/options\n<br />";

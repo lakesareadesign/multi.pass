@@ -1,9 +1,9 @@
 <# if( typeof group !== 'undefined') { #>
 
 	<# if( typeof group.id !== 'undefined' ) { #>
-
+	
 		<input type="hidden" name="mailchimp_group_id" class="mailchimp_group_id" value="{{group.id}}">
-
+	
 	<# } #>
 	<div class="hustle-modal-optin_group">
 		<# if ( group.type !== "hidden" ) { #>
@@ -22,7 +22,7 @@
 									<option id="wph-checkbox-id-{{interest.value}}" value="{{interest.value}}" {{ (typeof selected !== 'undefined') ? _.selected( ( selected.indexOf(interest.value) !== -1 ), true ) : '' }}>{{interest.label}}</option>
 								<# } else {#>
 									<option id="wph-checkbox-id-blank" value hidden >&nbsp;</option>
-								<# } #>
+								<# } #>	
 							<# }); #>
 						</select>
 					</div>
@@ -56,11 +56,11 @@
 					}(jQuery)); #>
 
 				<# } #>
-
+				
 				<# if( group.type === 'checkboxes' ) { #>
-
+				
 					<div class="hustle-modal-mc_groups">
-
+					
 						<# _.each( interests, function( interest, key ) { #>
 							<div class="hustle-modal-mc_option">
 								<div class="hustle-modal-mc_checkbox">
@@ -72,15 +72,15 @@
 								</div>
 							</div>
 						<# }); #>
-
+						
 					</div>
-
+				
 				<# } #>
-
+				
 				<# if( group.type === 'radio' ) { #>
-
+					
 					<div class="hustle-modal-mc_groups">
-
+						
 						<# _.each( interests, function( interest, key ) { #>
 							<div class="hustle-modal-mc_option">
 								<div class="hustle-modal-mc_radio">
@@ -92,9 +92,9 @@
 								</div>
 							</div>
 						<# }); #>
-
+						
 					</div>
-
+					
 				<# } #>
 			</div>
 		<# } else {

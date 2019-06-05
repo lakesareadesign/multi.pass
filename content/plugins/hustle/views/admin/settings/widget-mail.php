@@ -10,7 +10,7 @@
 
     <div class="wpmudev-box-body">
 
-		<?php
+		<?php 
 		$options = array(
 			'name_label' => array(
 				'id' 	=> 'mail-name-label',
@@ -55,7 +55,7 @@
 			}
 			?>
 			<br>&nbsp;
-
+			
 		</form>
 
     </div>

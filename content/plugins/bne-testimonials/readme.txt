@@ -3,8 +3,8 @@ Author URI: http://www.bnecreative.com
 Contributors: bluenotes
 Tags: testimonials, testimonial widget, random testimonials, flexslider, feedback, reviews
 Requires at least: 4.7
-Tested up to: 5.0
-Stable tag: 2.0.3
+Tested up to: 5.2.1
+Stable tag: 2.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -90,7 +90,13 @@ Possible, but most likely not in the free version. If you would like to see new 
 
 == Changelog ==
 
-= 2.0.3 November 6, 2018
+= 2.0.4 May 25, 2019 =
+* Update CMB2 Library to v2.6.0
+* Fix Widgets not displaying the widget title.
+* Fix "1" showing when image is set to false while using the testimonial widgets.
+
+
+= 2.0.3 November 6, 2018 =
 * Notice!! v1.x Legacy Shortcodes and Widgets (migration step 2 of 3). [bne_testimonials_list] and [bne_testimonials_slider] were depreciated back on June 16, 2017, and will now output their newer default versions [bne_testimonials layout="list"] and [bne_testimonials layout="slider"]. If not already, please update these to the newer versions. The frontend notice displays for admins only.
 * Fix: Setting name="false" would output a "1".
 

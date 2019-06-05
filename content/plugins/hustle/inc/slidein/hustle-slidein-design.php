@@ -11,7 +11,7 @@ class Hustle_Slidein_Design extends Hustle_Meta {
 		'feature_image_vertical_px' => '-100',
 		'style' => 'cabriolet',
 		'customize_colors' => 0,
-
+		
 		'main_bg_color' => 'rgba(56,69,78,1)',
 		'image_container_bg' => 'rgba(53,65,74,1)',
 		'form_area_bg' => 'rgba(93,115,128,1)',
@@ -19,7 +19,7 @@ class Hustle_Slidein_Design extends Hustle_Meta {
 		'title_color' => 'rgba(253,253,253,1)',
 		'subtitle_color' => 'rgba(253,253,253,1)',
 		'content_color' => 'rgba(173,181,183,1)',
-
+		
 		'link_static_color' => 'rgba(56,197,181,1)',
 		'link_hover_color' => 'rgba(73,226,209,1)',
 		'link_active_color' => 'rgba(73,226,209,1)',

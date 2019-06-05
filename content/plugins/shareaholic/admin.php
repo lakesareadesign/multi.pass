@@ -551,7 +551,7 @@ JQUERY;
         'image_url' => SHAREAHOLIC_ASSET_DIR . 'img'
       ));
     }
-    
+        
     if(isset($_POST['reset_settings'])
       && $_POST['reset_settings'] == 'Y'
       && check_admin_referer($action, 'nonce_field')) {
@@ -564,16 +564,14 @@ JQUERY;
     if(isset($_POST['already_submitted']) && $_POST['already_submitted'] == 'Y' &&
         check_admin_referer($action, 'nonce_field')) {
       echo "<div class='updated settings_updated'><p><strong>". sprintf(__('Settings successfully saved', 'shareaholic')) . "</strong></p></div>";
+      
       foreach (array('disable_og_tags', 'disable_admin_bar_menu', 'disable_debug_info', 'enable_user_nicename','disable_internal_share_counts_api') as $setting) {
-        if (isset($settings[$setting]) &&
-            !isset($_POST['shareaholic'][$setting]) &&
-            $settings[$setting] == 'on') {
+        if (!isset($_POST['shareaholic'][$setting])) {
+          // If form value is unchecked, set to off
           $_POST['shareaholic'][$setting] = 'off';
-        } elseif (!isset($_POST['shareaholic'][$setting])) {
-          $_POST['shareaholic'][$setting] = array();
         }
       }
-
+      
       if (isset($_POST['shareaholic']['api_key']) && $_POST['shareaholic']['api_key'] != $api_key) {
         ShareaholicUtilities::get_new_location_name_ids($_POST['shareaholic']['api_key']);
       }
@@ -589,7 +587,15 @@ JQUERY;
       if (isset($_POST['shareaholic']['disable_admin_bar_menu'])) {
         ShareaholicUtilities::update_options(array('disable_admin_bar_menu' => $_POST['shareaholic']['disable_admin_bar_menu']));
       }
-
+      
+      if (isset($_POST['shareaholic']['facebook_app_id'])) {
+        ShareaholicUtilities::update_options(array('facebook_app_id' => sanitize_text_field($_POST['shareaholic']['facebook_app_id'])));
+      }
+      
+      if (isset($_POST['shareaholic']['facebook_app_secret'])) {
+        ShareaholicUtilities::update_options(array('facebook_app_secret' => sanitize_text_field($_POST['shareaholic']['facebook_app_secret'])));
+      }
+      
       if (isset($_POST['shareaholic']['disable_debug_info'])) {
         ShareaholicUtilities::update_options(array('disable_debug_info' => $_POST['shareaholic']['disable_debug_info']));
       }

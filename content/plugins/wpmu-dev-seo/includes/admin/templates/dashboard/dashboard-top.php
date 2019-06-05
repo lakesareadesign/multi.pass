@@ -127,7 +127,7 @@ $whitelabel_class = Smartcrawl_White_Label::get()->summary_class();
 							        data-option-id="<?php echo esc_attr( $option_name ); ?>"
 							        data-flag="<?php echo 'sitemap'; ?>"
 							        class="wds-activate-component wds-disabled-during-request sui-button sui-button-blue">
-
+	
 								<span class="sui-loading-text"><?php esc_html_e( 'Activate Sitemap', 'wds' ); ?></span>
 								<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 							</button>

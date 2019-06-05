@@ -40,10 +40,10 @@ abstract class CS_REST_TestLists extends CS_REST_TestBase {
         );
 
         $transport_result = array (
-            'code' => $response_code,
+            'code' => $response_code, 
             'response' => $raw_result
         );
-
+        
         $expected_result = new CS_REST_Wrapper_Result($raw_result, $response_code);
 
         $call_options['data'] = 'list info was serialised to this';
@@ -69,10 +69,10 @@ abstract class CS_REST_TestLists extends CS_REST_TestBase {
         );
 
         $transport_result = array (
-            'code' => $response_code,
+            'code' => $response_code, 
             'response' => $raw_result
         );
-
+        
         $expected_result = new CS_REST_Wrapper_Result($raw_result, $response_code);
 
         $call_options['data'] = 'list info was serialised to this';
@@ -151,7 +151,7 @@ abstract class CS_REST_TestLists extends CS_REST_TestBase {
 
         $call_options = $this->get_call_options(
             $this->list_base_route.'customfields/'.rawurlencode($field_key).'.json', 'PUT');
-
+          
         $keep_existing = true;
 
         $serialise_input = array(
@@ -182,7 +182,7 @@ abstract class CS_REST_TestLists extends CS_REST_TestBase {
 
         $call_options = $this->get_call_options(
             $this->list_base_route.'customfields/'.rawurlencode($field_key).'/options.json', 'PUT');
-
+            
         $new_options = array ('Option 1', 'Option 2');
         $keep_existing = true;
 
@@ -190,12 +190,12 @@ abstract class CS_REST_TestLists extends CS_REST_TestBase {
             'KeepExistingOptions' => $keep_existing,
             'Options' => $new_options
         );
-
+        
         $transport_result = array (
-            'code' => $response_code,
+            'code' => $response_code, 
             'response' => $raw_result
         );
-
+        
         $expected_result = new CS_REST_Wrapper_Result($raw_result, $response_code);
 
         $call_options['data'] = 'options were serialised to this';
@@ -224,10 +224,10 @@ abstract class CS_REST_TestLists extends CS_REST_TestBase {
             $this->list_base_route.'customfields/'.rawurlencode($key).'.json', 'DELETE');
 
         $transport_result = array (
-            'code' => $response_code,
+            'code' => $response_code, 
             'response' => $raw_result
         );
-
+        
         $expected_result = new CS_REST_Wrapper_Result($raw_result, $response_code);
 
         $this->setup_transport_and_serialisation($transport_result, $call_options,
@@ -262,10 +262,10 @@ abstract class CS_REST_TestLists extends CS_REST_TestBase {
         $call_options = $this->get_call_options($this->list_base_route.'active.json?date='.$since);
 
         $transport_result = array (
-            'code' => $response_code,
+            'code' => $response_code, 
             'response' => $raw_result
         );
-
+        
         $expected_result = new CS_REST_Wrapper_Result($deserialised, $response_code);
 
         $this->setup_transport_and_serialisation($transport_result, $call_options,
@@ -284,10 +284,10 @@ abstract class CS_REST_TestLists extends CS_REST_TestBase {
         $call_options = $this->get_call_options($this->list_base_route.'unconfirmed.json?date='.$since);
 
         $transport_result = array (
-            'code' => $response_code,
+            'code' => $response_code, 
             'response' => $raw_result
         );
-
+        
         $expected_result = new CS_REST_Wrapper_Result($deserialised, $response_code);
 
         $this->setup_transport_and_serialisation($transport_result, $call_options,
@@ -306,10 +306,10 @@ abstract class CS_REST_TestLists extends CS_REST_TestBase {
         $call_options = $this->get_call_options($this->list_base_route.'bounced.json?date='.$since);
 
         $transport_result = array (
-            'code' => $response_code,
+            'code' => $response_code, 
             'response' => $raw_result
         );
-
+        
         $expected_result = new CS_REST_Wrapper_Result($deserialised, $response_code);
 
         $this->setup_transport_and_serialisation($transport_result, $call_options,
@@ -328,10 +328,10 @@ abstract class CS_REST_TestLists extends CS_REST_TestBase {
         $call_options = $this->get_call_options($this->list_base_route.'unsubscribed.json?date='.$since);
 
         $transport_result = array (
-            'code' => $response_code,
+            'code' => $response_code, 
             'response' => $raw_result
         );
-
+        
         $expected_result = new CS_REST_Wrapper_Result($deserialised, $response_code);
 
         $this->setup_transport_and_serialisation($transport_result, $call_options,
@@ -341,7 +341,7 @@ abstract class CS_REST_TestLists extends CS_REST_TestBase {
 
         $this->assertIdentical($expected_result, $result);
     }
-
+	
 	function testget_deleted() {
         $raw_result = 'some subscribers';
         $since = '2020';
@@ -350,10 +350,10 @@ abstract class CS_REST_TestLists extends CS_REST_TestBase {
         $call_options = $this->get_call_options($this->list_base_route.'deleted.json?date='.$since);
 
         $transport_result = array (
-            'code' => $response_code,
+            'code' => $response_code, 
             'response' => $raw_result
         );
-
+        
         $expected_result = new CS_REST_Wrapper_Result($deserialised, $response_code);
 
         $this->setup_transport_and_serialisation($transport_result, $call_options,
@@ -421,10 +421,10 @@ abstract class CS_REST_TestLists extends CS_REST_TestBase {
             $this->list_base_route.'webhooks/'.$webhook_id.'.json', 'DELETE');
 
         $transport_result = array (
-            'code' => $response_code,
+            'code' => $response_code, 
             'response' => $raw_result
         );
-
+        
         $expected_result = new CS_REST_Wrapper_Result($raw_result, $response_code);
 
         $this->setup_transport_and_serialisation($transport_result, $call_options,
@@ -445,10 +445,10 @@ abstract class CS_REST_TestLists extends CS_REST_TestBase {
         $call_options['data'] = '';
 
         $transport_result = array (
-            'code' => $response_code,
+            'code' => $response_code, 
             'response' => $raw_result
         );
-
+        
         $expected_result = new CS_REST_Wrapper_Result($raw_result, $response_code);
 
         $this->setup_transport_and_serialisation($transport_result, $call_options,
@@ -469,10 +469,10 @@ abstract class CS_REST_TestLists extends CS_REST_TestBase {
         $call_options['data'] = '';
 
         $transport_result = array (
-            'code' => $response_code,
+            'code' => $response_code, 
             'response' => $raw_result
         );
-
+        
         $expected_result = new CS_REST_Wrapper_Result($raw_result, $response_code);
 
         $this->setup_transport_and_serialisation($transport_result, $call_options,

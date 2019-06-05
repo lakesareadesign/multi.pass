@@ -43,7 +43,7 @@ class WPLeadIn {
     $portalId    = get_option( 'leadin_portalId' );
 
     if ( empty( $portalId ) ) {
-      echo '<!-- HubSpot embed JS disabled as a portalId has not yet been configured -->';
+      echo '<!-- HubSpot WordPress Plugin v' . LEADIN_PLUGIN_VERSION . ': embed JS disabled as a portalId has not yet been configured -->';
       return;
     }
 

@@ -25,18 +25,18 @@ class Hustle_E_Newsletter_Form_Settings extends Hustle_Provider_Form_Settings_Ab
 			),
 		);
 	}
-
+		
 	/**
 	 * Check if step is completed
 	 *
-	 * @since 3.0.5
+	 * @since 3.0.5 
 	 * @return bool
 	 */
 	public function first_step_is_completed( $submitted_data ) {
 		// Do validation here
 		return true;
 	}
-
+	
 	/**
 	 * Returns all settings and conditions for 1st step of Provider settings
 	 *
@@ -52,14 +52,14 @@ class Hustle_E_Newsletter_Form_Settings extends Hustle_Provider_Form_Settings_Ab
 		if( ! $this->provider->is_activable() ) {
 			wp_send_json_error( 'e-Newsletter requires a higher version of PHP or Hustle, the e-Newsletter plugin is not active, or the extension is not configured correctly.' );
 		}
-
+		
 		$options = $this->first_step_options( $submitted_data );
 
 		$html = '';
 		foreach( $options as $key =>  $option ) {
 			$html .= Hustle_Api_Utils::static_render("general/option", array_merge( $option, array( "key" => $key ) ), true);
 		}
-
+		
 		if( empty( $error_message ) ) {
 			$step_html = $html;
 			$has_errors = false;
@@ -69,16 +69,16 @@ class Hustle_E_Newsletter_Form_Settings extends Hustle_Provider_Form_Settings_Ab
 			$has_errors = true;
 		}
 		//$step_html .= $this->get_current_settings( $submitted_data['module_id'] );
-
+		
 		$buttons = array(
 			'cancel' => array(
 				'markup' => $this->get_cancel_button_markup(),
-			),
+			), 
 			'save' => array(
 				'markup' => $this->get_next_button_markup(),
-			),
+			), 
 		);
-
+		
 		$response = array(
 			'html'       => $step_html,
 			'buttons'    => $buttons,
@@ -90,7 +90,7 @@ class Hustle_E_Newsletter_Form_Settings extends Hustle_Provider_Form_Settings_Ab
 		}
 		return $response;
 	}
-
+	
 	/**
 	 * Returns array with options to be converted into HTML by Opt_In->render()
 	 *
@@ -100,12 +100,12 @@ class Hustle_E_Newsletter_Form_Settings extends Hustle_Provider_Form_Settings_Ab
 	 * @return array
 	 */
 	private function first_step_options( $submitted_data ) {
-
+		
 		//display a notice only if e-Newsletter plugin is not active
 		if( !$this->provider->is_plugin_active() ){
-
+			
 			$e_newsletter_url = "https://premium.wpmudev.org/project/e-newsletter/";
-
+			
 			return array(
 				"label" =>  array(
 					"class"	=> "wpmudev-label--notice",
@@ -114,15 +114,15 @@ class Hustle_E_Newsletter_Form_Settings extends Hustle_Provider_Form_Settings_Ab
 				)
 			);
 		}
-
+		
 		if ( isset( $submitted_data['module_id'] ) ) {
 			$module_id = $submitted_data['module_id'];
 			$module = Hustle_Module_Model::instance()->get( $module_id );
 			$synced = Hustle_E_Newsletter::get_synced( $module );
-			$saved_auto_optin = Hustle_E_Newsletter::_get_auto_optin( $module );
+			$saved_auto_optin = Hustle_E_Newsletter::_get_auto_optin( $module );	
 		} else {
 			$synced = 0;
-			$saved_auto_optin = '';
+			$saved_auto_optin = '';	
 		}
 		$checked = ! isset( $submitted_data['auto_optin'] ) ? $saved_auto_optin : $submitted_data['auto_optin'];
 
@@ -135,8 +135,8 @@ class Hustle_E_Newsletter_Form_Settings extends Hustle_Provider_Form_Settings_Ab
 				$lists[ $list['group_id'] ]['label'] = $list['group_name'];
 			}
 		}
-
-		return array(
+		
+		return array(  
 			"subscription_setup" => array(
 				"id"    => "",
 				"class" => "wpmudev-switch-labeled",
@@ -227,7 +227,7 @@ class Hustle_E_Newsletter_Form_Settings extends Hustle_Provider_Form_Settings_Ab
 	}
 
 	/**
-	 * Returns HTML string with the saved settings
+	 * Returns HTML string with the saved settings 
 	 * Note that only the settings already stored on the DB are the ones that will show up
 	 *
 	 * @since 3.0.5
@@ -238,7 +238,7 @@ class Hustle_E_Newsletter_Form_Settings extends Hustle_Provider_Form_Settings_Ab
 	private function get_current_settings( $module_id ) {
 		//TODO: retrieve saved settings.
 		$html = '';
-
+		
 		return $html;
 	}
 

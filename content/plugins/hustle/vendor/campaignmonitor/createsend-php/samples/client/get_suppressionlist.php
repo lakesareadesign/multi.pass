@@ -6,7 +6,7 @@ $auth = array(
     'access_token' => 'your access token',
     'refresh_token' => 'your refresh token');
 $wrap = new CS_REST_Clients(
-    'ClientID to get the suppression list of',
+    'ClientID to get the suppression list of', 
     $auth);
 
 $result = $wrap->get_suppressionlist(1, 50, 'email', 'asc');

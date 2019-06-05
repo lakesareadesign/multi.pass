@@ -51,7 +51,34 @@ class MetaSlider_Themes {
 		if (!file_exists(METASLIDER_THEMES_PATH . 'manifest.php')) {
 			return new WP_Error('manifest_not_found', __('No themes found.', 'ml-slider'), array('status' => 404));
 		}
-		return (include METASLIDER_THEMES_PATH . 'manifest.php');
+		$themes = (include METASLIDER_THEMES_PATH . 'manifest.php');
+
+		// Let theme developers or others define a folder to check for themes
+		$extra_themes = apply_filters('metaslider_extra_themes', array());
+		foreach ($extra_themes as $location) {
+
+			// Make sure there is a manifest
+			if (file_exists(trailingslashit($location) . 'manifest.php')) {
+				$manifest = include (trailingslashit($location) . 'manifest.php');
+
+				// Make sure each theme has an existing folder, title, description
+				foreach ($manifest as $data) {
+					if (file_exists(trailingslashit($location) . $data['folder'])
+						&& isset($data['title']) 
+						&& isset($data['description'])
+						&& isset($data['screenshot_dir'])) {
+
+						// Identify this as an external theme
+						$data['type'] = 'external';
+
+						// Add theirs to the top
+						array_unshift($themes, $data);
+					}
+				}
+			}
+		}
+
+		return $themes;
 	}
 
 	/**
@@ -183,16 +210,26 @@ class MetaSlider_Themes {
 		}
 
         // At this point, if it's a custom theme we are okay
-        if ($is_a_custom_theme) return $theme;
+		if ($is_a_custom_theme) return $theme;
 
-        // If the folder physically doesn't exist then we need to send an error
-        if (!file_exists(METASLIDER_THEMES_PATH . trailingslashit($theme['folder']) . $theme['version'])) {
-
-			// TODO in the future if we add versioning this could switch to an older version and message them about it.
-            return new WP_Error('theme_not_found', __('Your selected theme is no longer available. Was the folder deleted?', 'ml-slider'));
+		// If the theme exists via outside source
+		$extra_themes = apply_filters('metaslider_extra_themes', array());
+		foreach ($extra_themes as $location) {
+			if (file_exists(trailingslashit($location) . trailingslashit($theme['folder']) . trailingslashit($theme['version']) . 'theme.php')) {
+				return $theme;
+			}
 		}
-		
-		return $theme;
+
+        // If the folder is in in our theme selection
+        if (file_exists(METASLIDER_THEMES_PATH . trailingslashit($theme['folder']) . $theme['version'])) {
+			return $theme;
+		}
+
+		// Remove the broken/not found theme
+		$this->set($slideshow_id, array());
+
+		// The theme wasnt found anywhere
+		return new WP_Error('theme_not_found', __('We removed your selected theme as it could not be found. Was the folder deleted?', 'ml-slider'));
 	}
 
 	/**
@@ -268,17 +305,31 @@ class MetaSlider_Themes {
 
 		// We have a theme, so lets add the class to the body
 		$this->theme_id = $theme['folder'];
+
+		// Add the theme class name to the slideshow
 		add_filter('metaslider_css_classes', array($this, 'add_theme_class'), 10, 3);
-		
-		// Custom themes don't need any special file loading.
-		if (!file_exists(METASLIDER_THEMES_PATH . trailingslashit($theme['folder']))) {
-			return $theme;
+
+		// Check our themes for a match
+		if (file_exists(METASLIDER_THEMES_PATH . $theme['folder'])) {
+			$theme_dir = METASLIDER_THEMES_PATH . $theme['folder'];
+		}
+
+		// Let theme developers or others define a folder to check for themes
+		$extra_themes = apply_filters('metaslider_extra_themes', array(), $slideshow_id);
+		foreach ($extra_themes as $location) {
+			if (file_exists(trailingslashit($location) . $theme['folder'])) {
+				$theme_dir = trailingslashit($location) . $theme['folder'];
+			}
 		}
 
 		// Load in the base theme class
-		require_once(METASLIDER_THEMES_PATH . 'ms-theme-base.php');
+		if (isset($theme_dir) && isset($theme['version'])) {
+			require_once(METASLIDER_THEMES_PATH . 'ms-theme-base.php');
+			return include_once trailingslashit($theme_dir) . trailingslashit($theme['version']) . 'theme.php';
+		}
 		
-		return include_once METASLIDER_THEMES_PATH . trailingslashit($theme['folder']) . trailingslashit($theme['version']) . 'theme.php';
+		// This should be a custom theme (pro)
+		return $theme;
 	}
 
 	/**

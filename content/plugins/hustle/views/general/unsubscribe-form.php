@@ -27,7 +27,7 @@
 
 	<div class="hustle-email-lists">
 
-	<?php foreach( $modules_id as $id ) : ?>
+	<?php foreach( $modules_id as $id ) : ?>	
 		<label for="hustle-list-<?php echo esc_attr( $id ); ?>">
 			<input type="checkbox" name="lists_id[]" value="<?php echo esc_attr( $id ); ?>" id="hustle-list-<?php echo esc_attr( $id ); ?>">
 			<span><?php echo esc_html( $module->get( $id )->content->local_list_name ); ?></span>

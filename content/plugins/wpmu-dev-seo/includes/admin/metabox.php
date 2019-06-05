@@ -47,9 +47,9 @@ class Smartcrawl_Metabox extends Smartcrawl_Base_Controller {
 		 */
 
 		/*
-		 * When running analysis in metabox, or rendering metabox preview,
+		 * When running analysis in metabox, or rendering metabox preview, 
 		 * always use overriding values passed in the request before values saved in the DB.
-		 *
+		 * 
 		 * This is done by filtering the metadata.
 		 */
 		add_filter( 'get_post_metadata', array( $this, 'filter_meta_title' ), 10, 3 );

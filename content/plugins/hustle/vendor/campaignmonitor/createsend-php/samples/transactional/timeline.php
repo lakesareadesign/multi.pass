@@ -77,3 +77,4 @@ var_dump($result->response);
 echo "\nResending message...\n";
 $result = $wrap->resend($last_message_id);
 var_dump($result->response);
+

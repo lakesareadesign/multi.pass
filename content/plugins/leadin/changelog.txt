@@ -1,3 +1,17 @@
+= 7.5.1 (2019.05.29) =
+- Fix version flags
+- Add unit tests
+- Add languages
+
+= 7.5.0 (2019.05.22) =
+- Add banner to inform users if the version is outdated
+- Add notification that informs user if something is not working on our
+servers
+- Reload window when connection happens on a different tab
+- Reduce loading time for non authenticated users
+- Improve performances when navigating between pages
+- Add tests
+
 = 7.4.1 (2019.05.07) =
 - Implement faster navigation
 - Fix signup url

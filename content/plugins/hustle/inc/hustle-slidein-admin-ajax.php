@@ -306,7 +306,11 @@ class Hustle_Slidein_Admin_Ajax {
 				if ( isset( $row->l_name ) && 'last_name' === $key )
 					$key = 'l_name';
 
-				$subscriber_data[ $key ] = isset( $row->$key ) ? $row->$key : '';
+				if ( isset( $row->$key ) ) {
+					$subscriber_data[ $key ] = Opt_In_Utils::escape_csv_data( $row->$key );
+				} else {
+					$subscriber_data[ $key ] = '';
+				}
 			}
 			$csv .= implode( ', ', $subscriber_data ) . "\n";
 		}
@@ -494,7 +498,7 @@ class Hustle_Slidein_Admin_Ajax {
 		if( $module->module_type !== $type && in_array( $type, array( 'slidein' ), true ) ) {
 			wp_send_json_error( __( 'Invalid environment: %s', Opt_In::TEXT_DOMAIN ), $type );
 		}
-
+		
 		// Prevent having more than 3 modules when it's free version.
 		$total = count(Hustle_Module_Collection::instance()->get_all( null, array( 'module_type' => 'slidein' ) ));
 		if ( Opt_In_Utils::_is_free() && $total >= 3 ) {

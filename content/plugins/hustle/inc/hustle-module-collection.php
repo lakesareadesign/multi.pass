@@ -219,6 +219,12 @@ class Hustle_Module_Collection extends Hustle_Collection {
 
 	public function get_hustle_20_optins() {
 		$optins = self::$_db->get_results( "SELECT * FROM `". self::$_db->base_prefix ."optins`" );
+
+		$huge_data = true;//filter_input( INPUT_GET, 'huge_data', FILTER_VALIDATE_BOOLEAN );
+		if ( $huge_data ) {
+			update_option( 'hustle_huge_data', '1' );
+		}
+
 		foreach( $optins as $optin ) {
 
 			// common properties for modules
@@ -237,38 +243,59 @@ class Hustle_Module_Collection extends Hustle_Collection {
 			$optin->test_types = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'test_types' ) );
 			$optin->test_types = ( isset( $optin->test_types[0] ) ) ? $optin->test_types[0] : '';
 
-			$optin->widget_views = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'widget_view' ) );
+			if ( $huge_data ) {
+				$optin->widget_views = array();
+				$optin->widget_conversions = array();
+				$optin->shortcode_views = array();
+				$optin->shortcode_conversions = array();
+			} else {
+				$optin->widget_views = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'widget_view' ) );
 
-			$optin->widget_conversions = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'widget_conversion' ) );
+				$optin->widget_conversions = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'widget_conversion' ) );
 
-			$optin->shortcode_views = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'shortcode_view' ) );
+				$optin->shortcode_views = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'shortcode_view' ) );
 
-			$optin->shortcode_conversions = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'shortcode_conversion' ) );
+				$optin->shortcode_conversions = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'shortcode_conversion' ) );
+			}
 
 			if ( 'social_sharing' !== $optin->optin_provider ) {
 
 				$optin->design = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'design' ) );
 				$optin->design = ( isset( $optin->design[0] ) ) ? $optin->design[0] : '';
 
-				// only for optin and custom content
-				$optin->popup_views = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'popup_view' ) );
+				if ( $huge_data ) {
+					$optin->popup_views = array();
+					$optin->popup_conversions = array();
+					$optin->slidein_views = array();
+					$optin->slidein_conversions = array();
+					$optin->after_content_views = array();
+					$optin->after_content_conversions = array();
+				} else {
+					// only for optin and custom content
+					$optin->popup_views = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'popup_view' ) );
 
-				$optin->popup_conversions = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'popup_conversion' ) );
+					$optin->popup_conversions = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'popup_conversion' ) );
 
-				$optin->slidein_views = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'slide_in_view' ) );
+					$optin->slidein_views = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'slide_in_view' ) );
 
-				$optin->slidein_conversions = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'slide_in_conversion' ) );
+					$optin->slidein_conversions = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'slide_in_conversion' ) );
 
-				$optin->after_content_views = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'after_content_view' ) );
+					$optin->after_content_views = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'after_content_view' ) );
 
-				$optin->after_content_conversions = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'after_content_conversion' ) );
+					$optin->after_content_conversions = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'after_content_conversion' ) );
+				}
 
 			} else {
-				// only for social sharing
-				$optin->floating_social_views = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'floating_social_view' ) );
+				if ( $huge_data ) {
+					$optin->floating_social_views = array();
+					$optin->floating_social_conversions = array();
+				} else {
+					// only for social sharing
+					$optin->floating_social_views = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'floating_social_view' ) );
 
-				$optin->floating_social_conversions = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'floating_social_conversion' ) );
+					$optin->floating_social_conversions = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'floating_social_conversion' ) );
 
+				}
 			}
 
 			// specific for each module

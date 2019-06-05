@@ -22,11 +22,11 @@ abstract class CS_REST_TestEvents extends CS_REST_TestBase {
     var $events_base_route;
 
     function set_up_inner() {
-        $this->events_base_route =  $this->base_route.'events/'.$this->client_id.'/';
+        $this->events_base_route =  $this->base_route.'events/'.$this->client_id.'/'; 
         $this->wrapper = new CS_REST_Events($this->auth, $this->client_id, $this->protocol, $this->log_level,
         $this->api_host, $this->mock_log, $this->mock_serialiser, $this->mock_transport);
     }
-
+   
     function testtrack() {
         $client_id = 'fakeclientid';
         $raw_result = 'the new event id';
@@ -48,14 +48,14 @@ abstract class CS_REST_TestEvents extends CS_REST_TestBase {
         );
 
         $transport_result = array (
-            'code' => $response_code,
+            'code' => $response_code, 
             'response' => $raw_result
         );
-
+        
         $expected_result = new CS_REST_Wrapper_Result($raw_result, $response_code);
 
         $call_options['data'] = 'event info was serialised to this';
-
+        
         $this->setup_transport_and_serialisation($transport_result, $call_options,
             $raw_result, $raw_result, 'event info was serialised to this', $event_info, $response_code);
 

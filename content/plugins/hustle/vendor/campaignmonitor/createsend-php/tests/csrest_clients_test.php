@@ -67,7 +67,7 @@ abstract class CS_REST_TestClients extends CS_REST_TestBase {
         $call_options = $this->get_call_options($this->client_base_route .
           'listsforemail.json?email='.urlencode($email), 'GET');
         $transport_result = array (
-            'code' => $response_code,
+            'code' => $response_code, 
             'response' => $raw_result
         );
         $expected_result = new CS_REST_Wrapper_Result($deserialised, $response_code);
@@ -108,14 +108,14 @@ abstract class CS_REST_TestClients extends CS_REST_TestBase {
           'EmailAddresses' => $emails
       );
       $transport_result = array (
-          'code' => $response_code,
+          'code' => $response_code, 
           'response' => $raw_result
       );
 
       $expected_result = new CS_REST_Wrapper_Result($raw_result, $response_code);
       $call_options['data'] = 'suppression data was serialised to this';
       $this->setup_transport_and_serialisation($transport_result, $call_options,
-          $raw_result, $raw_result, 'suppression data was serialised to this',
+          $raw_result, $raw_result, 'suppression data was serialised to this', 
           $suppression_info);
 
       $result = $this->wrapper->suppress($emails);
@@ -166,7 +166,7 @@ abstract class CS_REST_TestClients extends CS_REST_TestBase {
 
         $call_options = $this->get_call_options(
             trim($this->client_base_route, '/').'.json', 'DELETE');
-
+        	
         $this->general_test('delete', $call_options, $raw_result, $raw_result);
     }
 
@@ -187,7 +187,7 @@ abstract class CS_REST_TestClients extends CS_REST_TestBase {
         $raw_result = '';
 
         $call_options = $this->get_call_options($this->client_base_route.'setbasics.json', 'PUT');
-
+         
         $client_data = array (
             'CompanyName' => 'ABC Widgets',
             'ContactName' => 'Widget Man!',
@@ -202,7 +202,7 @@ abstract class CS_REST_TestClients extends CS_REST_TestBase {
         $raw_result = '';
 
         $call_options = $this->get_call_options($this->client_base_route.'setpaygbilling.json', 'PUT');
-
+         
         $client_data = array (
             'Current' => 'PZD',
             'ClientPays' => true,
@@ -217,7 +217,7 @@ abstract class CS_REST_TestClients extends CS_REST_TestBase {
         $raw_result = '';
 
         $call_options = $this->get_call_options($this->client_base_route.'setmonthlybilling.json', 'PUT');
-
+         
         $client_data = array (
             'Current' => 'PZD',
             'ClientPays' => true,
@@ -246,30 +246,30 @@ abstract class CS_REST_TestClients extends CS_REST_TestBase {
     	$raw_result = 'primary contact result';
     	$deserialized = array('EmailAddress' => 'test@foo.bar');
     	$call_options = $this->get_call_options($this->client_base_route.'primarycontact.json', 'GET');
-
+    
     	$this->general_test('get_primary_contact', $call_options,
     			$raw_result, $deserialized);
     }
-
+    
     function testset_primary_contact() {
     	$raw_result = '';
     	$response_code = 200;
     	$email = 'test@foo.bar';
-    	$call_options = $this->get_call_options($this->client_base_route.'primarycontact.json?email=' . urlencode($email), 'PUT');
+    	$call_options = $this->get_call_options($this->client_base_route.'primarycontact.json?email=' . urlencode($email), 'PUT'); 	
     	$call_options['data'] = '';
-
+    	
     	$transport_result = array (
     			'code' => $response_code,
     			'response' => $raw_result
     	);
-
+    	
     	$expected_result = new CS_REST_Wrapper_Result($raw_result, $response_code);
-
+    	
     	$this->setup_transport_and_serialisation($transport_result, $call_options,
     			$raw_result, $raw_result, '', '', $response_code);
-
+    	
     	$result = $this->wrapper->set_primary_contact($email);
-
-    	$this->assertIdentical($expected_result, $result);
+    	
+    	$this->assertIdentical($expected_result, $result);       
     }
 }

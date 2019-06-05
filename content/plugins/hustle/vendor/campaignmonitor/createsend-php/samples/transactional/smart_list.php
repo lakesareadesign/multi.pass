@@ -17,3 +17,4 @@ $total  = $wrap->get_list(array("status" => 'all'))->response;
 $active = $wrap->get_list(array("status" => 'active'))->response;
 $draft  = $wrap->get_list(array("status" => 'draft'))->response;
 echo "Found " . count($active) .  " active and " . count($draft) . " draft smart emails, for a total of " . count($total) . " smart emails.\n";
+

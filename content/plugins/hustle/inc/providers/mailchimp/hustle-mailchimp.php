@@ -11,9 +11,9 @@ if( !class_exists("Hustle_Mailchimp") ):
 
 		const GROUP_TRANSIENT = "hustle-mailchimp-group-transient";
 		const LIST_PAGES = "hustle-mailchimp-list-pages";
-
+		
 		const SLUG = "mailchimp";
-
+		
 		/**
 		 * @var $api Mailchimp
 		 */
@@ -28,7 +28,7 @@ if( !class_exists("Hustle_Mailchimp") ):
 		 * @var self|null
 		 */
 		protected static $_instance = null;
-
+	
 		/**
 		 * @since 3.0.5
 		 * @var string
@@ -64,7 +64,7 @@ if( !class_exists("Hustle_Mailchimp") ):
 		 * @var bool
 		 */
 		protected $_supports_fields 	   = true;
-
+		
 		/**
 		 * Class name of form settings
 		 *
@@ -75,13 +75,13 @@ if( !class_exists("Hustle_Mailchimp") ):
 
 		/**
 		 * Provider constructor.
-		 */
+		 */	
 		public function __construct() {
 			$this->_icon = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 			$this->_icon_x2 = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 			$this->_front_args = plugin_dir_path( __FILE__ ) . 'views/front_args_template.php';
 		}
-
+	
 		/**
 		 * Get Instance
 		 *
@@ -91,7 +91,7 @@ if( !class_exists("Hustle_Mailchimp") ):
 			if ( is_null( self::$_instance ) ) {
 				self::$_instance = new self();
 			}
-
+	
 			return self::$_instance;
 		}
 
@@ -171,7 +171,7 @@ if( !class_exists("Hustle_Mailchimp") ):
 				$merge_vals = array_merge( $merge_vals, $merge_data );
 			}
 			$merge_vals = array_change_key_case($merge_vals, CASE_UPPER);
-
+			
 			/**
 			 * Add args for interest groups
 			 */
@@ -181,7 +181,7 @@ if( !class_exists("Hustle_Mailchimp") ):
 					$interests[$interest] = true;
 				}
 			}
-
+			
 			try {
 				$subscribe_data = array(
 					'email_address' => $email,
@@ -274,7 +274,7 @@ if( !class_exists("Hustle_Mailchimp") ):
 				return false;
 			}
 		}
-
+		
 		/**
 		 * Get provider's args. Used in frontend.
 		 *
@@ -284,18 +284,18 @@ if( !class_exists("Hustle_Mailchimp") ):
 		public function get_args( $data ) {
 			if ( $data && isset( $data['email_services'] ) ) {
 				$email_services = $data['email_services'];
-				$list_id = ( isset( $email_services['mailchimp']['list_id'] ) )
+				$list_id = ( isset( $email_services['mailchimp']['list_id'] ) ) 
 					? $email_services['mailchimp']['list_id']
 					: '';
 				$group_id = ( isset( $email_services['mailchimp']['group'] ) )
 					? $email_services['mailchimp']['group']
 					: '';
 				$groups = $this->get_provider_form_settings()->_get_group_interests( $list_id, $group_id );
-
+				
 				if ( isset( $email_services['mailchimp']['group_interest'] ) ) {
 					$groups['selected'] = $email_services['mailchimp']['group_interest'];
 				}
-
+				
 				return $groups;
 			}
 		}
@@ -303,11 +303,11 @@ if( !class_exists("Hustle_Mailchimp") ):
 		public static function _get_api_key( Hustle_Module_Model $module ) {
 			return self::get_provider_details( $module, 'api_key', self::SLUG );
 		}
-
+		
 		public static function _get_list_id( Hustle_Module_Model $module ) {
 			return self::get_provider_details( $module, 'list_id', self::SLUG );
 		}
-
+		
 		public static function _get_auto_optin( Hustle_Module_Model $module ) {
 			$auto_optin = 'pending';
 			$saved_auto_optin = self::get_provider_details( $module, 'auto_optin', self::SLUG );
@@ -316,7 +316,7 @@ if( !class_exists("Hustle_Mailchimp") ):
 			}
 			return $auto_optin;
 		}
-
+		
 		public static function get_allow_subscribed_users( Hustle_Module_Model $module ) {
 			$allow_subscribed = 'not-allow';
 			$saved_allow_subscribed = self::get_provider_details( $module, 'allow_subscribed_users', self::SLUG );
@@ -336,7 +336,7 @@ if( !class_exists("Hustle_Mailchimp") ):
 				// use text as well for name, address and phone
 				// returns either the new MailChimp "merge_field" object or WP error (if already existing)
 				$api = self::api( $api_key );
-
+				
 				foreach ( $fields as $field ) {
 					$api->add_custom_field( $list_id, array(
 						'tag'   => strtoupper( $field['name'] ),
@@ -344,7 +344,7 @@ if( !class_exists("Hustle_Mailchimp") ):
 						'type'  => ( 'email' === $field['type'] || 'name' === $field['type'] || 'address' === $field['type'] || 'phone' === $field['type'] ) ? 'text' : $field['type']
 					) );
 				}
-
+				
 				// double check if already on our system
 				/*$current_module_fields = $module->get_design()->__get( 'module_fields' );
 				foreach( $current_module_fields as $m_field ) {
@@ -352,7 +352,7 @@ if( !class_exists("Hustle_Mailchimp") ):
 						return array( 'error' => true, 'code' => 'custom', 'message' => __( 'Field already exists.', Opt_In::TEXT_DOMAIN ) );
 					}
 				}*/
-
+				
 			}catch (Exception $e){
 				return array(
 					'error' => true,

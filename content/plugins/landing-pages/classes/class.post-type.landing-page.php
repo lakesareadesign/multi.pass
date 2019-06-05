@@ -517,7 +517,7 @@ class Landing_Pages_Post_Type {
     /**
      * Convert the category id to the taxonomy id during a query
      */
-    public static function sort_by_category_prepare_query() {
+    public static function sort_by_category_prepare_query( $query ) {
         global $pagenow;
         $qv = &$query->query_vars;
         if ($pagenow == 'edit.php' && isset($qv['landing_page_category']) && is_numeric($qv['landing_page_category'])) {
@@ -530,6 +530,11 @@ class Landing_Pages_Post_Type {
      * Add styling handlers to custom post states
      */
     public static function filter_custom_post_states($post_states) {
+
+        if (!$post_states) {
+            return array();
+        }
+
         foreach ($post_states as &$state) {
             $state = '<span class="' . strtolower($state) . ' states">' . str_replace(' ', '-', $state) . '</span>';
         }

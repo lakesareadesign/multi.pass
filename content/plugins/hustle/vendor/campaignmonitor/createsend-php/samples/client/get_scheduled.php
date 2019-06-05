@@ -6,7 +6,7 @@ $auth = array(
     'access_token' => 'your access token',
     'refresh_token' => 'your refresh token');
 $wrap = new CS_REST_Clients(
-    'ClientID to get scheduled campaigns for',
+    'ClientID to get scheduled campaigns for', 
     $auth);
 
 $result = $wrap->get_scheduled();

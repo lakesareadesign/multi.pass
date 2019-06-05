@@ -189,7 +189,7 @@ class Hustle_SShare_Admin_Ajax {
 		if( $sshare->module_type !== $type && in_array( $type, array( 'social_sharing' ), true ) ) {
 			wp_send_json_error( __( 'Invalid environment: %s', Opt_In::TEXT_DOMAIN ), $type );
 		}
-
+		
 		// Prevent having more than 3 modules when it's free version.
 		$total_sshares = count(Hustle_Module_Collection::instance()->get_all( null, array( 'module_type' => 'social_sharing' ) ));
 		if ( Opt_In_Utils::_is_free() && $total_sshares >= 3 ) {

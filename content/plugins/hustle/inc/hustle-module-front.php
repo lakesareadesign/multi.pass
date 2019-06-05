@@ -456,7 +456,7 @@ class Hustle_Module_Front {
 		 * Maybe add trigger link (For popups and slideins).
 		 */
 		if( !empty( $content ) && ( "popup" === $type || "slidein" === $type ) )
-			return sprintf("<a href='#' class='%s' data-id='%s' data-type='%s'>%s</a>", self::SHORTCODE_TRIGGER_CSS_CLASS . " hustle_module_" . esc_attr( $module->id ) . " " . esc_attr( $custom_classes ), esc_attr( $module->id ), esc_attr( $type ), esc_html( $content ) );
+			return sprintf("<a href='#' class='%s' data-id='%s' data-type='%s'>%s</a>", self::SHORTCODE_TRIGGER_CSS_CLASS . " hustle_module_" . esc_attr( $module->id ) . " " . esc_attr( $custom_classes ), esc_attr( $module->id ), esc_attr( $type ), $content );
 
 		//unique id for the same optins on one page
 		$unique_id = wp_rand();

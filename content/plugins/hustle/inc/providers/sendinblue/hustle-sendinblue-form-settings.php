@@ -25,18 +25,18 @@ class Hustle_SendinBlue_Form_Settings extends Hustle_Provider_Form_Settings_Abst
 			),
 		);
 	}
-
+		
 	/**
 	 * Check if step is completed
 	 *
-	 * @since 3.0.5
+	 * @since 3.0.5 
 	 * @return bool
 	 */
 	public function first_step_is_completed( $submitted_data ) {
 		// Do validation here
 		return true;
 	}
-
+	
 	/**
 	 * Returns all settings and conditions for 1st step of Provider settings
 	 *
@@ -52,7 +52,7 @@ class Hustle_SendinBlue_Form_Settings extends Hustle_Provider_Form_Settings_Abst
 		if( ! $this->provider->is_activable() ) {
 			wp_send_json_error( 'SendinBlue requires a higher version of PHP or Hustle, or the extension is not configured correctly.' );
 		}
-
+		
 		$options = $this->first_step_options( $submitted_data );
 
 		$html = '';
@@ -69,16 +69,16 @@ class Hustle_SendinBlue_Form_Settings extends Hustle_Provider_Form_Settings_Abst
 			$has_errors = true;
 		}
 		$step_html .= $this->get_current_list_name_markup();
-
+		
 		$buttons = array(
 			'cancel' => array(
 				'markup' => $this->get_cancel_button_markup(),
-			),
+			), 
 			'save' => array(
 				'markup' => $this->get_next_button_markup(),
-			),
+			), 
 		);
-
+		
 		$response = array(
 			'html'       => $step_html,
 			'buttons'    => $buttons,
@@ -90,7 +90,7 @@ class Hustle_SendinBlue_Form_Settings extends Hustle_Provider_Form_Settings_Abst
 		}
 		return $response;
 	}
-
+	
 	/**
 	 * Returns array with options to be converted into HTML by Opt_In->render()
 	 *
@@ -100,7 +100,7 @@ class Hustle_SendinBlue_Form_Settings extends Hustle_Provider_Form_Settings_Abst
 	 * @return array
 	 */
 	private function first_step_options( $submitted_data ) {
-
+		
 		if ( isset( $submitted_data['api_key'] ) ) {
 			$api_key =  $submitted_data['api_key'];
 		} elseif ( isset( $submitted_data['module_id'] ) ) {
@@ -163,7 +163,7 @@ class Hustle_SendinBlue_Form_Settings extends Hustle_Provider_Form_Settings_Abst
 	 */
 	public function ajax_refresh_lists() {
 		Hustle_Api_Utils::validate_ajax_call( 'hustle_sendinblue_refresh_lists' );
-
+		
 		$submitted_data = Hustle_Api_Utils::validate_and_sanitize_fields( $_REQUEST );
 		$response = array(
 			'html' => $this->refresh_lists_html( $submitted_data ),
@@ -183,7 +183,7 @@ class Hustle_SendinBlue_Form_Settings extends Hustle_Provider_Form_Settings_Abst
 	private function refresh_lists_html( $submitted_data ){
 		$api_key = $submitted_data['api_key'];
 		$_lists = array();
-
+		
 		// Check if API key is valid
 		$api = Hustle_SendinBlue::api( $api_key );
 		if ( $api ) {
@@ -201,7 +201,7 @@ class Hustle_SendinBlue_Form_Settings extends Hustle_Provider_Form_Settings_Abst
 					"page_limit" => 50
 				));
 
-				$offset = $offset++;
+				$offset = $offset++; 
 			} else {
 				$_lists = $api->get_lists( array(
 					"page" => 1,
@@ -214,7 +214,7 @@ class Hustle_SendinBlue_Form_Settings extends Hustle_Provider_Form_Settings_Abst
 
 		if( ! is_wp_error( $_lists ) && ! empty( $_lists ) && isset( $_lists['code'] ) && ( 'success' === $_lists['code'] ) && isset( $_lists['data'] ) ) {
 			$options = $this->refresh_lists_options( $_lists, $offset );
-
+	
 			if ( !is_wp_error( $options ) ) {
 				$html = '';
 				if ( !empty( $options ) ) {
@@ -223,19 +223,19 @@ class Hustle_SendinBlue_Form_Settings extends Hustle_Provider_Form_Settings_Abst
 					}
 				}
 				return $html;
-
+				
 			} else {
 				Hustle_Api_Utils::maybe_log( implode( "; ", $options->get_error_messages() ) );
-
+				
 				return '<label class="wpmudev-label--notice"><span>' . __( 'There was an error retrieving the options.' , Opt_In::TEXT_DOMAIN ) . '</span></label>';
 			}
-
+			
 		} else {
 			if( is_wp_error( ( array ) $_lists ) )
 				Hustle_Api_Utils::maybe_log( implode( "; ", $_lists->get_error_messages() ) );
 
 			return '<label class="wpmudev-label--notice"><span>' . __( 'No audience list defined for this account. Please double check your settings are okay.' , Opt_In::TEXT_DOMAIN ) . '</span></label>';
-
+	
 		}
 	}
 
@@ -250,7 +250,7 @@ class Hustle_SendinBlue_Form_Settings extends Hustle_Provider_Form_Settings_Abst
 		$lists  = array();
 		$first  = '';
 		$total_lists = 0;
-
+		
 		$total = $lists_api['data']['total_list_records'];
 
 		if ( $total > 0 && isset( $lists_api['data']['lists'] ) ) {
@@ -272,7 +272,7 @@ class Hustle_SendinBlue_Form_Settings extends Hustle_Provider_Form_Settings_Abst
 		set_site_transient( Hustle_SendinBlue::LIST_PAGES , $offset ); //set page offset
 
 		$total_lists = count( $lists );
-
+		
 
 		$first = $total_lists > 0 ? reset( $lists ) : "";
 		if( !empty( $first ) )

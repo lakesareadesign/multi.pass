@@ -10,16 +10,16 @@ include_once 'hustle-convertkit-api.php';
  * @version 2.0.3
  **/
 class Hustle_ConvertKit extends Hustle_Provider_Abstract {
-
+	
 	const SLUG = "convertkit";
 	//const NAME = "ConvertKit";
-
+	
 	/**
 	* @var $api ConvertKit
 	*/
 	protected  static $api;
 	protected  static $errors;
-
+		
 	/**
 	 * Provider Instance
 	 *
@@ -68,12 +68,12 @@ class Hustle_ConvertKit extends Hustle_Provider_Abstract {
 
 	/**
 	 * Provider constructor.
-	 */
+	 */	
 	public function __construct() {
 		$this->_icon = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 		$this->_icon_x2 = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 	}
-
+	
 	/**
 	 * Get Instance
 	 *
@@ -104,7 +104,7 @@ class Hustle_ConvertKit extends Hustle_Provider_Abstract {
 		}
 		return self::$api;
 	}
-
+	
 	/**
 	* Adds subscribers to the form
 	*
@@ -174,7 +174,7 @@ class Hustle_ConvertKit extends Hustle_Provider_Abstract {
 		// subscription
 		$name = '';
 		if ( isset( $data['first_name'] ) ) {
-			$name = $data['first_name'];
+			$name = $data['first_name'];	
 		} else if ( isset( $data['f_name'] ) ) {
 			$name = $data['f_name'];
 		}
@@ -219,7 +219,7 @@ class Hustle_ConvertKit extends Hustle_Provider_Abstract {
 	public function maybe_create_custom_fields( Hustle_Module_Model $module, array $fields ) {
 		$api_secret = self::_get_api_secret( $module );
 		$api_key 	= self::_get_api_key( $module );
-
+		
 		// check if already existing
 		$custom_fields = self::api( $api_key, $api_secret )->get_form_custom_fields();
 		$proceed = true;
@@ -274,7 +274,7 @@ class Hustle_ConvertKit extends Hustle_Provider_Abstract {
 
 		foreach ( $fields as $field ) {
 			$exist = false;
-
+			
 			if ( ! empty( $custom_fields ) ) {
 				foreach ( $custom_fields as $custom_field ) {
 					if ( $field['name'] === $custom_field->key ) {

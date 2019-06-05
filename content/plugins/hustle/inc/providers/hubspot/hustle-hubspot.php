@@ -54,7 +54,7 @@ class Hustle_HubSpot extends Hustle_Provider_Abstract {
 
 	/**
 	 * Provider constructor.
-	 */
+	 */	
 	public function __construct() {
 		$this->_icon = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 		$this->_icon_x2 = plugin_dir_url( __FILE__ ) . 'images/logo.png';
@@ -62,7 +62,7 @@ class Hustle_HubSpot extends Hustle_Provider_Abstract {
 		// Instantiate API when instantiating because it's used after getting the authorization
 		$hustle_hubpost = new Hustle_HubSpot_Api();
 	}
-
+	
 	/**
 	 * Get Instance
 	 *
@@ -174,7 +174,7 @@ class Hustle_HubSpot extends Hustle_Provider_Abstract {
 						}
 					}
 				}
-
+					
 			}
 
 			if ( ! empty( $new_fields ) ) {
@@ -191,7 +191,7 @@ class Hustle_HubSpot extends Hustle_Provider_Abstract {
 					if ( $api->add_property( $property ) )
 						$exist = true;
 				}
-
+				
 			}
 		}
 

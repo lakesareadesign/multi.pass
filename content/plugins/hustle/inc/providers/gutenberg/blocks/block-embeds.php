@@ -56,7 +56,7 @@ class Hustle_GHBlock_Embeds extends Hustle_GHBlock_Abstract {
 			array( 'wp-blocks', 'wp-i18n', 'wp-element' ),
 			filemtime( Hustle_Gutenberg::get_plugin_dir() . '/js/embeds-block.min.js' )
 		);
-
+		
 		// Localize scripts
 		wp_localize_script(
 			'hustle-block-embeds',
@@ -71,8 +71,8 @@ class Hustle_GHBlock_Embeds extends Hustle_GHBlock_Abstract {
 		);
 		wp_enqueue_style( 'hustle_front', Opt_In::$plugin_url  . 'assets/css/front.min.css', array( 'dashicons' ), Opt_In::VERSION );
 		wp_enqueue_style( 'hustle_front_ie', Opt_In::$plugin_url  . 'assets/css/ie-front.min.css', array( 'dashicons' ), Opt_In::VERSION );
-
-
+		
+		
 	}
 
 	public function get_modules() {
@@ -89,7 +89,7 @@ class Hustle_GHBlock_Embeds extends Hustle_GHBlock_Abstract {
 		if ( is_array( $modules ) ) {
 
 			foreach ( $modules as $module ) {
-
+				
 				$settings = $module->get_display_settings()->to_array();
 				if ( 'false' === $settings['shortcode_enabled'] ) {
 					continue;

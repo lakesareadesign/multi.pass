@@ -231,3 +231,4 @@ class Smartcrawl_Social_Settings extends Smartcrawl_Settings_Admin {
 	}
 
 }
+

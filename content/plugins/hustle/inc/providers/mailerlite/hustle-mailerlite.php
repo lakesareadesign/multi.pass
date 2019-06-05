@@ -127,7 +127,6 @@ class Hustle_MailerLite extends Hustle_Provider_Abstract {
 
 		$subscriber_data = array(
 			'email' => $email,
-			'type'  => 'active'
 		);
 		if ( ! empty( $merge_vals ) ) {
 			$subscriber_data['fields'] = $merge_vals;

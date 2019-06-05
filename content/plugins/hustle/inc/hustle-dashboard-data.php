@@ -54,6 +54,10 @@ class Hustle_Dashboard_Data {
 	}
 
 	private function _prepare_data() {
+		
+		$is_hide = ( defined( 'HUSTLE_HIDE_TRACKING_DATA' ) && HUSTLE_HIDE_TRACKING_DATA );
+		$hide_tracking = apply_filters( 'hustle_hide_dashboard_tracking_data', $is_hide );
+		
 		$module_instance = Hustle_Module_Collection::instance();
 
 		$this->popups = $module_instance->get_all( null, array( 'module_type' => 'popup' ) );
@@ -64,6 +68,10 @@ class Hustle_Dashboard_Data {
 		$this->active_modules = $module_instance->get_all(true, array(
 			'except_types' => array( 'social_sharing' )
 		));
+
+		if ( $hide_tracking ) {
+			return;
+		}
 
 		if ( is_array( $this->social_sharings ) && count( $this->social_sharings ) ) {
 			$this->ss_share_stats_data = $module_instance->get_share_stats(0, 5);
@@ -133,13 +141,13 @@ class Hustle_Dashboard_Data {
 			}
 		}
 
-		// Update color index
-		update_option( self::CURRENT_COLOR_INDEX, $this->color );
-
 		// parse data for graph
 		if ( !empty( $this->graph_dates ) ) {
 			$this->_parse_conversions_for_graph($this->top_active_modules);
 		}
+
+		// Update color index
+		update_option( self::CURRENT_COLOR_INDEX, $this->color );
 	}
 
 	private function _parse_total_conversion( $conversions ) {

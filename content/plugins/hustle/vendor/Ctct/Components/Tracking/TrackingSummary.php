@@ -40,7 +40,7 @@ class TrackingSummary extends Component
         if(is_null($tracking_summary->spam_count)) {
             unset($tracking_summary->spam_count);
         }
-
+        
         return $tracking_summary;
     }
 }

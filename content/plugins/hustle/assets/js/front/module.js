@@ -504,7 +504,7 @@
 
 			if (this.$el.hasClass('wph-modal-active') && $modal.hasClass('hustle-animated')) {
 				setTimeout( function() {
-					if (animation_in === 'no_animation') {
+					if (animation_in === 'no_animation' || '' === animation_in) {
 						$modal.addClass('hustle-modal-static');
 					} else {
 						$modal.addClass('hustle-animate-' + animation_in );
@@ -538,8 +538,9 @@
 			;
 
 			if ( $modal.hasClass('hustle-animated') ) {
+				var animation_in = this.data.settings.animation_in;
 
-				if ( this.data.settings.animation_in === 'no_animation' ) {
+				if ( animation_in === 'no_animation' || '' === animation_in ) {
 					$modal.removeClass('hustle-modal-static').addClass(animation_out_class);
 				} else {
 					$modal.removeClass(animation_in_class).addClass(animation_out_class);

@@ -28,7 +28,7 @@
                 <select name="optin_provider_name" class="wpmudev-select" data-nonce="<?php echo esc_attr( wp_create_nonce('change_provider_name') ); ?>" value="{{service}}">
 
                 <?php foreach( $providers as $provider ) : ?>
-
+                
                     <option value="<?php echo esc_attr( $provider['slug'] ); // phpcs:ignore ?>" {{_.isTrue('<?php echo esc_html( $provider['slug'] ); ?>' === service) ? 'selected' : ''}}><?php echo esc_html( $provider['title'] ); ?></option>
 
                 <?php endforeach; ?>
@@ -78,3 +78,4 @@
 		});
 	}#>
 </script>
+

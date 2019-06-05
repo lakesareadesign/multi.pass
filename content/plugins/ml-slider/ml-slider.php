@@ -6,7 +6,7 @@
  * Plugin Name: MetaSlider
  * Plugin URI:  https://www.metaslider.com
  * Description: Easy to use slideshow plugin. Create SEO optimised responsive slideshows with Nivo Slider, Flex Slider, Coin Slider and Responsive Slides.
- * Version:     3.12.1
+ * Version:     3.13.1
  * Author:      Team Updraft
  * Author URI:  https://www.metaslider.com
  * License:     GPL-2.0+
@@ -32,7 +32,7 @@ class MetaSliderPlugin {
      *
      * @var string
      */
-    public $version = '3.12.1';
+    public $version = '3.13.1';
 
 	/**
      * Pro installed version number
@@ -77,15 +77,16 @@ class MetaSliderPlugin {
     public function setup() {
 		define('METASLIDER_PATH', plugin_dir_path(__FILE__));
 
-        $this->includes();
-        $this->define_constants();
-        $this->setup_actions();
-        $this->setup_filters();
+		require_once(METASLIDER_PATH . 'admin/lib/helpers.php');
+		$this->define_constants();
+		spl_autoload_register(array($this, 'autoload'));
+		$this->setup_actions();
+		$this->setup_filters();
 		$this->setup_shortcode();
 		$this->check_dependencies();
 		
 		// Load in slideshow admin relates classes.
-        $this->register_slide_types();
+		$this->register_slide_types();
 		$this->admin = new MetaSlider_Admin_Pages($this);
 		
 		// Load in slideshow related classes
@@ -100,9 +101,12 @@ class MetaSliderPlugin {
 		$this->api->register_admin_ajax_hooks();
 		if (class_exists('WP_REST_Controller')) new MetaSlider_REST_Controller();
 
-        if (function_exists('register_block_type')) {
-            $this->gutenberg = new MetaSlider_Gutenberg($this);
+		if (function_exists('register_block_type')) {
+			$this->gutenberg = new MetaSlider_Gutenberg($this);
 		}
+
+		// require_once(METASLIDER_PATH . 'admin/lib/temporary.php');
+		require_once(METASLIDER_PATH . 'admin/lib/callout.php');
 	}
 
     /**
@@ -150,35 +154,6 @@ class MetaSliderPlugin {
             'metaslider_tour'        => METASLIDER_PATH . 'admin/Tour.php',
             'metaslider_gutenberg'   => METASLIDER_PATH . 'admin/Gutenberg.php'
         );
-    }
-
-    /**
-     * Load required classes
-     */
-    private function includes() {
-		require_once(METASLIDER_PATH . 'admin/lib/helpers.php');
-		// require_once(METASLIDER_PATH . 'admin/lib/temporary.php');
-        $autoload_is_disabled = defined( 'METASLIDER_AUTOLOAD_CLASSES' ) && METASLIDER_AUTOLOAD_CLASSES === false;
-        if ( function_exists( "spl_autoload_register" ) && ! ( $autoload_is_disabled ) ) {
-
-            // >= PHP 5.2 - Use auto loading
-            if ( function_exists( "__autoload" ) ) {
-                spl_autoload_register( "__autoload" );
-            }
-
-            spl_autoload_register( array( $this, 'autoload' ) );
-
-        } else {
-
-            // < PHP5.2 - Require all classes
-            foreach ( $this->plugin_classes() as $id => $path ) {
-                if ( is_readable( $path ) && ! class_exists( $id ) ) {
-                    require_once( $path );
-                }
-            }
-
-        }
-
     }
 	
 	/**
@@ -872,13 +847,20 @@ class MetaSliderPlugin {
             $defaults = $slider->get_default_parameters();
 		}
 		
-		// Set a default slideshow theme
-		// If there is a theme on the most recent
-		if ($theme = get_post_meta($last_modified, 'metaslider_slideshow_theme', true));
-		if (!isset($theme['folder'])) {
+		// Get the latest slideshow used
+		$theme = get_post_meta($last_modified, 'metaslider_slideshow_theme', true);
+
+		// Lets users set their own default theme
+		if (apply_filters('metaslider_default_theme', '')) {
+			$theme = $this->themes->get_theme_object(null, apply_filters('metaslider_default_theme', ''));
+		}
+
+		// If nothing found (a first time user) use a random theme
+		if (!$last_modified && !isset($theme['folder'])) {
 			$theme = $this->themes->get_theme_object(null, $this->themes->random());
 		}
 		
+		// Set the theme if we found something
 		if (isset($theme['folder'])) update_post_meta($id, 'metaslider_slideshow_theme', $theme);
 
         // insert the post meta
@@ -1324,14 +1306,17 @@ class MetaSliderPlugin {
                                         echo "<input type='checkbox' style='display:none;' checked class='select-slider' rel='flex'></inpu>";
                                     ?>
                                 </div>
-							<?php } else {?>
+							<?php } else {
+								$theme = metaslider_themes::get_instance()->get_current_theme($this->slider->id);
+								if (is_array($theme)) unset($theme['images']);
+								$theme_error = is_wp_error($theme) ? $theme->get_error_message() : '';
+								if (is_wp_error($theme)) $theme = false;
+								?>
                                 <div class="ms-postbox" id="metaslider_configuration">
 									<div class='configuration metaslider-actions'>
-									<?php $theme = metaslider_themes::get_instance()->get_current_theme($this->slider->id); ?>
 										<metaslider-preview
 											slideshow-id="<?php echo $this->slider->id; ?>"
 											:keyboard-control="[18, 80]"
-											theme-identifier="<?php echo $theme['folder']; ?>"
 										></metaslider-preview>
                                         <button class='alignright button button-primary' type='submit' name='save' id='ms-save'>
                                             <?php _e("Save", "ml-slider"); ?>
@@ -1468,12 +1453,7 @@ class MetaSliderPlugin {
                                             </a>
                                         <?php } ?>
                                     </div>
-								</div><?php
-                                $theme = metaslider_themes::get_instance()->get_current_theme($this->slider->id);
-								if (is_array($theme)) unset($theme['images']);
-								$theme_error = is_wp_error($theme) ? $theme->get_error_message() : '';
-								if (is_wp_error($theme)) $theme = false;
-                                ?>
+								</div>
 								<metaslider-theme-viewer
 									theme-directory-url="<?php echo METASLIDER_THEMES_URL; ?>"
 									incoming-error-message="<?php echo $theme_error; ?>"

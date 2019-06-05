@@ -81,41 +81,50 @@ jQuery(function($) {
             event.preventDefault()
         })
 
-        /**
-         * Event listening to media library edits
-         */
-        var media_library_events = {
-            loaded: false,
-            /**
-             * Attaches listenTo event to the library collection
-             * 
-             * @param modal object wp.media modal 
-             */
-            attach_event: function(modal) {
-                var library = modal.state().get('library');
-                modal.listenTo(library, 'change', function(model) { 
-                    media_library_events.update_slide_infos({
-                        id: model.get('id'),
-                        caption: model.get('caption'),
-                        title: model.get('title'),
-                        alt: model.get('alt'),
-                    });
-                });
-            },
-            /**
-             * Updates slide caption and other infos when a media is edited in a modal
-             * 
-             * @param object infos 
-             */
-            update_slide_infos: function(infos) {
-                var $slides = $('.slide').filter(function(i){
-                    return $(this).data('attachment-id') == infos.id;
-                });
-                infos.caption ? $('.caption .default', $slides).html(infos.caption) : $('.caption .default', $slides).html('&nbsp;');
-                infos.title ? $('.title .default', $slides).html(infos.title) : $('.title .default', $slides).html('&nbsp;');
-                infos.alt ? $('.alt .default', $slides).html(infos.alt) : $('.alt .default', $slides).html('&nbsp;');
-            }
-        };
+	/**
+	 * Event listening to media library edits
+	 */
+	var media_library_events = {
+		loaded: false,
+		/**
+		 * Attaches listenTo event to the library collection
+		 *
+		 * @param modal object wp.media modal
+		 */
+		attach_event: function(modal) {
+			var library = modal.state().get('library')
+			modal.listenTo(library, 'change', function(model) {
+				media_library_events.update_slide_metadata({
+					id: model.get('id'),
+					caption: model.get('caption'),
+					description: model.get('description'),
+					title: model.get('title'),
+					alt: model.get('alt')
+				})
+			})
+		},
+
+		/**
+		 * Updates slide caption and other metadata when a media is edited in a modal
+		 *
+		 * @param object metadata
+		 */
+		update_slide_metadata: function(metadata) {
+			var $slides = $('.slide').filter(function(i) {
+				return $(this).data('attachment-id') === metadata.id
+			})
+
+			var slideIds = $slides.map(function() {
+				return this.id.replace('slide-', '')
+			})
+
+			// To be picked up by vue components
+			$(document).trigger('metaslider/image-meta-updated', [slideIds.toArray(), metadata])
+
+			metadata.title ? $('.title .default', $slides).html(metadata.title) : $('.title .default', $slides).html('&nbsp;')
+			metadata.alt ? $('.alt .default', $slides).html(metadata.alt) : $('.alt .default', $slides).html('&nbsp;')
+		}
+	}
         
         /**
          * UI for adding a slide. Managed through the WP media upload UI
@@ -156,18 +165,28 @@ jQuery(function($) {
                     alert(response.responseJSON.data.message);
                 },
                 success: function(response) {
-    
-					/**
-					 * Echo Slide on success
-					 * TODO: instead have it return data and use JS to render it
-					 */
-					$('.metaslider table#metaslider-slides-list').append(response)
-					MetaSlider_Helpers.loading(false)
-					$('.metaslider table#metaslider-slides-list').trigger('resizeSlides')
-					$(document).trigger('metaslider/slides-added')
-				}
-            });
-		});
+
+				// Mount and render each new slide
+				response.data.forEach(function(slide) {
+					// TODO: Eventually move the creation to the slideshow or slide vue component
+					// TODO: Be careful about the handling of filters (ex. scheduling)
+					var res = window.metaslider.app.Vue.compile(slide['html'])
+
+					// Mount the slide to the end of the list
+					$('#metaslider-slides-list > tbody').append(
+						(new window.metaslider.app.Vue({
+							render: res.render,
+							staticRenderFns: res.staticRenderFns
+						}).$mount()).$el
+					)
+				})
+
+				MetaSlider_Helpers.loading(false)
+				$('.metaslider table#metaslider-slides-list').trigger('resizeSlides')
+				$(document).trigger('metaslider/slides-added')
+			}
+		})
+	})
 
         /**
          * Starts to watch the media library for changes 
@@ -206,7 +225,29 @@ jQuery(function($) {
             // Remove the Media Library tab (media_upload_tabs filter is broken in 3.6)
             // TODO investigate if this is needed
             $(".media-menu a:contains('Media Library')").remove();
-        });
+		});
+
+	/**
+	* Handles changing alt and title on SEO tab
+	* TODO: refactor to remove this
+	*/
+	$('.metaslider').on('change', '.js-inherit-from-image', function(e) {
+		var $this = $(this)
+		var $parent = $this.parents('.can-inherit')
+		var input = $parent.children('textarea,input[type=text]')
+		var default_item = $parent.children('.default')
+		if ($this.is(':checked')) {
+			$parent.addClass('inherit-from-image')
+		} else {
+			$parent.removeClass('inherit-from-image')
+			input.focus()
+			if ('' === input.val()) {
+				if (0 === default_item.find('.no-content').length) {
+					input.val(default_item.html())
+				}
+			}
+		}
+	})
 
         /**
          * Handles changing an image when edited by the user.
@@ -302,13 +343,15 @@ jQuery(function($) {
                             $('#slide-' + $this.data('slideId')).trigger('metaslider/attachment/updated', response.data);
                         }
 
-                        // update default infos to new image
-                        media_library_events.update_slide_infos({
-                            id: selected_item.id,
-                            caption: selected_item.caption,
-                            title: selected_item.title,
-                            alt: selected_item.alt,
-                        });
+						// Update metadata to new image
+						media_library_events.update_slide_metadata({
+							id: selected_item.id,
+							caption: selected_item.caption,
+							description: selected_item.description,
+							title: selected_item.title,
+							alt: selected_item.alt
+						})
+
                         $(".metaslider table#metaslider-slides-list").trigger('resizeSlides');
                     }
                 });
@@ -405,28 +448,6 @@ jQuery(function($) {
 		// Since we will destroy the container each time we should add the active class to whatever is first
 		$('.media-frame-router .media-router > a').first().trigger('click')
 	}
-
-        /** 
-        * Handles changing caption mode
-        */
-        $('.metaslider').on('change', '.js-inherit-from-image', function(e){
-            var $this = $(this);
-            var $parent = $this.parents('.can-inherit');
-            var input = $parent.children('textarea,input[type=text]');
-            var default_item = $parent.children('.default');
-            if ($this.is(':checked')) {
-                $parent.addClass('inherit-from-image');
-            } else {
-                $parent.removeClass('inherit-from-image');
-                input.focus();
-                if ('' === input.val()) {
-                    if (0 === default_item.find('.no-content').length) {
-                        input.val(default_item.html());
-                    }
-                }
-            }
-    
-        });
 
         /**
          * delete a slide using ajax (avoid losing changes)

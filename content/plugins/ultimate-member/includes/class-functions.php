@@ -11,6 +11,21 @@ if ( ! class_exists( 'UM_Functions' ) ) {
 
 
 		/**
+		 * Store URL
+		 *
+		 * @var string
+		 */
+		var $store_url = 'https://ultimatemember.com/';
+
+
+		/**
+		 * WP remote Post timeout
+		 * @var int
+		 */
+		var $request_timeout = 60;
+
+
+		/**
 		 * UM_Functions constructor.
 		 */
 		function __construct() {
@@ -152,7 +167,7 @@ if ( ! class_exists( 'UM_Functions' ) ) {
 			}
 
 			$path = '';
-			if( $basename ) {
+			if ( $basename ) {
 				$array = explode( '/', trim( $basename, '/' ) );
 				$path  = $array[0];
 			}
@@ -264,8 +279,8 @@ if ( ! class_exists( 'UM_Functions' ) ) {
 				trailingslashit( 'ultimate-member/' . $path ) . $template_name
 			) );
 
-			if( !$template ) {
-				if( $path ) {
+			if ( ! $template ) {
+				if ( $path ) {
 					$template = trailingslashit( trailingslashit( WP_PLUGIN_DIR ) . $path );
 				} else {
 					$template = trailingslashit( um_path );

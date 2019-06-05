@@ -7,17 +7,17 @@
 	</div>
 
 	<div class="wpmudev-box-right">
-
+		
 		<div class="wpmudev-switch-labeled">
 
 			<div class="wpmudev-switch">
-
+				
 				<input id="wph-slidein-gdpr-button" class="toggle-checkbox" type="checkbox" data-attribute="show_gdpr" {{_.checked(_.isTrue(show_gdpr), true)}}>
-
+				
 				<label class="wpmudev-switch-design" for="wph-slidein-gdpr-button" aria-hidden="true"></label>
-
+				
 			</div>
-
+			
 			<label class="wpmudev-switch-label" for="wph-slidein-gdpr-button"><?php _e( "Show GDPR Checkbox", Opt_In::TEXT_DOMAIN ); ?></label>
 
 		</div>
@@ -27,7 +27,7 @@
 </div>
 
 <div id="wph-wizard-content-gdpr-message" class="wpmudev-box-content {{ ( _.isFalse(show_gdpr) ) ? 'wpmudev-hidden' : '' }}">
-
+	
 	<div class="wpmudev-box-right">
 
         <div id="wph-wizard-content-gdpr-options">
@@ -225,7 +225,7 @@
         ) ); ?>
 
         		<label class="wpmudev-helper"><?php _e( "This is a checkbox for agreeing to privacy policy/terms of use according to GDPR EU laws.", Opt_In::TEXT_DOMAIN ); ?></label>
-
+	
             </div>
 
 		</div>

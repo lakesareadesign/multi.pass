@@ -53,10 +53,10 @@ class Hustle_Gutenberg {
 	public static function get_plugin_dir() {
 		return trailingslashit( dirname( __FILE__ ) );
 	}
-
+	
 	/**
 	 * Register Hustle's gutenberg category.
-	 *
+	 * 
 	 * @since 1.0 Gutenberg Addon
 	 * @return array
 	 */

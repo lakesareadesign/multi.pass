@@ -21,11 +21,15 @@ class Hustle_Migration {
 
 		add_action( 'init', array( $this, 'do_popup_migration' ) );
 		add_action( 'init', array( $this, 'do_hustle_20_migration' ) );
+
+		add_action( 'admin_notices', array( $this, 'show_huge_data_migration' ) );
+		add_action( "wp_ajax_hustle_migrate_huge_data", array( $this, "hustle_migrate_huge_data" ) );
 	}
 
 	// Migrating from WordPress Popup
 	public function do_popup_migration() {
-		$reset = filter_input( INPUT_GET, 'reset_migration', FILTER_VALIDATE_BOOLEAN );
+		$reset = filter_input( INPUT_GET, 'reset_migration', FILTER_VALIDATE_BOOLEAN )
+			|| filter_input( INPUT_GET, 'reset_popup_migration', FILTER_VALIDATE_BOOLEAN ) ;
 		$done = get_option( 'hustle_popup_migrated', false );
 
 		if ( false === $done || empty( $done ) || $reset ) {
@@ -38,11 +42,12 @@ class Hustle_Migration {
 
 	// Migrating from Hustle 2.x
 	public function do_hustle_20_migration() {
-		$reset = filter_input( INPUT_GET, 'reset_migration', FILTER_VALIDATE_BOOLEAN );
+		$reset = filter_input( INPUT_GET, 'reset_migration', FILTER_VALIDATE_BOOLEAN )
+				|| filter_input( INPUT_GET, 'reset_20_migration', FILTER_VALIDATE_BOOLEAN ) ;
 		$done = get_option( 'hustle_20_migrated', false );
 		$existed = get_option( 'hustle_popover_pro_migrated', false ) && get_option( 'hustle_popup_migrated', false );
 
-		if ( ( false === $done || empty( $done ) || $reset ) && $existed ) {
+		if ( ( false === $done || empty( $done ) ) && $existed || $reset ) {
 			$modules = $this->get_all_hustle_modules();
 			array_map( array( __CLASS__, 'migrate_hustle_20' ), $modules );
 			$page_shares = $this->get_all_hustle_page_shares();
@@ -70,6 +75,106 @@ class Hustle_Migration {
 	private function get_all_hustle_page_shares() {
 		$module_collection_instance = Hustle_Module_Collection::instance();
 		return $module_collection_instance->get_hustle_20_page_shares();
+	}
+
+	public function show_huge_data_migration() {
+		$hustle_huge_data = get_option( 'hustle_huge_data', false );
+		$page = filter_input( INPUT_GET, 'page' );
+		if ( !$hustle_huge_data || 'hustle' !== $page ) {
+			return;
+		}
+		echo '<div class="notice notice-error"><p>'
+			. esc_html__( "You need to migrate the data of your existing Hustle modules such as views and submissions manually", Opt_In::TEXT_DOMAIN ) . '</p>'
+			. '<p><a href="#" id="hustle_migration_huge_data" class="button-primary">' . esc_html__( 'Migrate Data', Opt_In::TEXT_DOMAIN ) . '</a></p>'
+			. '<div class="hidden" id="hustle_migration_huge_data_percent"><span>0</span>%'
+			. '<div class="progress-wrap progress" data-progress-percent="0"><div class="progress-bar progress"></div></div>'
+			. '</div>' . '</div>';
+	}
+
+	public function hustle_migrate_huge_data() {
+		global $wpdb;
+		$array_metas = array(
+			'widget_view' => 'embedded',
+			'widget_conversion' => 'embedded',
+			'shortcode_view' => 'embedded',
+			'shortcode_conversion' => 'embedded',
+			'popup_view' => 'popup',
+			'popup_conversion' => 'popup',
+			'slide_in_view' => 'slidein',
+			'slide_in_conversion' => 'slidein',
+			'after_content_view' => 'embedded',
+			'after_content_conversion' => 'embedded',
+			'floating_social_view' => 'social_sharing',
+			'floating_social_conversion' => 'social_sharing',
+		);
+		$limit = 1000;
+		$info = get_option( 'hustle_huge_migration', array() );
+		if ( empty( $info ) ) {
+			$pre_meta_counts = $wpdb->get_results( "SELECT meta_key, count(*) as count FROM {$wpdb->base_prefix}optin_meta WHERE meta_key IN ('" . implode( "','", array_keys( $array_metas ) ) . "') GROUP BY meta_key", ARRAY_A ); //WPCS: unprepared SQL ok.
+			$meta_counts = wp_list_pluck( $pre_meta_counts, 'count', 'meta_key' );
+			$all = 0;
+			foreach ( $meta_counts as $val ) {
+				$all += $val;
+			}
+			$pre_connections = $wpdb->get_results( "SELECT o.optin_id as old_id, o.optin_name as module_name, hm.module_id as new_id, hm.module_type as module_type FROM {$wpdb->base_prefix}optins o LEFT JOIN {$wpdb->base_prefix}hustle_modules hm ON ( o.optin_name = hm.module_name AND o.blog_id = hm.blog_id )", ARRAY_A );
+			$connections = array();
+			foreach ( $pre_connections as $val ) {
+				$connections[ $val['old_id'] ][ $val['module_type'] ] = $val['new_id'];
+			}
+			$info = array(
+				'offset' => 0,
+				'comleted' => 0,
+				'percent' => 0,
+				'all' => $all,
+				'finish' => 0,
+				'connections' => $connections,
+			);
+			update_option( 'hustle_huge_migration', $info );
+		}
+		$result = $wpdb->get_results( "SELECT optin_id, meta_key, meta_value FROM {$wpdb->base_prefix}optin_meta WHERE meta_key IN ('" . implode( "','", array_keys( $array_metas ) ) . "') LIMIT {$info['offset']}, $limit", ARRAY_A );  //WPCS: unprepared SQL ok.
+		$sql_meta = "INSERT INTO {$wpdb->base_prefix}hustle_modules_meta (module_id,meta_key,meta_value) VALUES ";
+		foreach ( $result as $res ) {
+			if ( empty( $res['meta_key'] ) || empty( $array_metas[ $res['meta_key'] ] ) ) {
+				continue;
+			}
+			$type = $array_metas[ $res['meta_key'] ];
+			if ( empty( $res['optin_id'] ) ) {
+				continue;
+			}
+			unset( $new_module_id );
+			if ( !empty( $info['connections'][ $res['optin_id'] ][ $type ] ) ) {
+				$new_module_id =  $info['connections'][ $res['optin_id'] ][ $type ];
+			} else if ( !empty( $info['connections'][ $res['optin_id'] ]['social_sharing'] ) ) {
+				$new_module_id =  $info['connections'][ $res['optin_id'] ]['social_sharing'];
+			}
+			if ( empty( $new_module_id ) ) {
+				continue;
+			}
+
+			$meta_key = str_replace( 'slide_in', 'slidein', $res['meta_key'] );
+
+			$sql_values[] = $wpdb->prepare( '(%s,%s,%s)', $new_module_id, $meta_key, $res['meta_value'] );
+		}
+		if ( ! empty( $sql_values ) ) {
+			$sql_meta .= implode( ",\n", $sql_values );
+			$wpdb->query( $sql_meta );  //WPCS: unprepared SQL ok.
+		}
+		$current_count = count( $result );
+		$info['comleted'] += $current_count;
+		$info['percent'] = $info['all'] ? round( 100 * $info['comleted'] / $info['all'], 2 ) : 100;
+		$info['offset'] += $limit;
+		if ( $info['percent'] < 100 && !empty( $result ) ) {
+			update_option( 'hustle_huge_migration', $info );
+		} else {
+			$info['finish'] = 1;
+			delete_option( 'hustle_huge_migration' );
+			delete_option( 'hustle_huge_data' );
+		}
+
+		wp_send_json_success(
+			$info
+		);
+
 	}
 
 
@@ -1123,8 +1228,10 @@ class Hustle_Migration {
 			}
 
 			// Page views.
-			foreach( $module->page_shares as $page_share ) {
-				$ss->add_meta( $page_share->meta_key, $page_share->meta_value );
+			if ( !empty( $module->page_shares ) ) {
+				foreach( $module->page_shares as $page_share ) {
+					$ss->add_meta( $page_share->meta_key, $page_share->meta_value );
+				}
 			}
 		}
 	}

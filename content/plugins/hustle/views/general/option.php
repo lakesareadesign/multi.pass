@@ -72,7 +72,7 @@ if ( isset( $selected ) && is_array( $selected ) ) {
 
     if( isset( $selected ) )
         $_selected = $selected;
-
+    
     if( is_array( $_selected ) && empty( $_selected ) )
         $_selected = '';
 

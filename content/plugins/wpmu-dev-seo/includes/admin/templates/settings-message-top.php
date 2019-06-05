@@ -52,3 +52,4 @@ $io_errors = Smartcrawl_Controller_IO::get()->get_errors();
 		<p><?php esc_html_e( 'Settings successfully imported', 'wds' ); ?></p>
 	</div>
 <?php endif; ?>
+

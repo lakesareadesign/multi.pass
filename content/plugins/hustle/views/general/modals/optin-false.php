@@ -231,7 +231,7 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 			<# if ( _.isTrue( content.has_title ) && ( '' !== content.title || '' !== content.sub_title ) ) { #><header class="hustle-modal-header hustle-modal-with-title"><# } else { #><header class="hustle-modal-header"><# } #>
 
 				<# if ( 'embedded' !== module_type ) { #>
-
+				
 					<div class="hustle-modal-close" aria-hidden="true"><?php echo $close_icon; //phpcs:ignore ?></div>
 
 				<# } #>

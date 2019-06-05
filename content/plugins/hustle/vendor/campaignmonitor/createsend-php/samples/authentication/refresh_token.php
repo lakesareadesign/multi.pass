@@ -11,7 +11,7 @@ $result = $wrap->get_clients();
 if (!$result->was_successful()) {
     # If you receive '121: Expired OAuth Token', refresh the access token
     if ($result->response->Code == 121) {
-        list($new_access_token, $new_expires_in, $new_refresh_token) =
+        list($new_access_token, $new_expires_in, $new_refresh_token) = 
             $wrap->refresh_token();
         # Save $new_access_token, $new_expires_in, and $new_refresh_token
     }

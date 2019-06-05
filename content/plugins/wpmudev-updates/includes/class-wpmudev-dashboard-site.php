@@ -735,7 +735,7 @@ class WPMUDEV_Dashboard_Site {
 				$status = isset( $_REQUEST['status'] ) ? $_REQUEST['status'] : ''; // wpcs CSRF ok. already validated on process_ajax
 				switch ( $status ) {
 					case 'settings':
-						$auto_update = isset( $_REQUEST['autoupdate_dashboard'] ) ? filter_var( $_REQUEST['autoupdate_dashboard'], FILTER_VALIDATE_BOOLEAN ) : false;	     	 	  		 	 		
+						$auto_update = isset( $_REQUEST['autoupdate_dashboard'] ) ? filter_var( $_REQUEST['autoupdate_dashboard'], FILTER_VALIDATE_BOOLEAN ) : false;
 						$this->set_option( 'autoupdate_dashboard', $auto_update );
 						$success = true;
 						break;
@@ -1129,6 +1129,17 @@ class WPMUDEV_Dashboard_Site {
 									array(
 										'redirect' => add_query_arg(
 											array( 'connection_error' => '1' ),
+											WPMUDEV_Dashboard::$ui->page_urls->dashboard_url
+										),
+									)
+								);
+							}
+
+							if ( isset( $result['limit_exceeded'] ) && $result['limit_exceeded'] ) {
+								$this->send_json_error(
+									array(
+										'redirect' => add_query_arg(
+											array( 'site_limit_exceeded' => '1' ),
 											WPMUDEV_Dashboard::$ui->page_urls->dashboard_url
 										),
 									)
@@ -4158,3 +4169,4 @@ if ( ! function_exists( 'wpmudev_whitelabel_sui_plugins_docs' ) ) {
 		echo $output;
 	}
 }
+

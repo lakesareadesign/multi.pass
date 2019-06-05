@@ -7,22 +7,22 @@ namespace Composer\Autoload;
 class ComposerStaticInitda98371940d11703c56dee923bbb392f
 {
     public static $prefixLengthsPsr4 = array (
-        'P' =>
+        'P' => 
         array (
             'Psr\\Log\\' => 8,
         ),
-        'M' =>
+        'M' => 
         array (
             'Mautic\\' => 7,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Psr\\Log\\' =>
+        'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
-        'Mautic\\' =>
+        'Mautic\\' => 
         array (
             0 => __DIR__ . '/..' . '/mautic/api-library/lib',
         ),

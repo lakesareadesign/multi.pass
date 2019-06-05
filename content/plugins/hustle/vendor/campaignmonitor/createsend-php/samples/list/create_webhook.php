@@ -8,12 +8,12 @@ $auth = array(
 $wrap = new CS_REST_Lists('List ID', $auth);
 
 /*
- * The Events array must contain a combination of
+ * The Events array must contain a combination of 
  * CS_REST_LIST_WEBHOOK_SUBSCRIBE
  * CS_REST_LIST_WEBHOOK_DEACTIVATE
  * CS_REST_LIST_WEBHOOK_UPDATE
- *
- * The payload format must be one of
+ * 
+ * The payload format must be one of 
  * CS_REST_WEBHOOK_FORMAT_JSON or
  * CS_REST_WEBHOOK_FORMAT_XML
  */

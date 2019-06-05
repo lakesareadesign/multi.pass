@@ -23,9 +23,16 @@ body.toplevel_page_leadin {
 }
 
 #leadin-iframe {
-  background-color: transparent !important;
   border: 0 none transparent !important;
   padding: 0 !important;
   height: 100% !important;
   width: 100% !important;
+}
+
+.leadin-iframe-fullscreen {
+  background-color: #fff;
+  position: fixed !important;
+  top: 0px !important;
+  left: 0px !important;
+  z-index: 99999 !important;
 }

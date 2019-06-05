@@ -50,3 +50,4 @@ $add_recipients_to_subscriber_list = true;
 $result = $wrap->send($complex_message, $add_recipients_to_subscriber_list);
 echo "\nSent! Here's the response:\n";
 var_dump($result->response);
+

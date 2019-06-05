@@ -25,18 +25,18 @@ class Hustle_Mautic_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 			),
 		);
 	}
-
+		
 	/**
 	 * Check if step is completed
 	 *
-	 * @since 3.0.5
+	 * @since 3.0.5 
 	 * @return bool
 	 */
 	public function first_step_is_completed( $submitted_data ) {
 		// Do validation here
 		return true;
 	}
-
+	
 	/**
 	 * Returns all settings and conditions for 1st step of Provider settings
 	 *
@@ -52,14 +52,14 @@ class Hustle_Mautic_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 		if( ! $this->provider->is_activable() ) {
 			wp_send_json_error( 'Mautic requires a higher version of PHP or Hustle, or the extension is not configured correctly.' );
 		}
-
+		
 		$options = $this->first_step_options( $submitted_data );
 
 		$html = '';
 		foreach( $options as $key =>  $option ) {
 			$html .= Hustle_Api_Utils::static_render("general/option", array_merge( $option, array( "key" => $key ) ), true);
 		}
-
+		
 		if( empty( $error_message ) ) {
 			$step_html = $html;
 			$has_errors = false;
@@ -69,16 +69,16 @@ class Hustle_Mautic_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 			$has_errors = true;
 		}
 		$step_html .= $this->get_current_list_name_markup();
-
+		
 		$buttons = array(
 			'cancel' => array(
 				'markup' => $this->get_cancel_button_markup(),
-			),
+			), 
 			'save' => array(
 				'markup' => $this->get_next_button_markup(),
-			),
+			), 
 		);
-
+		
 		$response = array(
 			'html'       => $step_html,
 			'buttons'    => $buttons,
@@ -90,7 +90,7 @@ class Hustle_Mautic_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 		}
 		return $response;
 	}
-
+	
 	/**
 	 * Returns array with options to be converted into HTML by Opt_In->render()
 	 *
@@ -100,7 +100,7 @@ class Hustle_Mautic_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 	 * @return array
 	 */
 	private function first_step_options( $submitted_data ) {
-
+		
 		if ( isset( $submitted_data['module_id'] ) ) {
 			$module_id = $submitted_data['module_id'];
 			$module = Hustle_Module_Model::instance()->get( $module_id );
@@ -210,7 +210,7 @@ class Hustle_Mautic_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 	 */
 	public function ajax_refresh_lists() {
 		Hustle_Api_Utils::validate_ajax_call( 'hustle_mautic_refresh_lists' );
-
+		
 		$submitted_data = Hustle_Api_Utils::validate_and_sanitize_fields( $_REQUEST );
 		$response = array(
 			'html' => $this->refresh_lists_html( $submitted_data ),
@@ -233,7 +233,7 @@ class Hustle_Mautic_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 		$username = $submitted_data['username'];
 		$password = $submitted_data['password'];
 		$_lists = array();
-
+		
 		// Check if API key is valid
 		$api = Hustle_Mautic::api( $url, $username, $password );
 		if ( $api ) {
@@ -242,22 +242,22 @@ class Hustle_Mautic_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 
 		if( ! is_wp_error( $_lists ) && ! empty( $_lists ) ) {
 			$options = $this->refresh_lists_options( $_lists );
-
+		
 			if ( !is_wp_error( $options ) ) {
 				return $this->get_html_for_options( $options );
-
+				
 			} else {
 				Hustle_Api_Utils::maybe_log( implode( "; ", $options->get_error_messages() ) );
-
+				
 				return '<label class="wpmudev-label--notice"><span>' . __( 'There was an error retrieving the options.' , Opt_In::TEXT_DOMAIN ) . '</span></label>';
 			}
-
+			
 		} else {
 			if( is_wp_error( $_lists ) )
 				Hustle_Api_Utils::maybe_log( implode( "; ", $_lists->get_error_messages() ) );
 
 			return '<label class="wpmudev-label--notice"><span>' . __( 'No audience list defined for this account. Please double check your settings are okay.' , Opt_In::TEXT_DOMAIN ) . '</span></label>';
-
+	
 		}
 	}
 

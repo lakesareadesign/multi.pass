@@ -22,7 +22,7 @@ class Hustle_Icontact_Form_Settings extends Hustle_Provider_Form_Settings_Abstra
 	   // Late init for translators to be available.
 	   $this->error_messages['wrong_api_credentials'] = __( 'There was an error connecting to your account. Please make sure your credentials are correct.', Opt_In::TEXT_DOMAIN );
 	}
-
+	
 	/**
 	 * For settings Wizard steps
 	 *
@@ -45,11 +45,11 @@ class Hustle_Icontact_Form_Settings extends Hustle_Provider_Form_Settings_Abstra
 			),
 		);
 	}
-
+		
 	/**
 	 * Check if step is completed
 	 *
-	 * @since 3.0.5
+	 * @since 3.0.5 
 	 * @return bool
 	 */
 	public function first_step_is_completed( $submitted_data ) {
@@ -67,7 +67,7 @@ class Hustle_Icontact_Form_Settings extends Hustle_Provider_Form_Settings_Abstra
 
 		return true;
 	}
-
+	
 	/**
 	 * Returns all settings and conditions for 1st step of Provider settings
 	 *
@@ -104,11 +104,11 @@ class Hustle_Icontact_Form_Settings extends Hustle_Provider_Form_Settings_Abstra
 		if( ! $this->provider->is_activable() ) {
 			wp_send_json_error( 'iContact requires a higher version of PHP or Hustle, or the extension is not configured correctly.' );
 		}
-
+		
 		$options = $this->first_step_options( $submitted_data );
 
 		$html = $this->get_html_for_options( $options );
-
+		
 		if( empty( $error_message ) ) {
 			$step_html = $html;
 			$has_errors = false;
@@ -118,16 +118,16 @@ class Hustle_Icontact_Form_Settings extends Hustle_Provider_Form_Settings_Abstra
 			$has_errors = true;
 		}
 		$step_html .= $this->get_current_list_name_markup();
-
+		
 		$buttons = array(
 			'cancel' => array(
 				'markup' => $this->get_cancel_button_markup(),
-			),
+			), 
 			'save' => array(
 				'markup' => $this->get_next_button_markup( __( 'Continue', Opt_In::TEXT_DOMAIN ) ),
-			),
+			), 
 		);
-
+		
 		$response = array(
 			'html'       => $step_html,
 			'buttons'    => $buttons,
@@ -139,7 +139,7 @@ class Hustle_Icontact_Form_Settings extends Hustle_Provider_Form_Settings_Abstra
 		}
 		return $response;
 	}
-
+	
 	/**
 	 * Returns array with options to be converted into HTML by Opt_In->render()
 	 *
@@ -149,7 +149,7 @@ class Hustle_Icontact_Form_Settings extends Hustle_Provider_Form_Settings_Abstra
 	 * @return array
 	 */
 	private function first_step_options( $submitted_data ) {
-
+		
 		if ( isset( $submitted_data['module_id'] ) ) {
 			$module_id = $submitted_data['module_id'];
 			$module = Hustle_Module_Model::instance()->get( $module_id );
@@ -159,7 +159,7 @@ class Hustle_Icontact_Form_Settings extends Hustle_Provider_Form_Settings_Abstra
 		} else {
 			$saved_app_id = '';
 			$saved_username = '';
-			$saved_password = '';
+			$saved_password = '';	
 		}
 		$app_id     = ! isset( $submitted_data['app_id'] ) ? $saved_app_id : $submitted_data['app_id'];
 		$username   = ! isset( $submitted_data['username'] ) ? $saved_username : $submitted_data['username'];
@@ -244,7 +244,7 @@ class Hustle_Icontact_Form_Settings extends Hustle_Provider_Form_Settings_Abstra
 	 */
 	public function ajax_refresh_lists() {
 		Hustle_Api_Utils::validate_ajax_call( 'hustle_icontact_refresh_lists' );
-
+		
 		$submitted_data = Hustle_Api_Utils::validate_and_sanitize_fields( $_REQUEST ); // phpcs:ignore
 		$response = array(
 			'html' => $this->refresh_lists_html( $submitted_data ),
@@ -269,10 +269,10 @@ class Hustle_Icontact_Form_Settings extends Hustle_Provider_Form_Settings_Abstra
 		$lists 	= array();
 		$value 	= '';
 		$list 	= array();
-
+		
 		// Check if API key is valid
 		$api 	= Hustle_Icontact::api( $app_id, $password, $username );
-
+		
 		if ( !is_wp_error( $api ) ) {
 			$_lists = $api->get_lists();
 
@@ -334,7 +334,7 @@ class Hustle_Icontact_Form_Settings extends Hustle_Provider_Form_Settings_Abstra
 			)
 		);
 	}
-
+	
 	protected function before_save_first_step( $data ) {
 		if( isset( $data['app_id'] ) ) {
 			$data['desc'] = $data['app_id'];
@@ -348,7 +348,7 @@ class Hustle_Icontact_Form_Settings extends Hustle_Provider_Form_Settings_Abstra
 	/**
 	 * Check if step is completed
 	 *
-	 * @since 3.0.5
+	 * @since 3.0.5 
 	 * @return bool
 	 */
 	public function second_step_is_completed( $submitted_data ) {
@@ -376,11 +376,11 @@ class Hustle_Icontact_Form_Settings extends Hustle_Provider_Form_Settings_Abstra
 				$error_message = __( 'The confirmation message is required when double opt-in is enabled.', Opt_In::TEXT_DOMAIN );
 			}
 		}
-
+		
 		$options = $this->second_step_options( $submitted_data );
 
 		$html = $this->get_html_for_options( $options );
-
+		
 		if( empty( $error_message ) ) {
 			$step_html = $html;
 			$has_errors = false;
@@ -389,16 +389,16 @@ class Hustle_Icontact_Form_Settings extends Hustle_Provider_Form_Settings_Abstra
 			$step_html .= $html;
 			$has_errors = true;
 		}
-
+		
 		$buttons = array(
 			'cancel' => array(
 				'markup' => $this->get_previous_button_markup(),
-			),
+			), 
 			'save' => array(
 				'markup' => $this->get_next_button_markup(),
-			),
+			), 
 		);
-
+		
 		$response = array(
 			'html'       => $step_html,
 			'buttons'    => $buttons,
@@ -415,14 +415,14 @@ class Hustle_Icontact_Form_Settings extends Hustle_Provider_Form_Settings_Abstra
 		if ( isset( $submitted_data['module_id'] ) ) {
 			$module_id = $submitted_data['module_id'];
 			$module = Hustle_Module_Model::instance()->get( $module_id );
-			$saved_auto_optin = Hustle_Icontact::_get_auto_optin( $module );
+			$saved_auto_optin = Hustle_Icontact::_get_auto_optin( $module );	
 		} else {
-			$saved_auto_optin = '';
+			$saved_auto_optin = '';	
 		}
 
 		$checked = ! isset( $submitted_data['auto_optin'] ) ? $saved_auto_optin : $submitted_data['auto_optin'];
 		$is_double_optin_enabled = ( 'pending' === $checked || '1' === $checked ) ? true : false;
-
+		
 		$options = array(
 			"subscription_setup" => array(
 				"id"    => "",
@@ -556,7 +556,7 @@ class Hustle_Icontact_Form_Settings extends Hustle_Provider_Form_Settings_Abstra
 
 	public function get_existing_messages(){
 		Hustle_Api_Utils::validate_ajax_call( 'hustle_icontact_get_existing_messages' );
-
+		
 		$sanitized_data = Hustle_Api_Utils::validate_and_sanitize_fields( $_POST ); // phpcs:ignore
 
 		$double_optin_enabled = isset( $sanitized_data['auto_optin'] ) && 'pending' === $sanitized_data['auto_optin'] ? true : false;

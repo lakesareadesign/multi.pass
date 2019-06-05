@@ -346,7 +346,7 @@ class MetaSLider_Api {
 		}
 
 		// Disregard the output. It's not needed for imports
-		ob_get_clean();
+		ob_end_clean();
 
         // Send back the first error, if any
         if (isset($errors[0])) {
@@ -393,11 +393,11 @@ class MetaSLider_Api {
 			// Tests were passed, so move forward with this image
 			$filename = $files['name'][$index];
 			$images[$filename] = array(
-				'source' => $tmp_name,
-				'caption' => isset($data[$filename]['caption']) ? $data[$filename]['caption'] : '',
-				'title' => isset($data[$filename]['title']) ? $data[$filename]['title'] : '',
-				'description' => isset($data[$filename]['description']) ? $data[$filename]['description'] : '',
-				'alt' => isset($data[$filename]['alt']) ? $data[$filename]['alt'] : ''
+				'source' => (string) $tmp_name,
+				'caption' => isset($data[$filename]['caption']) ? (string) $data[$filename]['caption'] : '',
+				'title' => isset($data[$filename]['title']) ? (string) $data[$filename]['title'] : '',
+				'description' => isset($data[$filename]['description']) ? (string) $data[$filename]['description'] : '',
+				'alt' => isset($data[$filename]['alt']) ? (string) $data[$filename]['alt'] : ''
 			);
 		}
 		return $images;

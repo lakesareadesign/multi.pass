@@ -36,7 +36,7 @@ class MetaImageSlide extends MetaSlide {
      */
     public function create_slides($slideshow_id, $data) {
 		$errors = array();
-		$slide_ids = array();
+		$slides = array();
         foreach ($data as $slide_data) {
 
             // TODO check type and create slides based on that type
@@ -46,7 +46,7 @@ class MetaImageSlide extends MetaSlide {
             if (is_wp_error($result)) {
                 array_push($errors, $result);
 			} else {
-				array_push($slide_ids, $result);
+				array_push($slides, $result);
 			}
         }
 
@@ -59,7 +59,7 @@ class MetaImageSlide extends MetaSlide {
             return $error_response;
         }
 
-        return $slide_ids;
+        return $slides;
     }
 
     /**
@@ -69,7 +69,7 @@ class MetaImageSlide extends MetaSlide {
      * @param int   $slideshow_id The id of the slider
      * @param array $data      	  The data information for the new slide
      *
-     * @return string | WP_Error The status message and if success, echo string for now
+     * @return array | WP_Error The slide_id and html content
      */
     public function add_slide($slideshow_id, $data) {
         
@@ -95,7 +95,6 @@ class MetaImageSlide extends MetaSlide {
         $this->tag_slide_to_slider();
         
         // set default inherit values
-        $this->set_field_inherited('caption', true);
         $this->set_field_inherited('title', true);
         $this->set_field_inherited('alt', true);
 
@@ -103,10 +102,8 @@ class MetaImageSlide extends MetaSlide {
         $this->settings['width'] = 0;
         $this->settings['height'] = 0;
 
-        // TODO refactor to have a view file and return data
-		echo $this->get_admin_slide();
-		
-		return $slide_id;
+		// Return the html object
+		return array('slide_id' => $slide_id, 'html' => $this->get_admin_slide());
     }
 
     /**
@@ -123,19 +120,17 @@ class MetaImageSlide extends MetaSlide {
             ), 401);
         }
 
-        $slide_ids = $this->create_slides(
+        $slides = $this->create_slides(
             absint($_POST['slider_id']), array_map(array($this, 'make_image_slide_data'), $_POST['selection'])
         );
 
-        if (is_wp_error($slide_ids)) {
+        if (is_wp_error($slides)) {
         	return wp_send_json_error(array(
-        		'messages' => $slide_ids->get_error_messages()
+        		'messages' => $slides->get_error_messages()
         	), 409);
         }
 		
-		// TODO This currently just echos out the slide, so returning 
-		// a JSON object here causes an issue. See get_admin_slide()
-		// return wp_send_json_success($slide_ids, 200);
+		return wp_send_json_success($slides, 200);
 	}
 
 	/**
@@ -274,13 +269,16 @@ class MetaImageSlide extends MetaSlide {
                             </button>
                         </div>
                     </td>
-                    <td class='col-2'>
+					<td class='col-2'>".
+					// For now this is the entry point for a slide since you cant wrap around table elements.
+					"<metaslider-slide id='{$this->slide->ID}' inline-template>
                         <div class='metaslider-ui-inner'>
                             " . $this->get_admin_slide_tabs_html() . "
                             <input type='hidden' name='attachment[{$this->slide->ID}][type]' value='image' />
                             <input type='hidden' class='menu_order' name='attachment[{$this->slide->ID}][menu_order]' value='{$this->slide->menu_order}' />
                             <input type='hidden' name='resize_slide_id' data-slide_id='{$this->slide->ID}' data-width='{$this->settings['width']}' data-height='{$this->settings['height']}' />
-                        </div>
+						</div>
+					</metaslider-slide>
                     </td>
                 </tr>";
 
@@ -296,20 +294,7 @@ class MetaImageSlide extends MetaSlide {
         $slide_id = absint($this->slide->ID);
         $attachment_id = $this->get_attachment_id();
         $attachment = get_post($attachment_id);
-
-        $url = esc_attr(get_post_meta($slide_id, 'ml-slider_url', true));
-        $target = get_post_meta($slide_id, 'ml-slider_new_window', true) ? 'checked=checked' : '';
         
-        // TODO: make this DRY
-        // caption
-        $caption = esc_textarea($this->slide->post_excerpt);
-        $image_caption = html_entity_decode($attachment->post_excerpt, ENT_NOQUOTES, 'UTF-8');
-		$inherit_image_caption_check = '';
-		$inherit_image_caption_class = '';
-		if ($this->is_field_inherited('caption')) {
-			$inherit_image_caption_check = 'checked=checked';
-			$inherit_image_caption_class = ' inherit-from-image';
-		}
         // alt
         $alt = esc_attr(get_post_meta($slide_id, '_wp_attachment_image_alt', true));
         $image_alt = esc_attr(get_post_meta($attachment_id, '_wp_attachment_image_alt', true ));
@@ -443,12 +428,26 @@ class MetaImageSlide extends MetaSlide {
 
         $thumb = $imageHelper->get_image_url();
         $attachment_id = get_post_thumbnail_id($this->slide->ID);
-        $attachment = get_post($attachment_id);	
+		$attachment = get_post($attachment_id);	
+		
+		// Leave this here as the caption used to be inhereted
 		if ($this->is_field_inherited('caption')) {
 			$caption = $attachment->post_excerpt;
         } else {
-			$caption = $this->slide->post_excerpt;
+			$caption_source = get_post_meta($this->slide->ID, 'ml-slider_caption_source', true);
+			switch ($caption_source) {
+				case 'image-caption':
+					$caption = $attachment->post_excerpt;
+					break;
+				case 'image-description':
+					$caption = $attachment->post_content;
+					break;
+				default:
+					$caption = $this->slide->post_excerpt;
+					break;
+			}
 		}
+
         if ($this->detect_self_metaslider_shortcode($this->slide->post_excerpt)) {
             $caption = str_replace(array("[metaslider", "[ml-slider"), "[metaslider-disabled", $this->slide->post_excerpt);
 		}
@@ -722,42 +721,46 @@ class MetaImageSlide extends MetaSlide {
 
     }
 
-    /**
-     * Save
-     *
-     * @param  array $fields Fields to save
-     */
-    protected function save( $fields ) {
+	/**
+	 * Save
+	 *
+	 * @param  array $fields Fields to save
+	 */
+	protected function save($fields) {
 
-        // update the slide
-        wp_update_post(array(
-                'ID' => $this->slide->ID,
-                'post_excerpt' => $fields['post_excerpt'],
-                'menu_order' => $fields['menu_order']
-            ));
+        $args = array(
+			'ID' => $this->slide->ID,
+			'menu_order' => $fields['menu_order']
+		);
 
-        // store the URL as a meta field against the attachment
-        $this->add_or_update_or_delete_meta($this->slide->ID, 'url', $fields['url']);
+		// This textarea might be hidden, so only update it if it exists
+		if (isset($fields['post_excerpt'])) {
+			$args['post_excerpt'] = $fields['post_excerpt'];
+		}
 
-        $this->add_or_update_or_delete_meta($this->slide->ID, 'title', $fields['title']); 
+		wp_update_post($args);
 
+		$this->add_or_update_or_delete_meta($this->slide->ID, 'url', $fields['url']);
+		$this->add_or_update_or_delete_meta($this->slide->ID, 'title', $fields['title']); 
 		$this->add_or_update_or_delete_meta($this->slide->ID, 'crop_position', $fields['crop_position']);
 
-        // store the inherit custom caption, title and alt settings
-        $this->set_field_inherited('title', isset($fields['inherit_image_title']));
-        $this->set_field_inherited('caption', isset($fields['inherit_image_caption']));
-        $this->set_field_inherited('alt', isset($fields['inherit_image_alt']));
+		// Store the caption source
+		$this->add_or_update_or_delete_meta($this->slide->ID, 'caption_source', $fields['caption_source']);
 
-        if (isset($fields['alt'])) {
-            update_post_meta($this->slide->ID, '_wp_attachment_image_alt', $fields['alt']);
-        }
+		// Store the inherit custom title and alt settings
+		$this->set_field_inherited('title', isset($fields['inherit_image_title']));
+		$this->set_field_inherited('alt', isset($fields['inherit_image_alt']));
 
-        // store the 'new window' setting
-        $new_window = isset($fields['new_window']) ? 'true' : 'false'; 
+		if (isset($fields['alt'])) {
+			update_post_meta($this->slide->ID, '_wp_attachment_image_alt', $fields['alt']);
+		}
 
-        $this->add_or_update_or_delete_meta($this->slide->ID, 'new_window', $new_window);
+		// store the 'new window' setting
+		$new_window = isset($fields['new_window']) ? 'true' : 'false'; 
 
-    }
+		$this->add_or_update_or_delete_meta($this->slide->ID, 'new_window', $new_window);
+
+	}
 
     /**
      * Gets the inheritn parameter of a field

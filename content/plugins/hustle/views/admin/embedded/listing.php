@@ -342,7 +342,7 @@
 		<?php $this->render("admin/commons/listing/modal-error"); ?>
 
 		<?php $this->render("admin/commons/listing/modal-email"); ?>
-
+		
 		<?php $this->render("admin/commons/listing/modal-import"); ?>
 
 		<?php $this->render("admin/commons/listing/delete-confirmation"); ?>

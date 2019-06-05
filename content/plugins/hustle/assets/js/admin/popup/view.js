@@ -270,7 +270,7 @@ Hustle.define("Pop_Up.View", function($, doc, win){
 				'height': $preview.find( '.hustle-modal-body' ).height() + 'px'
 			});
 
-			if ($modal.hasClass( 'hustle-animated' )) {
+			if ($modal.hasClass( 'hustle-animated' ) && '' !== animation_in && 'no_animation' !== animation_in ) {
 
 				setTimeout(function(){
 
@@ -280,7 +280,8 @@ Hustle.define("Pop_Up.View", function($, doc, win){
 				}, 100);
 
 			} else {
-
+				
+				$modal.addClass( 'hustle-modal-static' );
 				this.apply_custom_size();
 
 			}
@@ -845,9 +846,7 @@ Hustle.define("Pop_Up.View", function($, doc, win){
 					$('body').removeClass('wpmudev-modal-is_active');
 					$modal.removeClass(animation_out_class);
 				}, time_out);
-			}
-
-			if ($modal.hasClass('hustle-modal-static')) {
+			} else if ($modal.hasClass('hustle-modal-static')) {
 				$modal.removeClass('hustle-modal-static');
 				$preview.removeClass('wpmudev-modal-active');
 				$('body').removeClass('wpmudev-modal-is_active');

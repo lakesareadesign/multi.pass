@@ -8,7 +8,7 @@ $wrap = new CS_REST_Events($auth, $client_id);
 echo "\nSending a simple event...\n";
 
 $contact = "joe@example.org";
-$event_type = "checkout";
+$event_type = "checkout"; 
 $event_data = array(
   "Page" => "/cart/checkout",
   "Items" => array(
@@ -30,4 +30,5 @@ $event_data = array(
 $result = $wrap->track($contact, $event_type, $event_data);
 echo "\nEvent Sent! Here's the response:\n";
 var_dump($result);
+
 

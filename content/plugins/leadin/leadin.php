@@ -3,7 +3,7 @@
  * Plugin Name: HubSpot All-In-One Marketing - Forms, Popups, Live Chat
  * Plugin URI: http://www.hubspot.com/integrations/wordpress
  * Description: HubSpot’s official WordPress plugin allows you to add forms, popups, and live chat to your website and integrate with the best WordPress CRM.
- * Version: 7.4.1
+ * Version: 7.5.1
  * Author: HubSpot
  * Author URI: http://www.hubspot.com
  * License: GPL v3
@@ -60,7 +60,7 @@ if ( ! defined( 'LEADIN_DB_VERSION' ) ) {
 }
 
 if ( ! defined( 'LEADIN_PLUGIN_VERSION' ) ) {
-  define( 'LEADIN_PLUGIN_VERSION', '7.4.1' );
+  define( 'LEADIN_PLUGIN_VERSION', '7.5.1' );
 }
 
 if ( ! defined( 'LEADIN_SOURCE' ) ) {
@@ -87,6 +87,10 @@ if ( ! defined( 'LEADIN_BASE_URL' ) ) {
   define( 'LEADIN_BASE_URL', 'https://app.hubspot.com' );
 }
 
+if ( ! defined( 'LEADIN_SIGNUP_BASE_URL' ) ) {
+  define( 'LEADIN_SIGNUP_BASE_URL', LEADIN_BASE_URL );
+}
+
 // =============================================
 // Include Needed Files
 // =============================================
@@ -97,6 +101,8 @@ if ( file_exists( LEADIN_PLUGIN_DIR . '/inc/leadin-constants.php' ) ) {
 require_once LEADIN_PLUGIN_DIR . '/inc/leadin-functions.php';
 require_once LEADIN_PLUGIN_DIR . '/inc/leadin-registration.php';
 require_once LEADIN_PLUGIN_DIR . '/inc/leadin-disconnect.php';
+require_once LEADIN_PLUGIN_DIR . '/inc/leadin-wp-get.php';
+require_once LEADIN_PLUGIN_DIR . '/inc/leadin-mark-outdated.php';
 require_once LEADIN_PLUGIN_DIR . '/admin/leadin-admin.php';
 
 require_once LEADIN_PLUGIN_DIR . '/inc/class-leadin.php';

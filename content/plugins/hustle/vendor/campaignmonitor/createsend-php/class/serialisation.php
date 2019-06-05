@@ -5,13 +5,13 @@ if (!class_exists('Services_JSON', false)) {
 }
 
 if(!function_exists("CS_REST_SERIALISATION_get_available")) {
-    function CS_REST_SERIALISATION_get_available($log) {
+    function CS_REST_SERIALISATION_get_available($log) { 
         $log->log_message('Getting serialiser', __FUNCTION__, CS_REST_LOG_VERBOSE);
         if(function_exists('json_decode') && function_exists('json_encode')) {
             return new CS_REST_NativeJsonSerialiser($log);
         } else {
             return new CS_REST_ServicesJsonSerialiser($log);
-        }
+        }    
     }
 }
 
@@ -19,14 +19,14 @@ if (!class_exists('CS_REST_BaseSerialiser')) {
     class CS_REST_BaseSerialiser {
 
         var $_log;
-
+        
         function __construct($log) {
             $this->_log = $log;
         }
-
+        
         /**
-         * Recursively ensures that all data values are utf-8 encoded.
-         * @param array $data All values of this array are checked for utf-8 encoding.
+         * Recursively ensures that all data values are utf-8 encoded. 
+         * @param array $data All values of this array are checked for utf-8 encoding. 
          */
         function check_encoding($data) {
 
@@ -36,18 +36,18 @@ if (!class_exists('CS_REST_BaseSerialiser')) {
                     $data[$k] = $this->check_encoding($v);
                 // Otherwise if the element is a string then we need to check the encoding
                 } else if(is_string($v)) {
-                    if((function_exists('mb_detect_encoding') && mb_detect_encoding($v) !== 'UTF-8') ||
+                    if((function_exists('mb_detect_encoding') && mb_detect_encoding($v) !== 'UTF-8') || 
                        (function_exists('mb_check_encoding') && !mb_check_encoding($v, 'UTF-8'))) {
                         // The string is using some other encoding, make sure we utf-8 encode
-                        $v = utf8_encode($v);
+                        $v = utf8_encode($v);       
                     }
-
+                    
                     $data[$k] = $v;
                 }
             }
-
+                  
             return $data;
-        }
+        }    
     }
 }
 
@@ -70,7 +70,7 @@ if (!class_exists('CS_REST_NativeJsonSerialiser')) {
         function get_format() {
             return 'json';
         }
-
+        
         function get_type() {
             return 'native';
         }
@@ -86,9 +86,9 @@ if (!class_exists('CS_REST_NativeJsonSerialiser')) {
             return $this->strip_surrounding_quotes(is_null($data) ? $text : $data);
         }
 
-        /**
-         * We've had sporadic reports of people getting ID's from create routes with the surrounding quotes present.
-         * There is no case where these should be present. Just get rid of it.
+        /** 
+         * We've had sporadic reports of people getting ID's from create routes with the surrounding quotes present. 
+         * There is no case where these should be present. Just get rid of it. 
          */
         function strip_surrounding_quotes($data) {
             if(is_string($data)) {
@@ -102,9 +102,9 @@ if (!class_exists('CS_REST_NativeJsonSerialiser')) {
 
 if (!class_exists('CS_REST_ServicesJsonSerialiser')) {
     class CS_REST_ServicesJsonSerialiser extends CS_REST_BaseSerialiser {
-
+        
         var $_serialiser;
-
+        
         function __construct($log) {
             parent::__construct($log);
             $this->_serialiser = new Services_JSON();
@@ -117,19 +117,19 @@ if (!class_exists('CS_REST_ServicesJsonSerialiser')) {
         function get_format() {
             return 'json';
         }
-
+        
         function get_type() {
             return 'services_json';
         }
-
+        
         function serialise($data) {
         	if(is_null($data) || $data == '') return '';
             return $this->_serialiser->encode($this->check_encoding($data));
         }
-
+        
         function deserialise($text) {
             $data = $this->_serialiser->decode($text);
-
+            
             return is_null($data) ? $text : $data;
         }
     }

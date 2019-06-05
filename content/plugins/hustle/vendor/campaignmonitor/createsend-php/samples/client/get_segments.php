@@ -6,7 +6,7 @@ $auth = array(
     'access_token' => 'your access token',
     'refresh_token' => 'your refresh token');
 $wrap = new CS_REST_Clients(
-    'ClientID to get segments for',
+    'ClientID to get segments for', 
     $auth);
 
 $result = $wrap->get_segments();

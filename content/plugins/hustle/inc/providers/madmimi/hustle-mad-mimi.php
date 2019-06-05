@@ -5,7 +5,7 @@ if( !class_exists("Hustle_Mad_Mimi") ):
 include_once 'hustle-mad-mimi-api.php';
 
 class Hustle_Mad_Mimi extends Hustle_Provider_Abstract {
-
+	
 	const SLUG = "mad_mimi";
 	//const NAME = "Mad Mimi";
 
@@ -63,12 +63,12 @@ class Hustle_Mad_Mimi extends Hustle_Provider_Abstract {
 
 	/**
 	 * Provider constructor.
-	 */
+	 */	
 	public function __construct() {
 		$this->_icon = plugin_dir_url( __FILE__ ) . 'assets/icon-madmimi.png';
 		$this->_icon_x2 = plugin_dir_url( __FILE__ ) . 'assets/icon-madmimi.png';
 	}
-
+	
 	/**
 	 * Get Instance
 	 *
@@ -113,7 +113,7 @@ class Hustle_Mad_Mimi extends Hustle_Provider_Abstract {
 
 		$d = array();
 		$d['email'] =  $data['email'];
-
+		
 		$api_key 	= self::_get_api_key( $module );
 		$username 	= self::_get_username( $module );
 		$list_id 	= self::_get_email_list( $module );
@@ -173,7 +173,7 @@ class Hustle_Mad_Mimi extends Hustle_Provider_Abstract {
 	 *
 	 * @param $email string - Current guest user email address.
 	 * @param $module object - Hustle_Module_Model
-	 *
+	 * 
 	 * @return bool Returns true if the specified email already subscribe otherwise false.
 	 */
 	public function email_exist( $email, $api_key, $username, $list_id ) {
@@ -194,7 +194,7 @@ class Hustle_Mad_Mimi extends Hustle_Provider_Abstract {
 					}
 				}
 			}
-
+			
 		}
 		return false;
 	}
@@ -214,7 +214,7 @@ class Hustle_Mad_Mimi extends Hustle_Provider_Abstract {
 
 	public static function add_values_to_previous_optins( $option, $module  ){
 		if( self::SLUG !== $module->content->active_email_service ) return $option;
-
+		
 		$username = self::_get_username( $module );
 
 		if( "optin_username_id" === $option['id'] && isset( $username ) ){

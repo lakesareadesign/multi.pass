@@ -4,10 +4,10 @@
  * Any change(s) to this file is subject to:
  * - Properly Written DocBlock! (what is this, why is that, how to be like those, etc, as long as you want!)
  * - Properly Written Changelog!
- *
+ * 
  * This class should be extended by your integration in order to display a settings section for it within Hustle.
  * For more information, more examples, and even sample integrations, visit this page at WPMUDev's site:
- * @see https://linktodocumentation.com
+ * @see https://linktodocumentation.com 
  *
  * @since 3.0.5
  */
@@ -21,28 +21,28 @@ abstract class Hustle_Provider_Form_Settings_Abstract {
 	 * @var Hustle_Provider_Abstract
 	 */
 	protected $provider;
-
+	
 	public function __construct( Hustle_Provider_Abstract $provider ) {
 		$this->provider = $provider;
 	}
-
+	
 	/**
 	 * Gets the array that define the contents of the settings wizard.
 	 * Override this function to set wizardable settings.
 	 * Default is an empty array which is indicating that Provider doesn't have settings.
-	 *
+	 * 
 	 * -Optional. Required if your integration has settings.
 	 *
 	 * It's a multi-array with numerical keys, starting with `0`.
 	 * Every step you'd like your settings wizard to have should be an array within the $steps array.
 	 * Every step's array must have these key => value pairs:
-	 *
+	 * 
 	 * - 'callback' :	  array with the function to be called by 'call_user_func'. @example array( $this, 'sample_first_step_callback' ),
 	 * 					  @see Hustle_Provider_Form_Settings_Abstract::sample_first_step_callback()
-	 *
+	 * 
 	 * - 'is_completed' : array with the function to be called by 'call_user_func'. @example array( $this, 'sample_is_first_step_completed' ),
 	 *		   			  @see Hustle_Provider_Form_Settings_Abstract::sample_is_first_step_completed()
-	 *
+	 * 
 	 * @since 3.0.5
 	 * @return array
 	 */
@@ -63,11 +63,11 @@ abstract class Hustle_Provider_Form_Settings_Abstract {
 				 */
 				'callback'     => array( $this, 'sample_first_step_callback' ),
 				/**
-				 * When moving forward on the wizard's steps (when going from step 1 to step 2, for exmaple),
+				 * When moving forward on the wizard's steps (when going from step 1 to step 2, for exmaple), 
 				 * Hustle will call 'is_completed' from the previous step before calling the 'callback' function.
 				 * If this function returns 'false', the wizard won't move forward to the next step.
 				 * Just like 'callback', the value of this element will be passed as the first argument of `call_user_func`.
-				 *
+				 * 
 				 * This callback should accept 1 argument and return a boolean.
 				 * @see Hustle_Provider_Form_Settings_Abstract::sample_is_first_step_completed()
 				 *
@@ -85,15 +85,15 @@ abstract class Hustle_Provider_Form_Settings_Abstract {
 
 		return array();
 	}
-
+	
 	/**
 	 * Handles the current wizard step.
 	 * This function retrieves the form to be shown and handles the submitted data.
-	 *
+	 * 
 	 * Sample of what this function should return:
-	 * @example
+	 * @example 
 	 * $returned_data = [
-	 * 	'html' => string. Contains the HTML of the form settings to be displayed.
+	 * 	'html' => string. Contains the HTML of the form settings to be displayed. 
 	 * 	'has_errors' => boolean. True when it has errors, such as an invalid input. The wizard won't move forward if there are errors.
 	 * 	'buttons' =>
 	 * 		'submit' => [
@@ -136,21 +136,21 @@ abstract class Hustle_Provider_Form_Settings_Abstract {
 	 * Retrieves the HTML that's used by most of the integrated providers to show the saved list.
 	 * Override if this doesn't fit the provider's saved values, or just don't use it.
 	 * -Helper.
-	 *
+	 * 
 	 * @since   3.0.5
 	 * @return bool
 	 */
 	protected function get_current_list_name_markup() {
-		// The tags with the class "current_{field name}" will be filled in the frontend
+		// The tags with the class "current_{field name}" will be filled in the frontend 
 		// with the saved settings named by {field_name}
 		$html = '<div id="optin-provider-saved-args" class="refresh-lists-hide">';
 
 		$html .= '<label class="wpmudev-label--notice"><span>';
-		$html .= sprintf( __('Selected list (%s). Press the Fetch Lists button to update value.', Opt_In::TEXT_DOMAIN ), '<strong class="current_list_name"></strong>' );
+		$html .= sprintf( __('Selected list (%s). Press the Fetch Lists button to update value.', Opt_In::TEXT_DOMAIN ), '<strong class="current_list_name"></strong>' ); 
 		$html .= '</span></label>';
 
 		$html .= '</div>';
-
+		
 		return $html;
 	}
 
@@ -198,7 +198,7 @@ abstract class Hustle_Provider_Form_Settings_Abstract {
 	/**
 	 * Retrieves the markup of the "Back" button for settings.
 	 * -Helper.
-	 *
+	 * 
 	 * @since   3.0.5
 	 * @param string $value
 	 * @param string $class
@@ -217,7 +217,7 @@ abstract class Hustle_Provider_Form_Settings_Abstract {
 	/**
 	 * Retrieves the markup of the "Cancel" button for settings.
 	 * -Helper.
-	 *
+	 * 
 	 * @since   3.0.5
 	 * @param string $value
 	 * @param string $class
@@ -236,8 +236,8 @@ abstract class Hustle_Provider_Form_Settings_Abstract {
 	/**
 	 * Retrieves the markup of the "Next" button for settings.
 	 * -Helper.
-	 *
-	 *
+	 * 
+	 * 
 	 * @since   3.0.5
 	 * @param string $value
 	 * @param string $class
@@ -256,7 +256,7 @@ abstract class Hustle_Provider_Form_Settings_Abstract {
 	/**
 	 * Saves the property 'desc' getting it's value from the property 'api_key'.
 	 * Intended to be used on the 1st step when assigning the value of 'api_key' to 'desc' on the returned array.
-	 * The value of 'desc' is what will be shown below the Provider’s title and above the text saying
+	 * The value of 'desc' is what will be shown below the Provider’s title and above the text saying 
 	 * “Click here to edit or change your email provider”, under “Email collection module” section on “Content” tab.
 	 * -Helper.
 	 *

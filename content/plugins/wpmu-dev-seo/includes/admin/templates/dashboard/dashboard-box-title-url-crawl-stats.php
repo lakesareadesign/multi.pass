@@ -18,7 +18,7 @@ $sitemap_issues_tooltip = _n(
 	<div class="sui-actions-left">
 		<span class="sui-tag sui-tag-warning sui-tooltip"
 		      data-tooltip="<?php echo esc_attr( sprintf( $sitemap_issues_tooltip, $active_issues ) ); ?>">
-
+	
 			<?php echo intval( $active_issues ); ?>
 		</span>
 	</div>

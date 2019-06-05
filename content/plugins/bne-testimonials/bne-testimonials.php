@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: BNE Testimonials
- * Version: 2.0.3
+ * Version: 2.0.4
  * Description: Display testimonials on any page or widget area as list or slider. Upgrade to PRO for additional layouts, themes, API, 5-star ratings and schema markup.
  * Author: Kerry Kline
  * Author URI: https://www.bnecreative.com
@@ -9,7 +9,7 @@
  * Text Domain: bne-testimonials
  * License: GPL2
 
-    Copyright (C) 2013-2018 BNE Creative
+    Copyright (C) 2013-2019 BNE Creative
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -45,7 +45,7 @@ class BNE_Testimonials {
 	function __construct() {
 		
 		// Set Constants
-		define( 'BNE_TESTIMONIALS_VERSION', '2.0.3' );
+		define( 'BNE_TESTIMONIALS_VERSION', '2.0.4' );
 		define( 'BNE_TESTIMONIALS_DIR', dirname( __FILE__ ) );
 		define( 'BNE_TESTIMONIALS_URI', plugins_url( '', __FILE__ ) );
 		define( 'BNE_TESTIMONIALS_BASENAME', plugin_basename( __FILE__ ) );
@@ -169,10 +169,10 @@ class BNE_Testimonials {
 		wp_register_style( 'bne-testimonials-css', BNE_TESTIMONIALS_URI . '/assets/css/bne-testimonials'.$min.'.css', '', BNE_TESTIMONIALS_VERSION, 'all' );
 				
 		// Check if we're on a BNE WordPress Theme...
-		if( !defined('BNE_FRAMEWORK_VERSION') ) {
+		//if( !defined('BNE_FRAMEWORK_VERSION') ) {
 			// Flexslider
 			wp_register_script( 'flexslider', BNE_TESTIMONIALS_URI . '/assets/js/flexslider.min.js', array('jquery'), '2.2.2', true );
-		}
+		//}
 	
 		// Load the plugin CSS
 		wp_enqueue_style( 'bne-testimonials-css');

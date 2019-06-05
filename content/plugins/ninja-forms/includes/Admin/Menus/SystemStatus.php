@@ -162,6 +162,13 @@ final class NF_Admin_Menus_SystemStatus extends NF_Abstracts_Submenu
 
         $dev_mode = Ninja_Forms()->get_setting('builder_dev_mode' );
 
+        $sql_version_variable = $wpdb->get_row("show variables like 'version'");
+        if($sql_version_variable && property_exists($sql_version_variable, 'Value')){
+            $sql_version_variable_value = $sql_version_variable->Value;
+        } else {
+            $sql_version_variable_value = 'unknown';
+        }
+
         //Output array
         $environment = array(
             __( 'Home URL','ninja-forms' ) => home_url(),
@@ -176,6 +183,7 @@ final class NF_Admin_Menus_SystemStatus extends NF_Abstracts_Submenu
             __( 'PHP Version','ninja-forms' ) => esc_html( phpversion() ),
             //TODO: Possibly Refactor with Ninja forms global $_db?
             __( 'MySQL Version','ninja-forms' ) => $wpdb->db_version(),
+            __( 'SQL Version Variable','ninja-forms' ) => $sql_version_variable_value,
             __( 'PHP Locale','ninja-forms' ) =>  $data,
             //TODO: Possibly move the ninja_forms_letters_to_numbers function over.
             __( 'WP Memory Limit','ninja-forms' ) => WP_MEMORY_LIMIT,

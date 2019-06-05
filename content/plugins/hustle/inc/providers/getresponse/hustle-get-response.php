@@ -70,12 +70,12 @@ class Hustle_Get_Response extends Hustle_Provider_Abstract {
 
 	/**
 	 * Provider constructor.
-	 */
+	 */	
 	public function __construct() {
 		$this->_icon = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 		$this->_icon_x2 = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 	}
-
+	
 	/**
 	 * Get Instance
 	 *
@@ -183,7 +183,7 @@ class Hustle_Get_Response extends Hustle_Provider_Abstract {
 					}
 				}
 				$new_data['customFieldValues'][] = array(
-					'customFieldId' => $custom_field_id,
+					'customFieldId' => $custom_field_id, 
 					'value' => array( $value ),
 				);
 			}
@@ -257,7 +257,7 @@ class Hustle_Get_Response extends Hustle_Provider_Abstract {
 		}
 
 		return array(
-			'success' => true,
+			'success' => true, 
 			'field' => $field,
 		);
 	}

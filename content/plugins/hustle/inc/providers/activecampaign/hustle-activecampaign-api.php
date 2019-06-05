@@ -117,14 +117,14 @@ class Hustle_Activecampaign_Api {
 
 		if( is_wp_error( $res ) || ! is_array( $res ) )
 			return $res;
-
+		
 		$res2 = array();
 		foreach ( $res as $key => $value ) {
 			if( is_numeric( $key ) ) {
 				array_push( $res2, $value );
 			}
 		}
-
+		
 		return $res2;
 	}
 
@@ -133,10 +133,10 @@ class Hustle_Activecampaign_Api {
 	 *
 	 * @param string $id ID of the List or Form to which the user will be subscribed to
 	 * @param array $data with the subscription data
-	 * @param Hustle_Module_Model $module
+	 * @param Hustle_Module_Model $module 
 	 * @param array $orig_data
 	 * @param string $sign_up_to Indicates if the subscription is done to a Form or to a List
-	 *
+	 * 
 	 * @return array|mixed|object|WP_Error
 	 */
 	public function subscribe( $id, array $data, Hustle_Module_Model $module, $orig_data, $sign_up_to = 'list' ){

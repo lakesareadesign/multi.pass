@@ -71,12 +71,12 @@ class Hustle_Aweber extends Hustle_Provider_Abstract {
 
 	/**
 	 * Provider constructor.
-	 */
+	 */	
 	public function __construct() {
 		$this->_icon = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 		$this->_icon_x2 = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 	}
-
+	
 	/**
 	 * Get Instance
 	 *
@@ -217,14 +217,14 @@ class Hustle_Aweber extends Hustle_Provider_Abstract {
 
 	/**
 	 * Gets the Aweber account object, instance of AWeberEntry
-	 *
+	 * 
 	 * @since 3.0.6
 	 *
 	 */
 	public function get_account( $api_key = null ) {
 
 		if ( ! is_null( $api_key ) && $this->get_provider_option( self::AUTH_CODE, '' ) !== $api_key ) {
-
+			
 			// Check if API key is valid
 			try {
 				$aweber_data = AWeberAPI::getDataFromAweberID( $api_key );
@@ -232,7 +232,7 @@ class Hustle_Aweber extends Hustle_Provider_Abstract {
 				Hustle_Api_Utils::maybe_log( $e->message );
 				return false;
 			}
-
+			
 			list($consumer_key, $consumer_secret, $access_token, $access_secret) = $aweber_data;
 
 			$this->update_provider_option( self::CONSUMER_KEY, $consumer_key );
@@ -260,11 +260,11 @@ class Hustle_Aweber extends Hustle_Provider_Abstract {
 		return $account;
 
 	}
-
+	
 	public static function _get_api_key( Hustle_Module_Model $module ) {
 		return self::get_provider_details( $module, 'api_key', self::SLUG );
 	}
-
+	
 	private static function _get_list_id( Hustle_Module_Model $module ) {
 		return self::get_provider_details( $module, 'list_id', self::SLUG );
 	}
@@ -315,7 +315,7 @@ class Hustle_Aweber extends Hustle_Provider_Abstract {
 							$list->custom_fields->create( array( 'name' => 'yup') );
 						} catch( AWeberAPIException $exc ){
 							Hustle_Api_Utils::maybe_log( $exc->type . '. ' . $exc->message . '. ' . $exc->documentation_url );
-						}
+						}	
 						$exist = true;
 					}
 				}
@@ -323,14 +323,14 @@ class Hustle_Aweber extends Hustle_Provider_Abstract {
 		}
 
 		if ( $exist ) {
-			return array(
-				'success' => true,
+			return array( 
+				'success' => true, 
 				'fields' => $fields,
 			);
 		}
 
-		return array(
-			'error' => true,
+		return array( 
+			'error' => true, 
 			'code' => 'cannot_create_custom_field',
 		);
 	}

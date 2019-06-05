@@ -35,6 +35,7 @@ abstract class ShareaholicShareCount {
     return array(
       'facebook' => array(
         'url' => 'https://graph.facebook.com/?fields=og_object{engagement{count}}&id=%s',
+        'url_auth' => 'https://graph.facebook.com/?access_token=%auth%&fields=engagement&id=%s',
         'method' => 'GET',
         'timeout' => 3,  // in number of seconds
         'callback' => 'facebook_count_callback',
@@ -123,7 +124,7 @@ abstract class ShareaholicShareCount {
   /**
    * Get the client's ip address
    *
-   * NOTE: this function does not care if the IP is spoofed. This is used
+   * NOTE: this function does not care if the IP is spoofed. This was used
    * only by the google plus count API to separate server side calls in order
    * to prevent usage limits. Under normal conditions, a request from a user's
    * browser to this API should not involve any spoofing.
@@ -156,12 +157,27 @@ abstract class ShareaholicShareCount {
    * @param Array $response The response from calling the API
    * @return mixed The counts from the API or false if error
    */
-  public function facebook_count_callback($response) {
+  public function facebook_count_callback($response, $facebook_access_token = false) {
     if($this->has_http_error($response)) {
       return false;
     }
     $body = json_decode($response['body'], true);
-    return isset($body['og_object']['engagement']['count']) ? intval($body['og_object']['engagement']['count']) : false;
+    $count = 0;
+        
+    if ($facebook_access_token) {
+      if (isset($body['engagement']['share_count'])) {
+        $count += $body['engagement']['share_count'];
+      }
+      if (isset($body['engagement']['reaction_count'])) {
+        $count += $body['engagement']['reaction_count'];
+      }
+      if (isset($body['engagement']['comment_count'])) {
+        $count += $body['engagement']['comment_count'];
+      }
+      return $count;
+    } else {
+      return isset($body['og_object']['engagement']['count']) ? intval($body['og_object']['engagement']['count']) : 0;
+    }
   }
 
 
@@ -178,7 +194,7 @@ abstract class ShareaholicShareCount {
     }
     $response['body'] = substr($response['body'], 2, strlen($response['body']) - 3);
     $body = json_decode($response['body'], true);
-    return isset($body['count']) ? intval($body['count']) : false;
+    return isset($body['count']) ? intval($body['count']) : 0;
   }
 
 
@@ -194,7 +210,7 @@ abstract class ShareaholicShareCount {
       return false;
     }
     $body = json_decode($response['body'], true);
-    return isset($body['shares']) ? intval($body['shares']) : false;
+    return isset($body['shares']) ? intval($body['shares']) : 0;
   }
 
 
@@ -232,7 +248,7 @@ abstract class ShareaholicShareCount {
     // From documentation, need to just grab the 2nd param: http://vk.com/developers.php?oid=-17680044&p=Share
     $matches = array();
     preg_match('/^VK\.Share\.count\(\d, (\d+)\);$/i', $response['body'], $matches);
-    return isset($matches[1]) ? intval($matches[1]) : false;
+    return isset($matches[1]) ? intval($matches[1]) : 0;
   }
 
 
@@ -248,11 +264,11 @@ abstract class ShareaholicShareCount {
       return false;
     }
 
-    // Another weird API. Similar to vk, extract the 2nd param from the response:
+    // Similar to vk, extract the 2nd param from the response:
     // 'ODKL.updateCount('odklcnt0','14198');'
     $matches = array();
     preg_match('/^ODKL\.updateCount\(\'odklcnt0\',\'(\d+)\'\);$/i', $response['body'], $matches);
-    return isset($matches[1]) ? intval($matches[1]) : false;
+    return isset($matches[1]) ? intval($matches[1]) : 0;
   }
 
   /**
@@ -274,7 +290,7 @@ abstract class ShareaholicShareCount {
     $response['body'] = substr($response['body'], 0, strlen($response['body']) - 2);
 
     $body = json_decode($response['body'], true);
-    return isset($body['count']) ? intval($body['count']) : false;
+    return isset($body['count']) ? intval($body['count']) : 0;
   }
   
   /**
@@ -289,7 +305,7 @@ abstract class ShareaholicShareCount {
       return false;
     }
     $body = json_decode($response['body'], true);
-    return isset($body['response']['note_count']) ? intval($body['response']['note_count']) : false;
+    return isset($body['response']['note_count']) ? intval($body['response']['note_count']) : 0;
   }
 
   /**
@@ -304,7 +320,7 @@ abstract class ShareaholicShareCount {
       return false;
     }
     $body = json_decode($response['body'], true);
-    return isset($body['count']) ? intval($body['count']) : false;
+    return isset($body['count']) ? intval($body['count']) : 0;
   }
   
   /**

@@ -47,9 +47,9 @@ abstract class Hustle_GHBlock_Abstract {
 	 * @since 1.0 Gutenberg Addon
 	 */
 	public function register_block() {
-
+		
 		if ( function_exists( 'register_block_type' ) ) {
-
+			
 			register_block_type( 'hustle/' . $this->get_slug(), array(
 				'render_callback' => array( $this, 'render_block' ),
 			) );
@@ -69,7 +69,7 @@ abstract class Hustle_GHBlock_Abstract {
 	public function render_block( $properties = array() ) {
 		return '';
 	}
-
+	
 	/**
 	 * Enqueue assets ( scritps / styles )
 	 * Should be overriden in block class

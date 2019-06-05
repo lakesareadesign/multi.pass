@@ -481,7 +481,7 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 						$wpdb->query( 'SET foreign_key_checks = 0' );
 
 						$ret_db = $wpdb->query( $sql ); // phpcs:ignore
-
+						
 						if ( ( false === $ret_db ) && ( (bool) preg_match( '/^create table/i', $sql ) ) ) {
 							$last_error = $wpdb->last_error;
 							// Failed on create statement, this could be down to FK checks.
@@ -502,7 +502,7 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 									if ( false !== $ret_db ) {
 										$log[] = 'Table creation for the ' . $source_table_name . ' table succeeded after dropping the original table first';
 									}
-
+									
 								}
 							}
 

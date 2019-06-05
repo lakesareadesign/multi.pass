@@ -5,7 +5,7 @@ class Hustle_Zapier extends Hustle_Provider_Abstract {
 
 	const SLUG = "zapier";
 	//const NAME = "Zapier";
-
+	
 	/**
 	 * Provider Instance
 	 *
@@ -26,7 +26,7 @@ class Hustle_Zapier extends Hustle_Provider_Abstract {
 	 * @var string
 	 */
 	protected $_version				   = '1.0';
-
+	
 	/**
 	 * @since 3.0.5
 	 * @var string
@@ -54,12 +54,12 @@ class Hustle_Zapier extends Hustle_Provider_Abstract {
 
 	/**
 	 * Provider constructor.
-	 */
+	 */	
 	public function __construct() {
 		$this->_icon = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 		$this->_icon_x2 = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 	}
-
+	
 	/**
 	 * Get Instance
 	 *

@@ -42,7 +42,7 @@
         </div>
 
 		<br>
-
+		
 		<div id="wph-wizard-content-after_subscription_options">
 
 			<label><?php esc_attr_e( "After Hustle's form is submitted and opening this page again", Opt_In::TEXT_DOMAIN ); ?></label>

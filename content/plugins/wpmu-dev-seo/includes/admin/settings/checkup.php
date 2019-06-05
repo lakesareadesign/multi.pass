@@ -237,3 +237,4 @@ class Smartcrawl_Checkup_Settings extends Smartcrawl_Settings_Admin {
 		return $email_details;
 	}
 }
+

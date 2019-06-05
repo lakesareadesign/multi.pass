@@ -156,7 +156,7 @@ if (!class_exists('CS_REST_Subscribers')) {
     		    'Subscribers' => $subscribers,
                 'RestartSubscriptionBasedAutoresponders' => $restartSubscriptionBasedAutoResponders
             );
-
+            
             return $this->post_request($this->_subscribers_base_route.'/import.json', $subscribers);
         }
 
@@ -214,9 +214,9 @@ if (!class_exists('CS_REST_Subscribers')) {
         function unsubscribe($email) {
             // We need to build the subscriber data structure.
             $email = array(
-    		    'EmailAddress' => $email
+    		    'EmailAddress' => $email 
             );
-
+            
             return $this->post_request($this->_subscribers_base_route.'/unsubscribe.json', $email);
         }
 

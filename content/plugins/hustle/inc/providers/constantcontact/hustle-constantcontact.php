@@ -1,6 +1,6 @@
 <?php
 if( !class_exists("Hustle_ConstantContact") ):
-
+	
 class Hustle_ConstantContact extends Hustle_Provider_Abstract {
 
 	const SLUG = "constantcontact";
@@ -15,7 +15,7 @@ class Hustle_ConstantContact extends Hustle_Provider_Abstract {
 	 * @var self|null
 	 */
 	protected static $_instance 	   = null;
-
+	
 	/**
 	 * @since 3.0.5
 	 * @var string
@@ -61,7 +61,7 @@ class Hustle_ConstantContact extends Hustle_Provider_Abstract {
 
 	/**
 	 * Hustle_ConstantContact constructor.
-	 */
+	 */	
 	public function __construct() {
 		$this->_icon = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 		$this->_icon_x2 = plugin_dir_url( __FILE__ ) . 'images/logo.png';
@@ -72,7 +72,7 @@ class Hustle_ConstantContact extends Hustle_Provider_Abstract {
 		// Instantiate the API on constructor because it's required after getting the authorization
 		$hustle_constantcontact = new Hustle_ConstantContact_Api();
 	}
-
+	
 	/**
 	 * Get Instance
 	 *
@@ -97,7 +97,7 @@ class Hustle_ConstantContact extends Hustle_Provider_Abstract {
 		if ( ! class_exists( 'Hustle_ConstantContact_Api' ) ){
 			require_once 'hustle-constantcontact-api.php';
 		}
-
+			
 
 		if ( class_exists( 'Hustle_ConstantContact_Api' ) ){
 			$api = new Hustle_ConstantContact_Api();
@@ -106,12 +106,12 @@ class Hustle_ConstantContact extends Hustle_Provider_Abstract {
 			return new WP_Error( 'error', __( "API Class could not be initialized", Opt_In::TEXT_DOMAIN )  );
 		}
 
-
+		
 	}
 
 	public function subscribe( Hustle_Module_Model $module, array $data ) {
 		$err = new WP_Error();
-
+		
 
 		try {
 			$api = $this->api();
@@ -124,7 +124,7 @@ class Hustle_ConstantContact extends Hustle_Provider_Abstract {
 			if ( $exists ) {
 				$err->add( 'email_exist', __( 'This email address has already subscribed.', Opt_In::TEXT_DOMAIN ) );
 				return $err;
-			}
+			} 
 
 			$first_name = '';
 			$last_name = '';

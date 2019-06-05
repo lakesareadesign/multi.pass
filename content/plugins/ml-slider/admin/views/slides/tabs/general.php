@@ -1,14 +1,27 @@
 <?php if (!defined('ABSPATH')) die('No direct access.'); ?>
-<div class="row can-inherit caption<?php echo $inherit_image_caption_class; ?>">
-	<label><?php _e("Caption", "ml-slider"); ?></label>
-	<div class="input-label right">
-		<label class="small" title="<?php _e('Enable this to inherit the caption from the image', 'ml-slider'); ?>">
-			<?php _e("Use the image caption", "ml-slider"); ?> <input autocomplete="off" type="checkbox" class="js-inherit-from-image" name="attachment[<?php echo $slide_id; ?>][inherit_image_caption]" <?php echo $inherit_image_caption_check; ?>>
-		</label>
-	</div>
-	<div class="default"><?php echo $image_caption ? $image_caption : '<span class="no-content">' . __('No default caption set', 'ml-slider') . '</span>'; ?></div>
-	<textarea name="attachment[<?php echo $slide_id; ?>][post_excerpt]"><?php echo $caption; ?></textarea>
-</div>
+
+<?php // Handle captions
+	$slide_caption = (esc_textarea($this->slide->post_excerpt));
+	$image_caption = (esc_textarea($attachment->post_excerpt));
+	$image_description = (esc_textarea($attachment->post_content));
+
+	// Deprecate inherit_image_caption by deleting it and setting the source as the image 
+	if ($use_image_caption = (bool) get_post_meta($this->slide->ID, 'ml-slider_inherit_image_caption', true)) {
+		update_post_meta($this->slide->ID, 'ml-slider_caption_source', 'image-caption');
+		delete_post_meta($this->slide->ID, 'ml-slider_inherit_image_caption');
+	}
+
+	$caption_source = get_post_meta($this->slide->ID, 'ml-slider_caption_source', true); ?>
+	<metaslider-caption
+		image-caption='<?php echo $image_caption ?>'
+		image-description='<?php echo $image_description ?>'
+		override='<?php echo $slide_caption ?>'
+		caption-source='<?php echo $caption_source ?>'></metaslider-caption>
+
+<?php // Handle URL and target
+	$url = esc_attr(get_post_meta($slide_id, 'ml-slider_url', true));
+	$target = get_post_meta($slide_id, 'ml-slider_new_window', true) ? 'checked=checked' : ''; 
+?>
 <div class="row has-right-checkbox">
 	<input class="url" type="text" name="attachment[<?php echo $slide_id; ?>][url]" placeholder="<?php _e("URL", "ml-slider"); ?>" value="<?php echo $url; ?>" />
 	<div class="input-label right new_window">

@@ -13,3 +13,4 @@ $this->_render( 'toggle-group', array(
 	'separator'   => true,
 	'items'       => $items,
 ) );
+

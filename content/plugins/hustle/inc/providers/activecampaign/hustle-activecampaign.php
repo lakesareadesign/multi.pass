@@ -4,7 +4,7 @@ if( !class_exists("Hustle_Activecampaign") ):
 include_once 'hustle-activecampaign-api.php';
 
 class Hustle_Activecampaign extends Hustle_Provider_Abstract {
-
+	
 	const SLUG = "activecampaign";
 	//const NAME = "ActiveCampaign";
 
@@ -13,7 +13,7 @@ class Hustle_Activecampaign extends Hustle_Provider_Abstract {
 	 */
 	protected  static $api;
 	protected  static $errors;
-
+	
 	/**
 	 * Provider Instance
 	 *
@@ -62,7 +62,7 @@ class Hustle_Activecampaign extends Hustle_Provider_Abstract {
 
 	/**
 	 * Provider constructor.
-	 */
+	 */	
 	public function __construct() {
 		$this->_icon = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 		$this->_icon_x2 = plugin_dir_url( __FILE__ ) . 'images/logo.png';
@@ -128,10 +128,10 @@ class Hustle_Activecampaign extends Hustle_Provider_Abstract {
 			$data['last_name'] = $data['l_name']; // Legacy
 			unset( $data['l_name'] );
 		}
-		$custom_fields = array_diff_key( $data, array(
-			'first_name' => '',
-			'last_name' => '',
-			'email' => ''
+		$custom_fields = array_diff_key( $data, array( 
+			'first_name' => '', 
+			'last_name' => '', 
+			'email' => '' 
 		) );
 		$orig_data = $data;
 
@@ -148,7 +148,7 @@ class Hustle_Activecampaign extends Hustle_Provider_Abstract {
 	public static function _get_api_key( Hustle_Module_Model $module ) {
 		return self::get_provider_details( $module, 'api_key', self::SLUG );
 	}
-
+	
 	public static function _get_api_url( Hustle_Module_Model $module ) {
 		return self::get_provider_details( $module, 'url', self::SLUG );
 	}
@@ -159,7 +159,7 @@ class Hustle_Activecampaign extends Hustle_Provider_Abstract {
 
 	/**
 	 * Get the stored form_id
-	 *
+	 * 
 	 * @since 3.0.7
 	 *
 	 * @param Hustle_Module_Model $module
@@ -173,7 +173,7 @@ class Hustle_Activecampaign extends Hustle_Provider_Abstract {
 	 * Get if the subscription should be related to a form or a list
 	 *
 	 * @since 3.0.7
-	 *
+	 * 
 	 * @param Hustle_Module_Model $module
 	 * @return string
 	 */
@@ -225,9 +225,9 @@ class Hustle_Activecampaign extends Hustle_Provider_Abstract {
 		$list_id    = self::_get_api_list_id( $module );
 
 		$api        = self::api( $ac_url, $api_key );
-
+		
 		$available_fields = array( 'first_name', 'last_name', 'email' );
-
+		
 		foreach ( $fields as $field ) {
 			if ( ! in_array( $field['name'], $available_fields, true ) ) {
 				$custom_field = array( $field['name'] => $field['label'] );
@@ -235,8 +235,8 @@ class Hustle_Activecampaign extends Hustle_Provider_Abstract {
 			}
 		}
 
-		return array(
-			'success' => true,
+		return array( 
+			'success' => true, 
 			'fields' => $fields,
 		);
 	}

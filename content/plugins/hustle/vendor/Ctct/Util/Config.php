@@ -120,7 +120,7 @@ class Config
         'errors'    => array(
             'id_or_object'        => 'Only an id or %s object are allowed for this method.'
         ),
-
+        
         /**
          * Setting the version fo the application used in Rest Calls when setting the version header
          */

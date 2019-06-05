@@ -258,12 +258,12 @@ class Opt_In_Utils {
 		}
 		return false;
 	}
-
-
+	
+	
 	/**
 	 * Providers utilities from here below
 	 */
-
+	
 	/**
 	 * Gets an array with the file extensions for images allowed by Hustle
 	 * Intended to be used when including Providers' icons
@@ -273,16 +273,16 @@ class Opt_In_Utils {
 	 */
 	public static function get_allowed_image_extensions() {
 		$allowed_extensions = array( 'jpg', 'png' );
-
+		
 		/**
 		 * Filter to change the allowed extensions
-		 *
+		 * 
 		 * @since 3.0.5
 		 */
 		apply_filters( 'hustle_get_allowed_image_extensions', $allowed_extensions );
 		return $allowed_extensions;
 	}
-
+	
 	/**
 	 *  Gets an array with the file extensions for renderables allowed by Hustle
 	 * Intended to be used when including Providers' icons
@@ -292,10 +292,10 @@ class Opt_In_Utils {
 	 */
 	public static function get_allowed_renderable_extensions() {
 		$allowed_extensions = array( 'php', 'html' );
-
+		
 		/**
 		 * Filter to change the allowed extensions
-		 *
+		 * 
 		 * @since 3.0.5
 		 */
 		apply_filters( 'hustle_get_allowed_renderable_extensions', $allowed_extensions );
@@ -324,7 +324,7 @@ class Opt_In_Utils {
 	public static function get_provider_by_slug( $slug ){
 		return Hustle_Providers::get_instance()->get_provider( $slug );
 	}
-
+	
 	/**
 	 * Get all activable providers as list
 	 *
@@ -340,11 +340,11 @@ class Opt_In_Utils {
 		}
 		return $providers_list;
 	}
-
+	
 
 	/**
 	 * Used for sanitizing form submissions.
-	 * This method will do a simple sanitation of $post_data. It applies sanitize_text_field() to the keys and values of the first level array.
+	 * This method will do a simple sanitation of $post_data. It applies sanitize_text_field() to the keys and values of the first level array. 
 	 * The keys from second level arrays are converted to numbers, and their values are sanitized with sanitize_text_field() as well.
 	 * This method doesn’t do an exhaustive sanitation, so you should handled special cases if your integration requires something different.
 	 * The names passed on $required_fields are searched into $post_data array keys. If the key is not set, an array with the key “errors” is returned.
@@ -390,14 +390,14 @@ class Opt_In_Utils {
 	/**
 	 * Sanitizes the values of a multi-dimensional array.
 	 * The keys of the sub-arrays are converted to numerical arrays.
-	 * Sub-arrays are expected to have numerical indexes.
+	 * Sub-arrays are expected to have numerical indexes. 
 	 *
 	 * @since 3.0.5
 	 * @param array|string $value
 	 * @return string
 	 */
 	public static function sanitize_text_input_deep( $value, $key = null ) {
-		$value = is_array( $value ) ?
+		$value = is_array( $value ) ? 
 					array_map( array( 'Opt_In_Utils', 'sanitize_text_input_deep' ), $value, array_keys($value) ) :
 					sanitize_text_field( $value );
 
@@ -434,5 +434,14 @@ class Opt_In_Utils {
 			}
 
 		}
+	}
+
+	public static function escape_csv_data( $data ) {
+		$active_content_triggers = array( '=', '+', '-', '@' );
+		if ( in_array( mb_substr( $data, 0, 1 ), $active_content_triggers, true ) ) {
+			$data = "'" . $data . "'";
+		}
+
+		return $data;
 	}
 }

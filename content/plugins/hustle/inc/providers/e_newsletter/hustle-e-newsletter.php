@@ -3,7 +3,7 @@
 if ( ! class_exists ('Hustle_E_Newsletter' ) ):
 
 class Hustle_E_Newsletter extends Hustle_Provider_Abstract {
-
+	
 	/**
 	 * @var $_email_newsletter Email_Newsletter
 	 */
@@ -13,7 +13,7 @@ class Hustle_E_Newsletter extends Hustle_Provider_Abstract {
 	 * @var $_email_builder Email_Newsletter_Builder
 	 */
 	private $_email_builder;
-
+	
 	const SLUG = "e_newsletter";
 	//const NAME = "e-Newsletter";
 
@@ -60,16 +60,16 @@ class Hustle_E_Newsletter extends Hustle_Provider_Abstract {
 
 	/**
 	 * Provider constructor.
-	 */
+	 */	
 	public function __construct() {
 		$this->_icon = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 		$this->_icon_x2 = plugin_dir_url( __FILE__ ) . 'images/logo.png';
-
-		global $email_newsletter, $email_builder;
+		
+		global $email_newsletter, $email_builder; 
 		$this->_email_builder = $email_builder;
 		$this->_email_newsletter = $email_newsletter;
 	}
-
+	
 	/**
 	 * Get Instance
 	 *
@@ -82,7 +82,7 @@ class Hustle_E_Newsletter extends Hustle_Provider_Abstract {
 
 		return self::$_instance;
 	}
-
+	
 	/**
 	 * Subscribes to E-Newsletter
 	 *
@@ -95,11 +95,11 @@ class Hustle_E_Newsletter extends Hustle_Provider_Abstract {
 	 * @return array
 	 */
 	public function subscribe( Hustle_Module_Model $module, array $data ){
-
+		
 		$groups = self::get_provider_details( $module, 'list_id', $this->_slug );
 		$double_opt_in = self::_get_auto_optin( $module ) === 'pending' ? true : false ;
 		$subscribe = $double_opt_in ? "" : 1;
-
+		
 		$_data = array();
 		$_data['member_email'] = $data['email'];
 
@@ -108,29 +108,29 @@ class Hustle_E_Newsletter extends Hustle_Provider_Abstract {
 
 		if( isset( $data['last_name'] ) )
 			$_data['member_lname'] = $data['last_name'];
-
+		
 		$_data['is_hustle'] = true;
 		$e_newsletter = $this->_email_newsletter;
-
+		
 		if( !$this->is_member( $_data['member_email'] ) ){
 			$insert_data = $e_newsletter->create_update_member_user( "",  $_data, $subscribe );
-
+			
 			if( isset( $insert_data['results'] ) && in_array( "member_inserted", (array) $insert_data['results'], true )  ) {
 				$e_newsletter->add_members_to_groups( $insert_data['member_id'], $groups );
-
+				
 				if( isset( $e_newsletter->settings['subscribe_newsletter'] ) && $e_newsletter->settings['subscribe_newsletter'] ) {
 					$send_details = $e_newsletter->add_send_email_info( $e_newsletter->settings['subscribe_newsletter'], $insert_data['member_id'], 0, 'waiting_send' );
 					$e_newsletter->send_email_to_member($send_details['send_id']);
 				}
-
-				//$subscribe should only be false when double opt-in is enabled
+				
+				//$subscribe should only be false when double opt-in is enabled 
 				if ( !$subscribe ){
 					$status = $e_newsletter->do_double_opt_in( $insert_data['member_id'] );
 				}
-
+				
 				return true;
 			}
-
+			
 			return new WP_Error("data_not_inserted", __("Something went wrong. Please try again later.", Opt_In::TEXT_DOMAIN), $data);
 		}
 

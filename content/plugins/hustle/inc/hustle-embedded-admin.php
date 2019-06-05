@@ -46,7 +46,7 @@ class Hustle_Embedded_Admin {
 	public function register_current_json( $current_array ){
 
 		if ( isset( $_GET['page'] ) && Hustle_Module_Admin::EMBEDDED_WIZARD_PAGE === $_GET['page'] ) { // WPCS: CSRF ok.
-
+			
 			$current_array['current'] = array();
 
 			if ( Hustle_Module_Admin::is_edit() ) {
